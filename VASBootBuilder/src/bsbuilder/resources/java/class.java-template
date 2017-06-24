@@ -1,0 +1,80 @@
+package $domainPackageName;
+#if(${useMongo} == true)
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "${className.toLowerCase()}s")
+#end
+public class $className 	
+{	
+	#foreach($key in $attrs.keySet() )		
+		#if($attrs.get($key) == 'java.util.Date')
+			#if(${useMongo} == true && ${domainClassIdAttributeName} == ${key})
+			@Id
+			#end
+			private Long $key;
+		#else
+			#if(${useMongo} == true && ${domainClassIdAttributeName} == ${key})
+			@Id
+			#end
+			private $attrs.get($key) $key;
+		#end	
+	#end
+
+	#foreach($key in $attrs.keySet() )
+		#if($attrs.get($key) == 'java.util.Date')
+			public Long get$key.substring(0,1).toUpperCase()$key.substring(1)(){
+				return $key;
+			}
+		#else
+			public $attrs.get($key) get$key.substring(0,1).toUpperCase()$key.substring(1)(){
+				return $key;
+			}
+		#end
+	#end
+	
+	#foreach($key in $attrs.keySet() )
+		#if($attrs.get($key) == 'java.util.Date')
+			public void set${key.substring(0,1).toUpperCase()}$key.substring(1)(Long $key ){
+				this.$key = $key;
+			}
+		#else
+			public void set${key.substring(0,1).toUpperCase()}$key.substring(1)($attrs.get($key) $key ){
+				this.$key = $key;
+			}
+		#end
+	#end
+	
+	public void populateWithSample(){
+		int appender = getNextNumber();
+		#foreach($key in $attrs.keySet() )
+			#if($attrs.get($key) == 'String')
+				$key = "Sample Value $key " + appender;
+			#elseif($attrs.get($key) == 'java.util.Date')
+				$key = System.currentTimeMillis();	
+			#elseif($attrs.get($key) == 'Integer')
+				$key = 0;
+			#else
+				$key = "";	
+			#end			
+		#end
+	}
+	
+	static int sampleCounter = 0;
+	private static int getNextNumber(){
+		sampleCounter++;
+		return sampleCounter;
+	}
+	
+	public String toString(){
+		return
+			#foreach($key in $attrs.keySet() )
+				#if($foreach.count == 1)
+					"${key} = " + ${key}
+				#else
+					+ ", ${key} = " + ${key}
+				#end	
+			#end
+			;
+	}
+}

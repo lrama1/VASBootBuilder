@@ -1,0 +1,44 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${basePackageName}.dao.mapper.${domainClassName}Mapper">
+#set($domainVar = $domainClassName.substring(0,1).toLowerCase() + $domainClassName.substring(1))
+#set($tableName = $oracleNames.get($domainClassName))
+	<resultMap type="${domainPackageName}.${domainClassName}" id="${domainVar}">
+		#foreach($key in $attrs.keySet() )
+		<result column="$oracleNames.get(${key})" property="${key}"/>
+		#end
+	</resultMap>
+	
+	<select id="getAll${domainClassName}s" resultMap="${domainVar}">
+		select * from $tableName
+	</select>
+
+	<select id="get${domainClassName}" resultMap="${domainVar}">
+		select * from $tableName where $oracleNames.get(${domainClassIdAttributeName}) = #{$domainClassIdAttributeName}
+	</select>
+	
+	<update id="update${domainClassName}">
+		update ${domainVar} set 
+			#foreach($key in $attrs.keySet() )
+			#if($foreach.index == 0)
+			$oracleNames.get(${key}) = #{${domainVar}.${key}}
+			#else
+			,$oracleNames.get(${key}) = #{${domainVar}.${key}}
+			#end
+			#end
+		where $oracleNames.get(${domainClassIdAttributeName}) = #{${domainVar}.${domainClassIdAttributeName}}
+	</update>
+	
+	<insert id="saveNew${domainClassName}">
+		insert into ${domainClassName}
+			values(
+			#foreach($key in $attrs.keySet() )
+			#if($foreach.index == 0)
+			#{${domainVar}.${key}}
+			#else
+			, #{${domainVar}.${key}}
+			#end
+			#end
+			)
+		
+	</insert>
+</mapper>

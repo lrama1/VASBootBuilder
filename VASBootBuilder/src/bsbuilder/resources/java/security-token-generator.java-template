@@ -1,0 +1,59 @@
+package ${basePackageName}.security;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
+
+
+@Component
+public class SecurityTokenGenerator {
+
+	Logger logger = Logger.getLogger(this.getClass());
+	private Map<String, Long> tokens = Collections.synchronizedMap(new HashMap<String, Long>());	
+	//60000 is 1 minute
+	private final long MAX_AGE = 60000;
+	private final long MAX_TOKEN_LIST_SIZE = 15;
+	
+	public String getToken(){				
+		String token = System.currentTimeMillis() + "eeek";
+		tokens.put(token,System.currentTimeMillis());
+		return token;
+	}
+	
+	public boolean isTokenValid(String token){
+		if(tokens.size() > MAX_TOKEN_LIST_SIZE){
+			discardOldTokens();
+		}
+		Long age = System.currentTimeMillis() - tokens.get(token);
+		if ((tokens.keySet().contains(token)) && age < MAX_AGE){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	private synchronized void discardOldTokens(){
+		long currentTime = System.currentTimeMillis();
+		logger.info("Cleaning up tokens: " + tokens.size());
+		List<String> keysOfTokensToEvict = new ArrayList<String>();
+		for(String key : tokens.keySet()){
+			long age = currentTime - tokens.get(key);
+			if(age >= MAX_AGE){
+				logger.info("evicting " + age);				
+				//tokens.remove(key);
+				keysOfTokensToEvict.add(key);
+			}
+		}
+		
+		for(String key : keysOfTokensToEvict){
+			tokens.remove(key);
+		}
+		
+		logger.info("After cleaning up tokens: " + tokens.size());
+	}
+}

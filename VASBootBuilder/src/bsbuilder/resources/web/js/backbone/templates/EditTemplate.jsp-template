@@ -1,0 +1,33 @@
+#if(${templateType} == 'JSP')
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+#end
+
+<div class="row">
+	<div class="col-md-12" id="operationMessage"></div>
+</div>
+<div class="row">
+	#foreach($key in $attrs.keySet() )
+		<div class="form-group col-md-12">
+			<label  for="$key">$key</label>
+			#if ($fieldTypes.get($key) == "TextField")
+			<input type="text" class="form-control"  id="$key" name='$key' value="{{=$key}}"/>
+			#elseif ($fieldTypes.get($key) == "DropDown")
+			<select class="form-control"  id="$key" name='$key'>
+			{{_.each(${key}s, function(${key}Object, index){ }}
+				<option  {{=(${key}Object.name==$key?"selected":"") }} value="{{=${key}Object.name}}">{{=${key}Object.value}}</option>
+			{{ }) }}
+			</select>
+			#elseif ($fieldTypes.get($key) == "TextArea")
+			<textarea rows="4" cols="60" class="form-control"  id="$key" name='$key'>{{=$key}}</textarea>
+			#end
+		</div>
+	#end	
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<input type="button" class="btn btn-primary" id="save${domainClassName}" value="Save" />
+		<!--
+		<input type="button" class="btn btn-primary" id="saveNew${domainClassName}" value="Save New" />
+		-->
+	</div>
+</div>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
+    <defaultCache eternal="false" maxElementsInMemory="100" overflowToDisk="false" />
+    
+    <!--  USE THIS AS A TEMPLATE FOR DEFINING A CACHE, THEN ON THE Java method annotate with
+    @Cacheable(cacheName="PUT_CACHE_NAME_HERE")  
+    <cache name="PUT_CACHE_NAME_HERE" maxElementsInMemory="100" eternal="false" overflowToDisk="true" 
+    	timeToIdleSeconds="3600" timeToLiveSeconds="43200" logging="true"/>
+    -->
+</ehcache>

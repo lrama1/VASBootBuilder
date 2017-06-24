@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="src/main/webapp/WEB-INF/resources/js/libs/backbone-pageable.js|src/main/webapp/WEB-INF/resources/js/libs/jquery.js|**node_modules/**" kind="src" path=""/>
+	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path=""/>
+</classpath>

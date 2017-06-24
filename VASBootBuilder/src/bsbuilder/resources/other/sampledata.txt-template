@@ -1,0 +1,18 @@
+#set($start = 0)
+#set($end = 13)
+#set($range = [$start..$end])
+#set($newline = '\n')
+#foreach($i in $range)
+	#set($line = '')
+	#set($index = 0)
+   	#foreach($key in $attrs.keySet() ) 
+   		#if($index == 0)
+   			#set($line = $line + 'Sample-' + ${key} + ${i})
+   		#else##
+   			#set($line =  $line + ',' + 'Sample-' + ${key} + ${i})
+   		#end##
+   		#set($index = $index + 1)
+   	#end##
+${line.trim()}##
+
+#end

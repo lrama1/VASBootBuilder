@@ -1,0 +1,16 @@
+/*This is the default css*/
+
+.navbar .form-control{
+	height : 35px;
+	padding : 0px 0px 0px 0px
+}
+.form-control{
+	height : 25px;
+	padding : 0px 0px 0px 0px
+}
+.centered-container{
+	text-align: center
+}
+.bsb-listcontainer{
+	overflow : auto
+}

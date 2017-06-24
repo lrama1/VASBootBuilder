@@ -1,0 +1,48 @@
+#if(${springVersion} == '3.x.x')
+	#set($springSchemaVersion = "3.2")
+	#set($springSecuritySchemaVersion = "3.1")
+#else
+	#set($springSchemaVersion = "4.2")
+	#set($springSecuritySchemaVersion = "4.2")
+#end
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-${springSchemaVersion}.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-${springSecuritySchemaVersion}.xsd">
+ 
+	<http auto-config="true" use-expressions="true">
+		<intercept-url pattern="/home*" access="isAuthenticated()"/>
+		<custom-filter position="PRE_AUTH_FILTER" ref="siteminderFilter" />
+		<custom-filter after="SECURITY_CONTEXT_FILTER" ref="clearSessionOnSMHeaderChange" />
+		#if(${springVersion} != '3.x.x')
+		<csrf disabled="true"/>
+		#end
+	</http>
+
+	<beans:bean id="clearSessionOnSMHeaderChange" class="${basePackageName}.security.ClearSessionOnSMHeaderChange"/>
+		
+	<beans:bean id="siteminderFilter" class="org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter">
+		<beans:property name="principalRequestHeader" value="SM_USER" />
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="exceptionIfHeaderMissing" value="false" />
+	</beans:bean>
+
+	<beans:bean id="preauthAuthProvider" class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
+		<beans:property name="preAuthenticatedUserDetailsService">
+			<beans:bean id="userDetailsServiceWrapper" class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+				<beans:property name="userDetailsService" ref="sampleUserDetailsService" />
+			</beans:bean>
+		</beans:property>
+	</beans:bean>
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider ref="preauthAuthProvider"/>
+		<authentication-provider user-service-ref="sampleUserDetailsService"/>
+	</authentication-manager>
+	
+	<global-method-security pre-post-annotations="enabled"/>
+ 
+</beans:beans>

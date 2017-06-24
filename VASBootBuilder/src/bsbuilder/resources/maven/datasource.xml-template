@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+ 
+	<bean id="dataSourceLocal"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+ 
+ 		#if(${prepForMySQL} == true)
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/localdb" />
+		<property name="username" value="user" />
+		<property name="password" value="pass" />
+		#end
+		
+		#if(${prepForOracle} == true)
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@${oracleHost}:${oraclePort}:${oracleInstance}" />
+		<property name="username" value="${oracleUser}" />
+		<property name="password" value="${oraclePassword}" />
+		#end
+	</bean>
+ 
+</beans>

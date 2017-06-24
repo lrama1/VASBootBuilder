@@ -1,0 +1,17 @@
+package ${basePackageName}.webservice;
+
+import javax.jws.WebService;
+import org.springframework.stereotype.Component;
+
+#set( $domainObjectName = $domainClassName.substring(0,1).toLowerCase() + $domainClassName.substring(1) )
+
+@Component(value="${domainObjectName}WebServiceImpl")
+@WebService(endpointInterface = "${basePackageName}.webservice.${domainClassName}WebService")
+public class ${domainClassName}WebServiceImpl implements ${domainClassName}WebService {
+
+	public void test() {
+		// TODO Auto-generated method stub
+		System.out.println("test");
+	}
+
+}

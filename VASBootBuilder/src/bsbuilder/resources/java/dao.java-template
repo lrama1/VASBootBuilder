@@ -1,0 +1,154 @@
+package ${basePackageName}.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+#if(${useMongo} == true)
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.beans.factory.annotation.Autowired;
+#end
+//import the domain
+import ${basePackageName}.web.domain.$domainClassName;
+import ${basePackageName}.common.ListWrapper;
+import ${basePackageName}.dao.${domainClassName}DAO;
+#if(${prepForOracle} == true)
+import ${basePackageName}.dao.mapper.${domainClassName}Mapper;
+#end
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+
+@Repository
+public class ${domainClassName}DAO {
+	#set($domainVar = $domainClassName.substring(0,1).toLowerCase() + $domainClassName.substring(1))
+
+	#if(${useMongo} == true)
+	@Autowired
+	private MongoTemplate mongoTemplate;
+	#end
+	
+	#if(${prepForOracle} == true)
+	@Autowired
+	private ${domainClassName}Mapper ${domainVar}Mapper;
+	#end
+
+	//private List<${domainClassName}> all${domainClassName} = new ArrayList<${domainClassName}>();
+	private Map<String, ${domainClassName}> allData = new LinkedHashMap<String, ${domainClassName}>();
+	
+	#set($idGetter = "get${domainClassIdAttributeName.substring(0,1).toUpperCase()}${domainClassIdAttributeName.substring(1)}()")
+
+	@PostConstruct
+	public void init(){
+		
+		#if(${useMongo} == false)
+		InputStream is = getClass().getResourceAsStream(
+				"/sampledata/${domainClassName}s.txt");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+		String line = "";
+		try {
+			while ((line = reader.readLine()) != null) {
+				String data[] = line.split(",");
+				${domainClassName} ${domainClassName.toLowerCase()} = new ${domainClassName}();
+				//person.setId(data[0]);
+				//person.setFirstName(data[1]);
+				//person.setLastName(data[2]);
+				#set($index = 0)
+				#foreach($key in $attrs.keySet() ) 
+					${domainClassName.toLowerCase()}.set${key.substring(0,1).toUpperCase()}${key.substring(1)}(data[$index]);
+					#set($index = $index + 1)
+				#end
+				allData.put(data[0], ${domainClassName.toLowerCase()});
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		#end
+	}
+	
+	public $domainClassName get$domainClassName(String id){
+		#if(${useMongo} == true)
+		Criteria criteria = new Criteria("${domainClassIdAttributeName}").is(id);
+		Query query = new Query(criteria);
+		return mongoTemplate.findOne(query, ${domainClassName}.class);
+		#elseif(${prepForOracle} == true)
+		return ${domainVar}Mapper.get${domainClassName}(id);
+		#else
+		return allData.get(id);
+		#end
+	}
+	
+	public void saveNew$domainClassName($domainClassName $domainClassName.substring(0,1).toLowerCase()$domainClassName.substring(1)){
+		#if(${useMongo} == true)		
+		mongoTemplate.save($domainClassName.substring(0,1).toLowerCase()$domainClassName.substring(1));
+		#elseif(${prepForOracle} == true)
+		${domainVar}Mapper.saveNew${domainClassName}($domainVar);
+		#end
+	}
+	
+	public void save$domainClassName($domainClassName $domainClassName.substring(0,1).toLowerCase()$domainClassName.substring(1)){
+		#if(${useMongo} == true)				
+		#set($idGetter = 'get' + ${domainClassIdAttributeName.substring(0,1).toUpperCase()} + ${domainClassIdAttributeName.substring(1)})
+		mongoTemplate.save($domainClassName.substring(0,1).toLowerCase()$domainClassName.substring(1));
+		
+		Criteria criteria = new Criteria("${domainClassIdAttributeName}").is(${domainVar}.$idGetter());
+		Query query = new Query(criteria);
+		
+		Update update = new Update();
+		#foreach($key in $attrs.keySet() ) 
+			update.set("${key}", ${domainVar}.get${key.substring(0,1).toUpperCase()}${key.substring(1)}());
+		#end
+		
+		mongoTemplate.updateFirst(query, update, ${domainClassName}.class);
+		#elseif(${prepForOracle} == true)
+		${domainVar}Mapper.update${domainClassName}($domainVar);
+		#end
+	}
+	
+	public ListWrapper<${domainClassName}> get${domainClassName}s(int page, 
+			int pageSize, String sortByAttributeName, String sortDirection){
+		
+		#if(${useMongo} == true)
+		Criteria criteria = new Criteria();
+		Query query = new Query(criteria).skip((page -1) * pageSize).limit(pageSize);
+		Long totalRows = mongoTemplate.count(query, ${domainClassName}.class);
+		List<${domainClassName}> partialPage  = mongoTemplate.find(query, ${domainClassName}.class);
+		int totalPages = roundUp(totalRows.intValue(), pageSize);
+		#else		
+		#if(${prepForOracle} == true)			
+		List<${domainClassName}> allDataList = ${domainVar}Mapper.getAll${domainClassName}s();
+		#else
+		List<${domainClassName}> allDataList = new ArrayList<${domainClassName}>(allData.values());
+		#end
+		List<${domainClassName}> partialPage = new ArrayList<${domainClassName}>();
+		int end = (page * pageSize);
+		int start = (end) - pageSize;
+		int totalPages = roundUp(allDataList.size(), pageSize);
+
+		if (end > allDataList.size())
+			end = allDataList.size();
+		if (start < allDataList.size())
+			partialPage = allDataList.subList(start, end);
+		Long totalRows = new Long(allDataList.size());
+		#end
+						
+		ListWrapper<${domainClassName}> listWrapper = new ListWrapper<${domainClassName}>();
+		listWrapper.setRows(partialPage);
+		listWrapper.setTotalRecords(totalRows.intValue());
+		listWrapper.setLastPage(totalPages);
+		return listWrapper;
+	}
+	
+	private int roundUp(int num, int divisor) {
+		return (num + divisor - 1) / divisor;
+	}
+}

@@ -1,0 +1,27 @@
+
+<div id="rootwizard">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+                <ul>
+                #foreach(${key} in ${childViews.keySet()} )
+                <li><a href="#${wizardPresenterName}tab${foreach.count}" data-toggle="tab">Tab ${foreach.count}</a></li>
+                #end
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="tab-content">
+    	#foreach(${key} in ${childViews.keySet()} )
+        <div class="tab-pane" id="${wizardPresenterName}tab${foreach.count}">
+            ${foreach.count}
+        </div>
+        #end
+        <ul class="pager wizard">
+            <li class="previous first" style="display:none;"><a href="#">First</a></li>
+            <li class="previous"><a href="#">Previous</a></li>
+            <li class="next last" style="display:none;"><a href="#">Last</a></li>
+            <li class="next"><a href="#">Next</a></li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+package $controllerPackageName;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+//import the domain
+import ${basePackageName}.web.domain.$domainClassName;
+
+
+public class ${domainClassName}ControllerTest {
+
+	@Test
+	public void testUpdate() {
+		assertTrue(1 == 1);		
+	}	
+	
+}

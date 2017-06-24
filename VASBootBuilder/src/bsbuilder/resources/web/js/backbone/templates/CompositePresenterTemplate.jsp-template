@@ -1,0 +1,8 @@
+
+<div class="row">	
+	#foreach(${key} in ${childViews.keySet()} )
+	<div id="${childViews.get(${key})}-presenterSection" class="col-md-12">
+
+	</div>
+	#end
+</div>

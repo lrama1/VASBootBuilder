@@ -1,0 +1,14 @@
+<div>
+
+<form>
+#foreach($key in $attrs.keySet() )
+	<div class="form-group">
+    	<label for="${key}">${key}</label>
+    	<input type="text" class="form-control" id="${key}" ng-model="${domainClassName}.${key}">
+  	</div>
+#end  	
+<button class="btn btn-primary" ng-click="doSave()">Save</button>
+</form>
+
+
+</div>

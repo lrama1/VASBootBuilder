@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring 
+        http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.2.xsd
+        http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+        >        
+
+	<aop:aspectj-autoproxy />
+	<!-- context:component-scan base-package="com.xbackbone"/ -->
+	<context:component-scan base-package="${basePackageName}.common,${basePackageName}.controller"/>
+    <mvc:annotation-driven />
+    <mvc:resources location="/WEB-INF/resources/" mapping="/resources/**"/>
+    <mvc:resources location="/WEB-INF/optimized-resources/" mapping="/optimized-resources/**"/>
+    
+        <!-- LOCALIZATION STUFF -->
+    <bean id="messageSource"
+    	class="${utilPackageName}.ExposedResourceBundleMessageSource">
+    	<property name="basename" value="classpath:locales/messages" />
+    	<property name="defaultEncoding" value="UTF-8"/>
+	</bean>
+	 
+	<bean id="localeChangeInterceptor"
+	    class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+	    <property name="paramName" value="lang" />
+	</bean>
+	 
+	<bean id="localeResolver"
+	    class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+	    <property name="defaultLocale" value="en"/>
+	</bean>
+	 
+	<bean id="handlerMapping"
+	    class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+	    <property name="interceptors">
+	        <ref bean="localeChangeInterceptor" />
+	    </property>
+	</bean>
+	
+	<mvc:interceptors>  
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+              <property name="paramName" value="lang"></property>
+        </bean>
+        #if(${secured})
+        <bean class="org.olengski.web.security.interceptor.CSRFInterceptor"></bean>
+        #end
+	</mvc:interceptors>
+	<!-- END OF LOCALIZATION -->
+</beans>

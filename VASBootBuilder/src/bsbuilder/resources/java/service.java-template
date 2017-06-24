@@ -1,0 +1,39 @@
+package ${basePackageName}.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.owasp.esapi.ESAPI;
+import org.owasp.esapi.Logger;
+
+//import the domain
+import ${basePackageName}.web.domain.$domainClassName;
+import ${basePackageName}.common.ListWrapper;
+import ${basePackageName}.dao.${domainClassName}DAO;
+
+@Service
+public class ${domainClassName}Service {
+	#set( $daoObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)} + "DAO" )
+	#set( $domainObjectName = $domainClassName.substring(0,1).toLowerCase() + $domainClassName.substring(1) )
+
+	@Autowired
+	${domainClassName}DAO $daoObjectName;
+	
+	private static final Logger logger = ESAPI.getLogger(${domainClassName}Service.class);
+
+	public ListWrapper<${domainClassName}> get${domainClassName}s(int pageNumber, int pageSize, String sortByAttribute, String sortDirection){
+		return ${domainClassName.substring(0,1).toLowerCase()}${domainClassName.substring(1)}DAO.get${domainClassName}s(pageNumber, pageSize, sortByAttribute, sortDirection);
+	}
+	
+	public ${domainClassName} get${domainClassName}(String id){
+		return ${domainClassName.substring(0,1).toLowerCase()}${domainClassName.substring(1)}DAO.get${domainClassName}(id);
+	}	
+	
+	
+	public void saveNew$domainClassName($domainClassName $domainObjectName){
+		${daoObjectName}.saveNew${domainClassName}(${domainObjectName});
+	}	
+	
+	public void save$domainClassName($domainClassName $domainObjectName){
+		${daoObjectName}.save${domainClassName}(${domainObjectName});
+	}
+}

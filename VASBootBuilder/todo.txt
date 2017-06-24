@@ -1,0 +1,15 @@
+
+1.  Add the option to override location of templates (after the initial project generation)
+	by reading if the settings file has a property called bsbuilder.templates.folder
+	(FOR BACKWARD COMPATIBILITY)
+	
+2.  generate sample data as a set of flat files instead of being generated out of the
+    domain classes.  DONE.
+    
+3.  add Darryl's Backbone.global.  DONE.
+
+4.  Sample usage of @PreAuthorize("@myBean.method(#someParam)")  Done
+
+5.  Sample Hibernate Validator
+
+6.  Make Bootstrap modal draggable

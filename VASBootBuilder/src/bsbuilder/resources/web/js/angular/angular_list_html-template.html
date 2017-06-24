@@ -1,0 +1,28 @@
+#set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
+<div>
+Testing
+	<table class="table table-hover">
+		<thead>
+		<tr>
+		<th>Select</th>
+		#foreach($key in $attrs.keySet() )
+		<th>$key</th>
+		#end
+		</tr>
+		</thead>
+		<tbody>
+			<tr dir-paginate="${domainObjectName} in ${domainClassName}s | itemsPerPage: pageSize" total-items="totalRows" current-page="pagination.current">	
+				<td>		
+				<a href="#${domainClassName.toLowerCase()}/{{${domainObjectName}.${domainClassIdAttributeName}}}">
+					{{${domainObjectName}.${domainClassIdAttributeName}}}
+				</a>
+				</td>
+				#foreach($key in $attrs.keySet() )
+				<td>{{${domainObjectName}.${key}}}</td>
+				#end
+			</tr>
+		</tbody>	
+	</table>
+	<dir-pagination-controls  on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+
+</div>

@@ -1,0 +1,87 @@
+#if(${springVersion} == '3.x.x')
+	#set($springSchemaVersion = "3.2")
+	#set($springSecuritySchemaVersion = "3.1")
+#else
+	#set($springSchemaVersion = "4.2")
+	#set($springSecuritySchemaVersion = "4.2")
+#end
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+				http://www.springframework.org/schema/beans/spring-beans-${springSchemaVersion}.xsd
+	 			http://www.springframework.org/schema/context
+       			http://www.springframework.org/schema/context/spring-context-${springSchemaVersion}.xsd
+       			http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring 
+       			http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.2.xsd
+       			http://www.springframework.org/schema/aop 
+				http://www.springframework.org/schema/aop/spring-aop-${springSchemaVersion}.xsd
+				http://www.springframework.org/schema/data/mongo
+          		http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+          		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+          		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
+    
+    <aop:aspectj-autoproxy />     		
+    #if(${prepForOracle} == true || ${prepForMySQL} == true)
+    <mybatis:scan base-package="${basePackageName}.dao.mapper" />
+    #end
+    
+    <!-- if ENV envrionment variable is not set, then we try to default to 'local' -->
+    
+	<context:property-placeholder location="classpath:env_#[[${ENV:local}]]#.properties" />
+    	
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    	<property name="configLocation"  value="/WEB-INF/spring/ehcache.xml"/>
+    </bean>   			
+	
+	<context:component-scan base-package="${basePackageName}.service, #if(${addWebService})${basePackageName}.webservice,#end
+		 ${basePackageName}.dao, ${basePackageName}.security"/>
+	
+	#if(${addWebService})
+	#set( $domainObjectName = $domainClassName.substring(0,1).toLowerCase() + $domainClassName.substring(1) )	
+	<jaxws:endpoint id="${domainObjectName}WS" implementor="#${domainObjectName}WebServiceImpl" address="/${domainClassName}WebService" /> 
+	#end
+	
+	#if(${useMongo} == true && ${springVersion} == '3.x.x')
+	<mongo:mongo host="${mongoHostName}" port="${mongoPort}" />
+	<mongo:db-factory dbname="${mongoDBName}" />
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+	</bean>
+	#elseif(${useMongo} == true && ${springVersion} == '4.x.x')
+	<bean id="mongo" class="org.springframework.data.mongodb.core.MongoFactoryBean">
+    	<property name="host" value="${mongoHostName}" />
+	</bean>
+	 
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+    	<constructor-arg name="mongo" ref="mongo" />
+    	<constructor-arg name="databaseName" value="${mongoDBName}" />
+	</bean>    	
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+	#end
+ 
+	#set($domainVar = $domainClassName.substring(0,1).toLowerCase() + $domainClassName.substring(1))	
+    #if(${prepForOracle} == true || ${prepForMySQL} == true)
+    <bean id="sqlSessionFactoryLocal" class="org.mybatis.spring.SqlSessionFactoryBean">
+  		<property name="dataSource" ref="dataSourceLocal" />
+	</bean>
+	
+	<!--bean id="${domainVar}Mapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	  <property name="mapperInterface" value="${basePackageName}.dao.mapper.${domainClassName}Mapper" />
+	  <property name="sqlSessionFactory" ref="sqlSessionFactoryLocal" />
+	</bean-->
+	#end
+	
+	#if(${secured})
+	<bean class="org.olengski.web.security.XSSAspect" />
+	#end
+
+</beans>

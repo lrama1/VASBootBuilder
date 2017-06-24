@@ -1,0 +1,62 @@
+#if(${templateType} == 'JSP')
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+#end
+
+#set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
+<div class="panel panel-default">
+	<div class="panel-heading">${domainClassName}s
+	<a id="addNew${domainClassName}" href="#" title="Add"><span class="glyphicon glyphicon-plus"></span></a>
+	<a id="addFilterFor${domainClassName}Link" href="#" title="Filter"><span class="glyphicon glyphicon-filter"></span></a>
+	</div>
+	<div class="panel-body">
+	<div id="${domainObjectName}ListContainer" class="bsb-listcontainer">none</div> 
+	</div>
+</div>
+
+
+<!-- Modal Dialog for Editing -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Edit</h4>
+      </div>
+      <div class="modal-body"  id="modalEditBody">
+        <p>One fine body&hellip;</p>
+      </div>
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal Dialog for Filter fields -->
+<div class="modal fade" id="myFilterModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Filter</h4>
+      </div>
+      <div class="modal-body"  id="modalFilterBody">
+        <div class="panel panel-default">
+			<div class="panel-heading">Filter</div>
+				<div class="panel-body">
+					<div class="col-md-12">
+						#foreach($key in $attrs.keySet() )
+						<div class="form-group row">
+							<label  for="$key">$key</label>
+							<input type="text" class="form-control"  id="$key" name='$key' value="{{=$key}}"/>
+						</div>
+						#end
+						<div class="form-group row centered-container">
+							<input type="button" class="btn btn-primary" id="filterButton" value="filter" />
+						</div>
+					</div>	
+				</div>
+			</div>        
+      </div>
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
