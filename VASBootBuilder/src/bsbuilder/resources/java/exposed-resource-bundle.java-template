@@ -1,7 +1,10 @@
 package ${basePackageName}.util;
 
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class ExposedResourceBundleMessageSource extends
 		ReloadableResourceBundleMessageSource {
 		

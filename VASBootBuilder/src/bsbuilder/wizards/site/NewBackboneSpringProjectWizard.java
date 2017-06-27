@@ -205,6 +205,8 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 		params.setDomainClassSourceCode(domainClassSourceCode);
 		params.setDomainClassIdAttributeName(domainClassIdAttributeName);
 		params.setControllerClassName(controllerClassName);
+		params.setSpringBootStarterClassName("SpringBootStarter");
+		params.setSpringBootStarterSourceCode(pageThree.buildSourceCode(mapOfValues, "spring-boot-starter.java-template"));
 		params.setMainControllerSourceCode(pageThree.buildSourceCode(mapOfValues, "common-controller.java-template")); 
 		params.setDomainControllerSourceCode(pageThree.buildSourceCode(mapOfValues, "controller.java-template"));
 		params.setControllerTestSourceCode(controllerTestSourceCode);
@@ -581,30 +583,37 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 					monitor);
 			
 			/* Add web-xml file */
+			/* No longer needed for Srping Boot??
 			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF"), new Path("web.xml"),
 					TemplateMerger.merge("/bsbuilder/resources/maven/web.xml-template", mapOfValues), monitor);
+			*/
+			
 			/* Add Spring servlet dispathcer mapping file */
+			/* No longer needed for Srping Boot??
 			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF"), new Path("yourdispatcher-servlet.xml"),
 					TemplateMerger.merge("/bsbuilder/resources/maven/yourdispatcher-servlet.xml-template", mapOfValues), monitor);
+			*/
 			
 			/* Add Spring context files */
-			//CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/spring"), new Path("applicationContext.xml"),
-			//		TemplateMerger.merge("/bsbuilder/resources/maven/applicationContext.xml-template", proj.getName(),params.getBasePackageName(),params.getControllerPackageName(), params.getUtilPackageName()), monitor);			
+			/* No longer needed for Srping Boot??
 			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/spring"), new Path("applicationContext.xml"),
 					TemplateMerger.merge("/bsbuilder/resources/maven/applicationContext.xml-template", mapOfValues), monitor);			
+			*/
+			CommonUtils.addFileToProject(folders.get("src/main/resources"), new Path("application.properties"),
+					TemplateMerger.merge("/bsbuilder/resources/maven/application-template.properties", mapOfValues), monitor);	
 			
 			if((Boolean)mapOfValues.get("prepForOracle") || (Boolean)mapOfValues.get("prepForMySQL")){
 				CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/spring"), new Path("datasource.xml"),
 						TemplateMerger.merge("/bsbuilder/resources/maven/datasource.xml-template", mapOfValues), monitor);
 			}
 			
-			
+			/*
 			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/spring"), new Path("spring-security.xml"),
 					TemplateMerger.merge("/bsbuilder/resources/maven/spring-security.xml-template", mapOfValues), monitor);
 			
 			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/spring"), new Path("ehcache.xml"),
 					TemplateMerger.merge("/bsbuilder/resources/maven/ehcache.xml-template", proj.getName(),params.getBasePackageName(),params.getControllerPackageName(), params.getUtilPackageName()), monitor);
-
+			*/
 			
 			/* Add a java model */
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getDomainPackageName(), params.getDomainClassName(),
@@ -622,6 +631,11 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/css/libs"), new Path("bootstrap-theme.min.css"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/css/bootstrap-theme.min.css"), monitor);
 			
+			/*
+			 * Add SpringBootStarter
+			 */
+			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getBasePackageName(), params.getSpringBootStarterClassName(), 
+					params.getSpringBootStarterSourceCode(), monitor);
 			
 			/* Add Controllers*/
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getControllerPackageName() , "MainController", 
@@ -1077,6 +1091,8 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 		private String basePackageName; 
 		private String controllerPackageName; 
 		private String mainControllerSourceCode;
+		private String springBootStarterClassName;
+		private String springBootStarterSourceCode;
 		private String controllerClassName; 			
 		private String domainControllerSourceCode;
 		private String controllerTestSourceCode;
@@ -1362,6 +1378,18 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 		}
 		public void setMapperSourceCode(String mapperSourceCode) {
 			this.mapperSourceCode = mapperSourceCode;
+		}
+		public String getSpringBootStarterClassName() {
+			return springBootStarterClassName;
+		}
+		public void setSpringBootStarterClassName(String springBootStarterClassName) {
+			this.springBootStarterClassName = springBootStarterClassName;
+		}
+		public String getSpringBootStarterSourceCode() {
+			return springBootStarterSourceCode;
+		}
+		public void setSpringBootStarterSourceCode(String springBootStarterSourceCode) {
+			this.springBootStarterSourceCode = springBootStarterSourceCode;
 		}
 		
 		

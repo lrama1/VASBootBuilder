@@ -26,7 +26,7 @@ public class MainController {
 
 	@RequestMapping("/home")
 	public String showHomePage(){
-		return "/WEB-INF/index.jsp";
+		return "index";
 	}
 	
 	@RequestMapping("/resources/js/.templates/**")
