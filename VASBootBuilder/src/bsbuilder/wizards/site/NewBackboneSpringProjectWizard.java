@@ -416,36 +416,36 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 			
 			}else if(params.getUiType().equalsIgnoreCase("AngularJS")){
 				//ANGULARJS ONLY COMPONENTS
-				CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/libs"), new Path("dirPagination.js"), 
+				CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/libs"), new Path("dirPagination.js"), 
 						this.getClass().getResourceAsStream("/bsbuilder/resources/web/js/libs/dirPagination.js"), monitor);
 				
 				
-				CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/libs"), new Path("angular.min.js"), 
+				CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/libs"), new Path("angular.min.js"), 
 						this.getClass().getResourceAsStream("/bsbuilder/resources/web/js/libs/angular.min.js"), monitor);
-				CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/libs"), new Path("angular-route.min.js"), 
+				CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/libs"), new Path("angular-route.min.js"), 
 						this.getClass().getResourceAsStream("/bsbuilder/resources/web/js/libs/angular-route.min.js"), monitor);
 				
 				
-				CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js"), new Path("angular_app.js"), 
+				CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js"), new Path("angular_app.js"), 
 						TemplateMerger.merge("/bsbuilder/resources/web/js/angular/angular_app-template.js", mapOfValues), monitor);
 				
-				CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/angular_controllers"), new Path("HomeController.js"), 
+				CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/angular_controllers"), new Path("HomeController.js"), 
 						TemplateMerger.merge("/bsbuilder/resources/web/js/angular/angular_home_controller-template.js", mapOfValues), monitor);
 				
-				CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/angular_controllers"), new Path(params.getDomainClassName() +"ListController.js"), 
+				CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/angular_controllers"), new Path(params.getDomainClassName() +"ListController.js"), 
 						TemplateMerger.merge("/bsbuilder/resources/web/js/angular/angular_list_controller-template.js", mapOfValues), monitor);
 				
-				CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/angular_templates"), new Path(params.getDomainClassName() + "List.html"), 
+				CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/angular_templates"), new Path(params.getDomainClassName() + "List.html"), 
 						TemplateMerger.merge("/bsbuilder/resources/web/js/angular/angular_list_html-template.html", mapOfValues), monitor);
 				
-				CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/angular_controllers"), new Path(params.getDomainClassName() +"EditController.js"), 
+				CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/angular_controllers"), new Path(params.getDomainClassName() +"EditController.js"), 
 						TemplateMerger.merge("/bsbuilder/resources/web/js/angular/angular_edit_controller-template.js", mapOfValues), monitor);
 				
-				CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/angular_services"), new Path(params.getDomainClassName() +"Service.js"), 
+				CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/angular_services"), new Path(params.getDomainClassName() +"Service.js"), 
 						TemplateMerger.merge("/bsbuilder/resources/web/js/angular/angular_service-template.js", mapOfValues), monitor);
 				
 				
-				CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/angular_templates"), new Path(params.getDomainClassName() + "Edit.html"), 
+				CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/angular_templates"), new Path(params.getDomainClassName() + "Edit.html"), 
 						TemplateMerger.merge("/bsbuilder/resources/web/js/angular/angular_edit_html-template.html", mapOfValues), monitor);
 				
 				CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF"), new Path("index.jsp"), 
@@ -521,61 +521,61 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 			
 			
 			
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/libs"), new Path("localizedmessages.js"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/libs"), new Path("localizedmessages.js"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/web/js/libs/localizedmessages.js"), monitor);
 			
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/libs"), new Path("ejs_fulljslint.js"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/libs"), new Path("ejs_fulljslint.js"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/web/js/libs/ejs_fulljslint.js"), monitor);
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/libs"), new Path("jquery.js"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/libs"), new Path("jquery.js"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/web/js/libs/jquery-1.10.2.min.js"), monitor);
 			
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/libs"), new Path("jquery-1.10.2.min.map"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/libs"), new Path("jquery-1.10.2.min.map"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/web/js/libs/jquery-1.10.2.min.map"), monitor);
 			
 						
-			//CommonUtils.CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/libs"), new Path("jquery.dataTables.js"), 
+			//CommonUtils.CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/libs"), new Path("jquery.dataTables.js"), 
 			//		this.getClass().getResourceAsStream("/bsbuilder/resources/web/js/libs/jquery.dataTables.js"), monitor);
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/libs"), new Path("json2.js"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/libs"), new Path("json2.js"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/web/js/libs/json2.js"), monitor);
 			
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/libs"), new Path("jquery.bootstrap.wizard.js"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/libs"), new Path("jquery.bootstrap.wizard.js"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/web/js/libs/jquery.bootstrap.wizard.js"), monitor);
 			
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/libs"), new Path("bootstrap.min.js"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/libs"), new Path("bootstrap.min.js"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/web/js/libs/bootstrap.min.js"), monitor);
 					
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/css/fonts"), new Path("glyphicons-halflings-regular.eot"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/css/fonts"), new Path("glyphicons-halflings-regular.eot"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/fonts/glyphicons-halflings-regular.eot"), monitor);
 			
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/css/fonts"), new Path("glyphicons-halflings-regular.svg"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/css/fonts"), new Path("glyphicons-halflings-regular.svg"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/fonts/glyphicons-halflings-regular.svg"), monitor);
 			
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/css/fonts"), new Path("glyphicons-halflings-regular.ttf"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/css/fonts"), new Path("glyphicons-halflings-regular.ttf"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/fonts/glyphicons-halflings-regular.ttf"), monitor);
 			
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/css/fonts"), new Path("glyphicons-halflings-regular.woff"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/css/fonts"), new Path("glyphicons-halflings-regular.woff"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/fonts/glyphicons-halflings-regular.woff"), monitor);
 			
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/css/fonts"), new Path("glyphicons-halflings-regular.woff2"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/css/fonts"), new Path("glyphicons-halflings-regular.woff2"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/fonts/glyphicons-halflings-regular.woff2"), monitor);
 			
 			
 			
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/libs"), new Path("respond.min.js"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/libs"), new Path("respond.min.js"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/web/js/libs/respond.min.js"), monitor);
 			
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/libs"), new Path("html5shiv.min.js"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/libs"), new Path("html5shiv.min.js"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/web/js/libs/html5shiv.min.js"), monitor);
 			
 			
 			//ANOMALY, why does text.js have to be outside the libs folder
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js"), new Path("text.js"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js"), new Path("text.js"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/web/js/libs/text.js"), monitor);
 						
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/globals"), new Path("global.js"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js/globals"), new Path("global.js"), 
 					TemplateMerger.merge("/bsbuilder/resources/web/js/libs/global.js", mapOfValues), monitor);
 			
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js"), new Path("main.js"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/js"), new Path("main.js"), 
 					TemplateMerger.merge("/bsbuilder/resources/web/js/backbone/main/main-template.js", mapOfValues), monitor);
 		
 			
@@ -584,19 +584,19 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 			
 			/* Add web-xml file */
 			/* No longer needed for Srping Boot??
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF"), new Path("web.xml"),
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static"), new Path("web.xml"),
 					TemplateMerger.merge("/bsbuilder/resources/maven/web.xml-template", mapOfValues), monitor);
 			*/
 			
 			/* Add Spring servlet dispathcer mapping file */
 			/* No longer needed for Srping Boot??
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF"), new Path("yourdispatcher-servlet.xml"),
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static"), new Path("yourdispatcher-servlet.xml"),
 					TemplateMerger.merge("/bsbuilder/resources/maven/yourdispatcher-servlet.xml-template", mapOfValues), monitor);
 			*/
 			
 			/* Add Spring context files */
 			/* No longer needed for Srping Boot??
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/spring"), new Path("applicationContext.xml"),
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/spring"), new Path("applicationContext.xml"),
 					TemplateMerger.merge("/bsbuilder/resources/maven/applicationContext.xml-template", mapOfValues), monitor);			
 			*/
 			CommonUtils.addFileToProject(folders.get("src/main/resources"), new Path("application.properties"),
@@ -623,12 +623,12 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 			
 			
 			/*Add a default CSS */
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/css"), new Path("site.css"),
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/css"), new Path("site.css"),
 					TemplateMerger.merge("/bsbuilder/resources/css/site.css-template", mapOfValues), monitor);
 			
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/css/libs"), new Path("bootstrap.min.css"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/css/libs"), new Path("bootstrap.min.css"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/css/bootstrap.min.css"), monitor);
-			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/css/libs"), new Path("bootstrap-theme.min.css"), 
+			CommonUtils.addFileToProject(folders.get("src/main/resources/static/resources/css/libs"), new Path("bootstrap-theme.min.css"), 
 					this.getClass().getResourceAsStream("/bsbuilder/resources/css/bootstrap-theme.min.css"), monitor);
 			
 			/*
@@ -819,10 +819,103 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 		srcFolder42.create(false, true, new NullProgressMonitor());
 		folders.put("src/main/resources", srcFolder42);
 		
-		//src/main/resources
+		//src/main/resources/scripts
 		IFolder srcFolder421 = srcFolder42.getFolder(new Path("scripts"));
 		srcFolder421.create(false, true, new NullProgressMonitor());
 		folders.put("src/main/resources/scripts", srcFolder421);
+		
+		//src/main/resources/static
+		IFolder srcFolder422 = srcFolder42.getFolder(new Path("static"));
+		srcFolder422.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/static", srcFolder422);
+		
+		//Statics
+		//src/main/resources/static/resources
+				IFolder resourcesFolder = srcFolder422.getFolder(new Path("resources"));
+				resourcesFolder.create(false, true, new NullProgressMonitor());
+				folders.put("src/main/resources/static/resources", resourcesFolder);
+
+	    //src/main/resources/static/resources/css
+			IFolder cssFolder = resourcesFolder.getFolder(new Path("css"));
+			cssFolder.create(false, true, new NullProgressMonitor());
+			folders.put("src/main/resources/static/resources/css", cssFolder);
+			
+			//src/main/resources/static/resources/css/libs
+			IFolder thirdPartyCssFolder = cssFolder.getFolder(new Path("libs"));
+			thirdPartyCssFolder.create(false, true, new NullProgressMonitor());
+			folders.put("src/main/resources/static/resources/css/libs", thirdPartyCssFolder);
+			
+			//src/main/resources/static/resources/css/fonts
+			IFolder thirdPartyFontsFolder = cssFolder.getFolder(new Path("fonts"));
+			thirdPartyFontsFolder.create(false, true, new NullProgressMonitor());
+			folders.put("src/main/resources/static/resources/css/fonts", thirdPartyFontsFolder);
+			
+			//src/main/resources/static/resources/js
+			IFolder jsFolder = resourcesFolder.getFolder(new Path("js"));
+			jsFolder.create(false, true, new NullProgressMonitor());
+			folders.put("src/main/resources/static/resources/js", jsFolder);
+			
+			//src/main/resources/static/resources/js/angular_controllers
+			IFolder angularControllerFolder = jsFolder.getFolder(new Path("angular_controllers"));
+			angularControllerFolder.create(false, true, new NullProgressMonitor());
+			folders.put("src/main/resources/static/resources/js/angular_controllers", angularControllerFolder);
+			
+			//src/main/resources/static/resources/js/angular_factories
+			IFolder angularFactoriesFolder = jsFolder.getFolder(new Path("angular_factories"));
+			angularFactoriesFolder.create(false, true, new NullProgressMonitor());
+			folders.put("src/main/resources/static/resources/js/angular_factories", angularFactoriesFolder);
+			
+			//src/main/resources/static/resources/js/angular_templates
+			IFolder angularTemplatesFolder = jsFolder.getFolder(new Path("angular_templates"));
+			angularTemplatesFolder.create(false, true, new NullProgressMonitor());
+			folders.put("src/main/resources/static/resources/js/angular_templates", angularTemplatesFolder);
+					
+			//src/main/resources/static/resources/js/angular_services
+			IFolder angularServicesFolder = jsFolder.getFolder(new Path("angular_services"));
+			angularServicesFolder.create(false, true, new NullProgressMonitor());
+			folders.put("src/main/resources/static/resources/js/angular_services", angularServicesFolder);
+			
+			//src/main/resources/static/resources/js/fonts
+			IFolder fontsFolder = jsFolder.getFolder(new Path("fonts"));
+			fontsFolder.create(false, true, new NullProgressMonitor());
+			folders.put("src/main/resources/static/resources/js/fonts", fontsFolder);
+			
+			//src/main/resources/static/resources/js/libs
+			IFolder jsLibsFolder = jsFolder.getFolder(new Path("libs"));
+			jsLibsFolder.create(false, true, new NullProgressMonitor());
+			folders.put("src/main/resources/static/resources/js/libs", jsLibsFolder);
+			
+			//src/main/resources/static/resources/js/models
+			IFolder modelsFolder = jsFolder.getFolder(new Path("models"));
+			modelsFolder.create(false, true, new NullProgressMonitor());
+			folders.put("src/main/resources/static/resources/js/models", modelsFolder);
+			
+			//src/main/resources/static/resources/js/collections
+			IFolder collectionsFolder = jsFolder.getFolder(new Path("collections"));
+			collectionsFolder.create(false, true, new NullProgressMonitor());
+			folders.put("src/main/resources/static/resources/js/collections", collectionsFolder);
+			
+			//src/main/resources/static/resources/js/globals
+			IFolder globalsFolder = jsFolder.getFolder(new Path("globals"));
+			globalsFolder.create(false, true, new NullProgressMonitor());
+			folders.put("src/main/resources/static/resources/js/globals", globalsFolder);
+			
+			//src/main/resources/static/resources/js/views
+			IFolder viewsFolder = jsFolder.getFolder(new Path("views"));
+			viewsFolder.create(false, true, new NullProgressMonitor());
+			folders.put("src/main/resources/static/resources/js/views", viewsFolder);
+			
+			//src/main/resources/static/resources/js/presenters
+			IFolder presentersFolder = jsFolder.getFolder(new Path("presenters"));
+			presentersFolder.create(false, true, new NullProgressMonitor());
+			folders.put("src/main/resources/static/resources/js/presenters", presentersFolder);
+			
+			//src/main/resources/static/resources/js/templates
+			IFolder templatesFolder = jsFolder.getFolder(new Path("templates"));
+			templatesFolder.create(false, true, new NullProgressMonitor());
+			folders.put("src/main/resources/static/resources/js/templates", templatesFolder);
+		
+		//end of Statics
 		
 		//src/test/java
 		IFolder srcFolder22 = srcFolder.getFolder(new Path("test"));
@@ -856,90 +949,9 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 		springFolder.create(false, true, new NullProgressMonitor());
 		folders.put("src/main/webapp/WEB-INF/spring", springFolder);
 		
-		//src/main/webapp/WEB-INF/resources
-		IFolder resourcesFolder = srcFolder51.getFolder(new Path("resources"));
-		resourcesFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources", resourcesFolder);
 		
-		//src/main/webapp/WEB-INF/resources/css
-		IFolder cssFolder = resourcesFolder.getFolder(new Path("css"));
-		cssFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources/css", cssFolder);
 		
-		//src/main/webapp/WEB-INF/resources/css/libs
-		IFolder thirdPartyCssFolder = cssFolder.getFolder(new Path("libs"));
-		thirdPartyCssFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources/css/libs", thirdPartyCssFolder);
 		
-		//src/main/webapp/WEB-INF/resources/css/fonts
-		IFolder thirdPartyFontsFolder = cssFolder.getFolder(new Path("fonts"));
-		thirdPartyFontsFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources/css/fonts", thirdPartyFontsFolder);
-		
-		//src/main/webapp/WEB-INF/resources/js
-		IFolder jsFolder = resourcesFolder.getFolder(new Path("js"));
-		jsFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources/js", jsFolder);
-		
-		//src/main/webapp/WEB-INF/resources/js/angular_controllers
-		IFolder angularControllerFolder = jsFolder.getFolder(new Path("angular_controllers"));
-		angularControllerFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources/js/angular_controllers", angularControllerFolder);
-		
-		//src/main/webapp/WEB-INF/resources/js/angular_factories
-		IFolder angularFactoriesFolder = jsFolder.getFolder(new Path("angular_factories"));
-		angularFactoriesFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources/js/angular_factories", angularFactoriesFolder);
-		
-		//src/main/webapp/WEB-INF/resources/js/angular_templates
-		IFolder angularTemplatesFolder = jsFolder.getFolder(new Path("angular_templates"));
-		angularTemplatesFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources/js/angular_templates", angularTemplatesFolder);
-				
-		//src/main/webapp/WEB-INF/resources/js/angular_services
-		IFolder angularServicesFolder = jsFolder.getFolder(new Path("angular_services"));
-		angularServicesFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources/js/angular_services", angularServicesFolder);
-		
-		//src/main/webapp/WEB-INF/resources/js/fonts
-		IFolder fontsFolder = jsFolder.getFolder(new Path("fonts"));
-		fontsFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources/js/fonts", fontsFolder);
-		
-		//src/main/webapp/WEB-INF/resources/js/libs
-		IFolder jsLibsFolder = jsFolder.getFolder(new Path("libs"));
-		jsLibsFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources/js/libs", jsLibsFolder);
-		
-		//src/main/webapp/WEB-INF/resources/js/models
-		IFolder modelsFolder = jsFolder.getFolder(new Path("models"));
-		modelsFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources/js/models", modelsFolder);
-		
-		//src/main/webapp/WEB-INF/resources/js/collections
-		IFolder collectionsFolder = jsFolder.getFolder(new Path("collections"));
-		collectionsFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources/js/collections", collectionsFolder);
-		
-		//src/main/webapp/WEB-INF/resources/js/globals
-		IFolder globalsFolder = jsFolder.getFolder(new Path("globals"));
-		globalsFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources/js/globals", globalsFolder);
-		
-		//src/main/webapp/WEB-INF/resources/js/views
-		IFolder viewsFolder = jsFolder.getFolder(new Path("views"));
-		viewsFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources/js/views", viewsFolder);
-		
-		//src/main/webapp/WEB-INF/resources/js/presenters
-		IFolder presentersFolder = jsFolder.getFolder(new Path("presenters"));
-		presentersFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources/js/presenters", presentersFolder);
-		
-		//src/main/webapp/WEB-INF/resources/js/templates
-		IFolder templatesFolder = jsFolder.getFolder(new Path("templates"));
-		templatesFolder.create(false, true, new NullProgressMonitor());
-		folders.put("src/main/webapp/WEB-INF/resources/js/templates", templatesFolder);
 	}
 	
 	
