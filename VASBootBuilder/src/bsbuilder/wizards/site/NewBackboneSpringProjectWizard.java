@@ -466,6 +466,10 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 						TemplateMerger.merge("/bsbuilder/resources/web/js/vue/App-template.vue", mapOfValues), monitor);
 				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("main.js"), 
 						TemplateMerger.merge("/bsbuilder/resources/web/js/vue/main-template.js", mapOfValues), monitor);
+				
+				CommonUtils.addFileToProject(container, new Path("npm-build.sh"), 
+						TemplateMerger.merge("/bsbuilder/resources/web/js/vue/npm-build.sh", mapOfValues), monitor);
+				
 				//CommonUtils.addFileToProject(folders.get("src/ui"), new Path("runapp.cmd"), 
 				//		TemplateMerger.merge("/bsbuilder/resources/web/js/vue/runapp-template.cmd", mapOfValues), monitor);
 				CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF"), new Path("index.jsp"), 
