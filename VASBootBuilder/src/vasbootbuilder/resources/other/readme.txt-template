@@ -1,0 +1,99 @@
+For Vue Projects Only
+1.  setup these maven builds
+		a.  mvn clean install  #this will build the 'deployable/' VUE distribution files  and copy them to where Spring Boot expects them.
+	    b.  mvn spring-boot:run
+	    
+2.  Access local URL
+	localhost:8000/<context>/index.html
+	
+	
+But if you want to stay in 'development mode' you have to:
+1.  run "npm run dev" from the command line in the 'src/ui' folder
+ 	
+
+Libs Used For Backbone:
+1.  BackboneJS
+2.  Backgrid - for rendering data in a grid
+3.  jQuery.maskedinput - for masking input fields (http://digitalbush.com/projects/masked-input-plugin/)
+4.  bootstrap datepicker - for the calendar attached to 'Date' fields (http://www.eyecon.ro/bootstrap-datepicker)
+5.  bootstrap - for styling
+
+Changing the pagesize of the Grid
+	- open the ${domainClass}Collection.js and change the 'pageSize' attribute of 
+		the 'state' object attribute object
+		
+
+Flow for rendering a list of ${domainClass}
+	1.  It starts in the route found in router.js (get${domainClass}List)
+	2.  From there the route get${domainClass}List is bound to a function
+			on the app_router (still found on the router.js file)
+	3.  The bound function then instantiates a ${domainClass}Collection which extends the PageableCollection.
+	4.  Also the bound function instantiate
+	
+Adding Validations:
+    The generated code is already pre-scaffolded to implement validation.
+    To implement validation, open your Backbone model js file and implement the
+    logic in the 'validate' attribute
+    
+    
+Deploying Optimized Javascripts
+    To deploy the app in optmized JS format, just
+    do:
+    0.  Change the index JSP.  Comment out the line which points to the
+         non-optimized main.js and Uncomment the line below it (which points to the optimized one).
+    1.  Maven Build (clean compile).  By default the build will optimize all JS files    
+    
+    
+XSS Testers
+\"/><script>alert('test');</script>
+
+
+Using the wizard UI (http://vadimg.com/twitter-bootstrap-wizard-example/) or
+(https://github.com/VinceG/twitter-bootstrap-wizard)
+
+1.  Create a div like the following:
+<div id="rootwizard">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+                <ul>
+                    <li><a href="#tab1" data-toggle="tab">First</a></li>
+                    <li><a href="#tab2" data-toggle="tab">Second</a></li>
+                    <li><a href="#tab3" data-toggle="tab">Third</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane" id="tab1">
+            1
+        </div>
+        <div class="tab-pane" id="tab2">
+            2
+        </div>
+        <div class="tab-pane" id="tab3">
+            3
+        </div>
+        <ul class="pager wizard">
+            <li class="previous first" style="display:none;"><a href="#">First</a></li>
+            <li class="previous"><a href="#">Previous</a></li>
+            <li class="next last" style="display:none;"><a href="#">Last</a></li>
+            <li class="next"><a href="#">Next</a></li>
+        </ul>
+    </div>
+</div>
+
+2.  Activate the wizard
+
+$('#rootwizard').bootstrapWizard({
+	'onNext': function(tab, navigation, index) {
+		alert('next tab');
+	}
+});
+
+---------------------
+Inspecting the generated Web Service
+1.  http://localhost:8080/<webcontext>/webservices
+		- this should list out the available endpoints on your browser
+2.  use SOAPUI to test the available services
+

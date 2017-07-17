@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: VASBootBuilder
 Bundle-SymbolicName: VASBootBuilder;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: bsbuilder.Activator
+Bundle-Activator: vasbootbuilder.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,

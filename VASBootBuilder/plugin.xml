@@ -12,14 +12,14 @@
             name="Backbone Enabled Page"
             icon="icons/sample.gif"
             category="VASBootBuilder"
-            class="bsbuilder.wizards.backbone.BackbonePageNewWizard"
-            id="bsbuilder.wizards.backbone.BackbonePageNewWizard">
+            class="vasbootbuilder.wizards.backbone.BackbonePageNewWizard"
+            id="vasbootbuilder.wizards.backbone.BackbonePageNewWizard">
       </wizard>
       <wizard
             category="VASBootBuilder"
-            class="bsbuilder.wizards.site.NewBackboneSpringProjectWizard"
+            class="vasbootbuilder.wizards.site.NewBackboneSpringProjectWizard"
             icon="icons/sample.gif"
-            id="bsbuilder.wizards.site.NewBackboneSpringProjectWizard"
+            id="vasbootbuilder.wizards.site.NewBackboneSpringProjectWizard"
             name="Spring Boot Backbone/Angular/Vue Project Wizard"
             project="true">
       </wizard>
@@ -27,8 +27,8 @@
             name="Backbone Model Page"
             icon="icons/sample.gif"
             category="VASBootBuilder"
-            class="bsbuilder.wizards.backbone.BackboneNewModelWizard"
-            id="bsbuilder.wizards.backbone.BackboneNewModelWizard">
+            class="vasbootbuilder.wizards.backbone.BackboneNewModelWizard"
+            id="vasbootbuilder.wizards.backbone.BackboneNewModelWizard">
       </wizard>
    </extension>
    
@@ -47,28 +47,28 @@
          </menu>
          <action
                label="Add New Model.."
-               class="bsbuilder.wizards.backbone.actions.AddNewModelAction"
+               class="vasbootbuilder.wizards.backbone.actions.AddNewModelAction"
                menubarPath="Oleng3.menu1/group1"
                enablesFor="1"
                id="Oleng3.newAction">
          </action>
          <action
                label="Add New Presenter.."
-               class="bsbuilder.wizards.backbone.actions.AddNewPresenterAction"
+               class="vasbootbuilder.wizards.backbone.actions.AddNewPresenterAction"
                menubarPath="Oleng3.menu1/group2"
                enablesFor="1"
                id="Oleng3.newPresenter">
          </action>
          <action
                label="Add New Wizard-Type Presenter.."
-               class="bsbuilder.wizards.backbone.actions.AddNewWizardTypePresenterAction"
+               class="vasbootbuilder.wizards.backbone.actions.AddNewWizardTypePresenterAction"
                menubarPath="Oleng3.menu1/group3"
                enablesFor="1"
                id="Oleng3.newWizardTypePresenter">
          </action>
          <!--action
                label="Add Third Party JS Lib"
-               class="bsbuilder.wizards.backbone.actions.AddNewJSLibAction"
+               class="vasbootbuilder.wizards.backbone.actions.AddNewJSLibAction"
                menubarPath="Oleng3.menu1/group2"
                enablesFor="1"
                id="Oleng3.newJSLib">
@@ -82,7 +82,7 @@
             objectClass="org.eclipse.core.resources.IProject"
             id="Oleng3.contribution1">
          <menu
-               label="BSBuilder Node"
+               label="VASBootBuilder Node"
                path="additions"
                id="Oleng3.menu1">
             <separator name="group1"> </separator>
@@ -90,7 +90,7 @@
          </menu>
          <action
                label="Run npm install"
-               class="bsbuilder.wizards.backbone.actions.RunNpmInstall"
+               class="vasbootbuilder.wizards.backbone.actions.RunNpmInstall"
                menubarPath="Oleng3.menu1/group1"
                enablesFor="1"
                id="Oleng3.newAction">
