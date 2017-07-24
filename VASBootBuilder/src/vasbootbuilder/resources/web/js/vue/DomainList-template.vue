@@ -5,6 +5,7 @@ Import VuePaginator from 'vuejs-paginator'
 <template>
 	<div class="row">
 		<div class="col-md-12">
+			<h2>{{label}}</h2>
 			<table class="table table-bordered table-striped">
 				<thead>
 				<tr>
@@ -53,6 +54,7 @@ Import VuePaginator from 'vuejs-paginator'
         console.log('Error:' + response.statusText)
       })
     },
+    props : ['label'],
     methods: {
       dummyFunction () {
         console.log('dummy')

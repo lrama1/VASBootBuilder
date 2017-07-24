@@ -160,7 +160,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 					
 					String componentTag = pageThree.getDomainClassName().toLowerCase();
 					insertStatementToHomeVue(projectContainer, pageThree.getDomainClassName(), 
-							"\\<.*-list\\>[\\w\\s]*\\</.*-list\\>", 
+							"\\<.*-list[\\w\\W\\s]*\\>[\\w\\s]*\\</.*-list\\>", 
 							"\n<" + componentTag + "-list></" + componentTag + "-list>");
 					
 					insertStatementToHomeVue(projectContainer, pageThree.getDomainClassName(), 

@@ -2,7 +2,7 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <h2>Components</h2>
-    <${vueComponentTagName}-list></${vueComponentTagName}-list>
+    <${vueComponentTagName}-list :label="this.label"></${vueComponentTagName}-list>
   </div>
 </template>
 
@@ -15,7 +15,8 @@ export default {
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      label : 'Child Component'
     }
   }
 }
