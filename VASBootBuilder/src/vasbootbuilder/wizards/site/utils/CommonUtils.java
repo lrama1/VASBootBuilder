@@ -2,6 +2,7 @@ package vasbootbuilder.wizards.site.utils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -24,7 +25,6 @@ import org.eclipse.text.edits.TextEdit;
 import org.eclipse.wst.jsdt.core.ToolFactory;
 import org.eclipse.wst.jsdt.core.formatter.CodeFormatter;
 import org.eclipse.wst.jsdt.core.formatter.DefaultCodeFormatterConstants;
-import org.w3c.tidy.Tidy;
 
 public class CommonUtils {
 
@@ -74,6 +74,11 @@ public class CommonUtils {
 			file.setContents(contentStream, true, true, monitor);
 		} else {
 			file.create(contentStream, true, monitor);
+		}
+
+		if(path.toString().endsWith("sh")){
+			File physicalFile = file.getRawLocation().makeAbsolute().toFile();
+			physicalFile.setExecutable(true);
 		}
 	}
 	
