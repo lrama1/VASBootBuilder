@@ -152,6 +152,8 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 					addNewTabsToAngularHomePage(projectContainer, pageThree.getDomainClassName());								
 					
 					/**************END OF ANGULAR SPECIFIC****************************/
+				}else if(uiType.equalsIgnoreCase("Angular4")){
+					createAngular4Templates(projectContainer, projectName);
 				}else{
 					/**************VUEJS SPECIFIC****************************/
 					createVueTemplates(projectContainer, projectName);
@@ -184,6 +186,115 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
         }
 	        
 		return true;
+	}
+	
+	private void createAngular4Templates(IContainer projectContainer, String projectName) throws Exception{
+		String domainClassName = pageThree.getDomainClassName();
+		String domainName = domainClassName.toLowerCase();
+		Map<String, Object> mapOfValues = new HashMap<String, Object>();
+		mapOfValues.put("domainClassName", domainClassName);
+		mapOfValues.put("projectName", projectName);
+		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
+		mapOfValues.put("attrs", pageThree.getModelAttributes());
+		//create the folders
+		IFolder domainFolder = projectContainer.getFolder(new Path("src/ui/src/app/" + domainName));
+		domainFolder.create(false, true, new NullProgressMonitor());
+		
+		IFolder domainListFolder = domainFolder.getFolder(new Path(domainName + "-list"));
+		domainListFolder.create(false, true, new NullProgressMonitor());
+		
+		IFolder domainEditFolder = domainFolder.getFolder(new Path(domainName + "-edit"));
+		domainEditFolder.create(false, true, new NullProgressMonitor());
+		
+		//model and service classes
+		CommonUtils.addFileToProject(projectContainer.getFolder(new Path("src/ui/src/app/" + domainName)), new Path(domainName + ".model.ts"), 
+				TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain.model.ts", mapOfValues), new NullProgressMonitor());
+		CommonUtils.addFileToProject(projectContainer.getFolder(new Path("src/ui/src/app/" + domainName)), new Path(domainName + ".service.ts"), 
+				TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain.service.ts", mapOfValues), new NullProgressMonitor());
+		
+		//edit components
+		CommonUtils.addFileToProject(projectContainer.getFolder(new Path("src/ui/src/app/" + domainName + "/" + domainName + "-edit")), new Path(domainName + "-edit.component.css"), 
+				TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-edit.component.css", mapOfValues),  new NullProgressMonitor());				
+		CommonUtils.addFileToProject(projectContainer.getFolder(new Path("src/ui/src/app/" + domainName + "/" + domainName + "-edit")), new Path(domainName + "-edit.component.html"), 
+				TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-edit.component.html", mapOfValues),  new NullProgressMonitor());				
+		CommonUtils.addFileToProject(projectContainer.getFolder(new Path("src/ui/src/app/" + domainName + "/" + domainName + "-edit")), new Path(domainName + "-edit.component.spec.ts"), 
+				TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-edit.component.spec.ts", mapOfValues),  new NullProgressMonitor());				
+		CommonUtils.addFileToProject(projectContainer.getFolder(new Path("src/ui/src/app/" + domainName + "/" + domainName + "-edit")), new Path(domainName + "-edit.component.ts"), 
+				TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-edit.component.ts", mapOfValues),  new NullProgressMonitor());
+		
+		//list components
+		CommonUtils.addFileToProject(projectContainer.getFolder(new Path("src/ui/src/app/" + domainName + "/" + domainName + "-list")), new Path(domainName + "-list.component.css"), 
+				TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-list.component.css", mapOfValues),  new NullProgressMonitor());				
+		CommonUtils.addFileToProject(projectContainer.getFolder(new Path("src/ui/src/app/" + domainName + "/" + domainName + "-list")), new Path(domainName + "-list.component.html"), 
+				TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-list.component.html", mapOfValues),  new NullProgressMonitor());				
+		CommonUtils.addFileToProject(projectContainer.getFolder(new Path("src/ui/src/app/" + domainName + "/" + domainName + "-list")), new Path(domainName + "-list.component.spec.ts"), 
+				TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-list.component.spec.ts", mapOfValues),  new NullProgressMonitor());				
+		CommonUtils.addFileToProject(projectContainer.getFolder(new Path("src/ui/src/app/" + domainName + "/" + domainName + "-list")), new Path(domainName + "-list.component.ts"), 
+				TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-list.component.ts", mapOfValues),  new NullProgressMonitor());
+		addNewRoutesToAngular4Router(projectContainer, domainClassName);
+		
+	}
+	
+	private void addNewRoutesToAngular4Router(IContainer projectContainer, String domainClassName) throws Exception{
+		String routesToAdd = ",\n  { path: '" + domainClassName.toLowerCase() + "/:id', component: " + domainClassName + "EditComponent },\n" +
+				"  { path: '" + domainClassName.toLowerCase() + "s', component: " + domainClassName + "ListComponent}";
+		IFolder jsFolder = projectContainer.getFolder(new Path("src/ui/src/app"));
+		IFile appModuleFile = jsFolder.getFile("app.module.ts");
+		File file = appModuleFile.getRawLocation().toFile();
+		
+		String fileContents = FileUtils.readFileToString(file);
+		
+		//insert to routes expression
+		String whenRegex = "path\\s*:.*}";
+		Pattern whenPattern = Pattern.compile(whenRegex, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);		
+		StringBuffer buffer = insertAngular4Code(routesToAdd, fileContents, whenPattern);
+		
+		//insert to declarations
+		whenRegex = "declarations\\s*:\\s*\\[.*";
+		whenPattern = Pattern.compile(whenRegex, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);		
+		String declarationsToInsert = domainClassName + "ListComponent,\n" +
+								domainClassName + "EditComponent,\n";
+		buffer = insertAngular4Code(declarationsToInsert, buffer.toString(), whenPattern);
+		
+		//insert to providers
+		whenRegex = "providers\\s*:\\s*\\[";
+		whenPattern = Pattern.compile(whenRegex, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);		
+		String providerToInsert =  domainClassName + "Service, ";
+		buffer = insertAngular4Code(providerToInsert, buffer.toString(), whenPattern);
+
+		String finalString = "import { " + domainClassName + "ListComponent } from './" + 
+				domainClassName.toLowerCase() +"/" + domainClassName.toLowerCase() + "-list/" +
+				domainClassName.toLowerCase() + "-list.component';\n" +				
+				"import { " + domainClassName + "EditComponent } from './" + 
+				domainClassName.toLowerCase() +"/" + domainClassName.toLowerCase() + "-edit/" +
+				domainClassName.toLowerCase() + "-edit.component';\n" +
+				"import { " + domainClassName + "Service } from './" +
+				domainClassName.toLowerCase() + "/" + domainClassName.toLowerCase() + ".service';\n" +
+				buffer.toString();
+		System.out.println("+++++++++++++++++++++++++++++++++");
+		System.out.println(finalString);
+		
+		InputStream modifiedFileContent = new ByteArrayInputStream(CommonUtils.prettifyJS(finalString).getBytes());		
+		appModuleFile.setContents(modifiedFileContent, IFile.FORCE, new NullProgressMonitor());
+		appModuleFile.refreshLocal(IFile.DEPTH_ZERO, new NullProgressMonitor());
+	}
+
+	private StringBuffer insertAngular4Code(String stringToInsert, String fileContents, Pattern whenPattern) {
+		int positionToInsert = -1;
+		Matcher matcher = whenPattern.matcher(fileContents);
+		
+		while(matcher.find()){
+			String group = matcher.group(0);
+			System.out.println(group);
+			positionToInsert = matcher.end();
+		}
+		
+		StringBuffer buffer = new StringBuffer(fileContents);
+		if(positionToInsert > -1){
+			buffer = new StringBuffer(fileContents);
+			buffer.insert(positionToInsert, stringToInsert);
+		}
+		return buffer;
 	}
 	
 	private void addNewTabsToVueAppPage(IContainer projectContainer, String domainClassName) throws Exception{

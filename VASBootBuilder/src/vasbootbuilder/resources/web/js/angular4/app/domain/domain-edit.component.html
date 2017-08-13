@@ -1,0 +1,12 @@
+#set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
+#foreach($key in $attrs.keySet() )
+<div class="row">
+  <div class="col-sm-2">${key}</div>
+  <div class="col-sm-4"><input type="text" [(ngModel)]="${domainObjectName}.${key}"></div>
+</div>
+#end
+<div class="row">
+  <div class="col-sm-4">
+    <button type="button" class="btn btn-primary" (click)="save${domainClassName}()">Save</button>
+  </div>
+</div>

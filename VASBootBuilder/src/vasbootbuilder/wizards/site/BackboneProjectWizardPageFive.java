@@ -23,6 +23,9 @@ public class BackboneProjectWizardPageFive extends WizardPage {
 		setDescription("Some options to customize the Backbone Code");
 	}
 	
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public BackboneProjectWizardPageFive(String pageName, String uiType){
 		this(pageName);
 		this.uiType = uiType;
@@ -53,6 +56,7 @@ public class BackboneProjectWizardPageFive extends WizardPage {
 		
 		cmbUIType = new Combo(container, SWT.READ_ONLY);
 		cmbUIType.add("VueJS");
+		cmbUIType.add("Angular4");	
 		cmbUIType.add("BackboneJS");
 		cmbUIType.add("AngularJS");		
 		cmbUIType.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));

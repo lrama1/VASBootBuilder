@@ -1,0 +1,14 @@
+#set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
+<table class="table">
+  <thead></thead>
+  <tbody>
+    <tr *ngFor="let $domainObjectName of listOf${domainClassName}s">
+      <td><a routerLink="/$domainObjectName/{{$domainObjectName.${domainClassIdAttributeName}}}">X</a> </td>
+      #foreach($key in $attrs.keySet() )
+      <td>{{${domainObjectName}.${key}}}</td>
+      #end
+    </tr>
+  </tbody>
+</table>
+
+

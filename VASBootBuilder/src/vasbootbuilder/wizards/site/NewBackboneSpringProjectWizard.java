@@ -333,7 +333,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 					TemplateMerger.merge("/vasbootbuilder/resources/maven/pom.xml-template", mapOfValues), monitor);			
 
 			//call create folders here
-			createFolderStructures(container, monitor);			
+			createFolderStructures(container, monitor, params.getUiType());			
 			
 			//add 3rd party JS libs
 			if(params.getUiType().equalsIgnoreCase("BackboneJS")){
@@ -453,6 +453,115 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 				
 				CommonUtils.addFileToProject(container, new Path(".tern-project"), 
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular/tern-project", mapOfValues), monitor);
+			}else if(params.getUiType().equalsIgnoreCase("Angular4")){
+				//ANGULAR4 Components
+				
+				//non-templated files
+				CommonUtils.addFileToProject(folders.get("src/ui/src/environments"), new Path("environment.prod.ts"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other/environment.prod.ts"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/environments"), new Path("environment.ts"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other/environment.ts"), monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("favicon.ico"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other/favicon.ico"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("index.html"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other/index.html"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("main.ts"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other/main.ts"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("polyfills.ts"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other/polyfills.ts"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("styles.css"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other/styles.css"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("test.ts"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other/test.ts"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("tsconfig.app.json"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other/tsconfig.app.json"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("tsconfig.spec.json"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other/tsconfig.spec.json"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("typings.d.ts"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other/typings.d.ts"), monitor);	
+				
+				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("karma.conf.js"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other2/karma.conf.js"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("package.json"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other2/package.json"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("protractor.conf.js"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other2/protractor.conf.js"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("README.md"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other2/README.md"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("tsconfig.json"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other2/tsconfig.json"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("tslint.json"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other2/tslint.json"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui"), new Path(".angular-cli.json"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other2/x.angular-cli.json"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui"), new Path(".editorconfig"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other2/x.editorconfig"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui"), new Path(".gitignore"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other2/x.gitignore"), monitor);
+				
+				//create list and edit components				
+				//create initial 'seed' domain folder
+				String domainName = params.getDomainClassName().toLowerCase();
+				IFolder domainFolder = folders.get("src/ui/src/app").getFolder(new Path(domainName));
+				domainFolder.create(false, true, new NullProgressMonitor());
+				folders.put("src/ui/src/app/" + domainName, domainFolder);
+				
+				IFolder domainListFolder = folders.get("src/ui/src/app/" + domainName).getFolder(domainName + "-list");
+				domainListFolder.create(false, true, new NullProgressMonitor());
+				folders.put("src/ui/src/app/" + domainName + "-list", domainListFolder);
+				
+				IFolder domainEditFolder = folders.get("src/ui/src/app/" + domainName).getFolder(domainName + "-edit");
+				domainEditFolder.create(false, true, new NullProgressMonitor());
+				folders.put("src/ui/src/app/" + domainName + "-edit", domainEditFolder);
+				
+				
+				//template files
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app/home"), new Path("home.component.css"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/home/home.component.css", mapOfValues), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app/home"), new Path("home.component.html"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/home/home.component.html", mapOfValues), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app/home"), new Path("home.component.ts"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/home/home.component.ts", mapOfValues), monitor);
+				
+				//main app stuff
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app"), new Path("app.component.css"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/app.component-template.css", mapOfValues), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app"), new Path("app.component.html"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/app.component-template.html", mapOfValues), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app"), new Path("app.component.spec.ts"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/app.component.spec-template.ts", mapOfValues), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app"), new Path("app.component.ts"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/app.component-template.ts", mapOfValues), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app"), new Path("app.module.ts"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/app.module-template.ts", mapOfValues), monitor);
+				
+				//model and service classes
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app/" + domainName), new Path(domainName + ".model.ts"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain.model.ts", mapOfValues), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app/" + domainName), new Path(domainName + ".service.ts"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain.service.ts", mapOfValues), monitor);
+				
+				//edit components
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app/" + domainName + "-edit"), new Path(domainName + "-edit.component.css"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-edit.component.css", mapOfValues), monitor);				
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app/" + domainName + "-edit"), new Path(domainName + "-edit.component.html"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-edit.component.html", mapOfValues), monitor);				
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app/" + domainName + "-edit"), new Path(domainName + "-edit.component.spec.ts"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-edit.component.spec.ts", mapOfValues), monitor);				
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app/" + domainName + "-edit"), new Path(domainName + "-edit.component.ts"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-edit.component.ts", mapOfValues), monitor);
+				
+				//list components
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app/" + domainName + "-list"), new Path(domainName + "-list.component.css"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-list.component.css", mapOfValues), monitor);				
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app/" + domainName + "-list"), new Path(domainName + "-list.component.html"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-list.component.html", mapOfValues), monitor);				
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app/" + domainName + "-list"), new Path(domainName + "-list.component.spec.ts"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-list.component.spec.ts", mapOfValues), monitor);				
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app/" + domainName + "-list"), new Path(domainName + "-list.component.ts"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-list.component.ts", mapOfValues), monitor);
+			
 			}else{ //VueJS
 				CommonUtils.addFileToProject(folders.get("src/ui/config"), new Path("index.js"), 
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/vue/index-template.js", mapOfValues), monitor);
@@ -749,7 +858,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 		}
 	}
 	
-	private void createFolderStructures(IContainer container, IProgressMonitor monitor)
+	private void createFolderStructures(IContainer container, IProgressMonitor monitor, String uiType)
 		throws Exception
 	{
 		//target
@@ -778,45 +887,85 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 		srcFolder31.create(false, true, new NullProgressMonitor());
 		folders.put("src/main/java", srcFolder31);
 		
-		/************************* VueJS folders *******************************/
-		//src/ui
-		IFolder srcFolder23 = srcFolder.getFolder(new Path("ui"));
-		srcFolder23.create(false, true, new NullProgressMonitor());
-		folders.put("src/ui", srcFolder23);
-		//src/ui/build
-		IFolder srcFolder231 = srcFolder23.getFolder(new Path("build"));
-		srcFolder231.create(false, true, new NullProgressMonitor());
-		folders.put("src/ui/build", srcFolder231);
-		
-		IFolder srcFolder232 = srcFolder23.getFolder(new Path("config"));
-		srcFolder232.create(false, true, new NullProgressMonitor());
-		folders.put("src/ui/config", srcFolder232);
-		
-		IFolder srcFolder233 = srcFolder23.getFolder(new Path("node_modules"));
-		srcFolder233.create(false, true, new NullProgressMonitor());
-		folders.put("src/ui/node_modules", srcFolder233);
-		
-		IFolder srcFolder234 = srcFolder23.getFolder(new Path("src"));
-		srcFolder234.create(false, true, new NullProgressMonitor());
-		folders.put("src/ui/src", srcFolder234);
-		
-		IFolder srcFolder2341 = srcFolder234.getFolder(new Path("assets"));
-		srcFolder2341.create(false, true, new NullProgressMonitor());
-		folders.put("src/ui/src/assets", srcFolder2341);
-		
-		IFolder srcFolder2342 = srcFolder234.getFolder(new Path("components"));
-		srcFolder2342.create(false, true, new NullProgressMonitor());
-		folders.put("src/ui/src/components", srcFolder2342);
-		
-		IFolder srcFolder235 = srcFolder23.getFolder(new Path("static"));
-		srcFolder235.create(false, true, new NullProgressMonitor());
-		folders.put("src/ui/static", srcFolder235);
-		
-		IFolder srcFolder236 = srcFolder23.getFolder(new Path("test"));
-		srcFolder236.create(false, true, new NullProgressMonitor());
-		folders.put("src/ui/test", srcFolder236);
-				
-		/************* END of VueJS *******************************************/
+		if(uiType.equalsIgnoreCase("VueJS")){
+			/************************* VueJS folders *******************************/
+			//src/ui
+			IFolder srcFolder23 = srcFolder.getFolder(new Path("ui"));
+			srcFolder23.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui", srcFolder23);
+			//src/ui/build
+			IFolder srcFolder231 = srcFolder23.getFolder(new Path("build"));
+			srcFolder231.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/build", srcFolder231);
+			
+			IFolder srcFolder232 = srcFolder23.getFolder(new Path("config"));
+			srcFolder232.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/config", srcFolder232);
+			
+			IFolder srcFolder233 = srcFolder23.getFolder(new Path("node_modules"));
+			srcFolder233.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/node_modules", srcFolder233);
+			
+			IFolder srcFolder234 = srcFolder23.getFolder(new Path("src"));
+			srcFolder234.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/src", srcFolder234);
+			
+			IFolder srcFolder2341 = srcFolder234.getFolder(new Path("assets"));
+			srcFolder2341.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/src/assets", srcFolder2341);
+			
+			IFolder srcFolder2342 = srcFolder234.getFolder(new Path("components"));
+			srcFolder2342.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/src/components", srcFolder2342);
+			
+			IFolder srcFolder235 = srcFolder23.getFolder(new Path("static"));
+			srcFolder235.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/static", srcFolder235);
+			
+			IFolder srcFolder236 = srcFolder23.getFolder(new Path("test"));
+			srcFolder236.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/test", srcFolder236);
+					
+			/************* END of VueJS *******************************************/
+		}else if(uiType.equalsIgnoreCase("Angular4")){
+			//src/ui
+			IFolder srcFolder23 = srcFolder.getFolder(new Path("ui"));
+			srcFolder23.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui", srcFolder23);
+			//src/ui/e2e
+			IFolder srcFolder231 = srcFolder23.getFolder(new Path("e2e"));
+			srcFolder231.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/e2e", srcFolder231);
+			
+			IFolder srcFolder233 = srcFolder23.getFolder(new Path("node_modules"));
+			srcFolder233.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/node_modules", srcFolder233);
+			
+			IFolder srcFolder234 = srcFolder23.getFolder(new Path("src"));
+			srcFolder234.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/src", srcFolder234);
+			
+			//src/ui/src/app
+			IFolder srcFolder2341 = srcFolder234.getFolder(new Path("app"));
+			srcFolder2341.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/src/app", srcFolder2341);
+			
+			//src/ui/src/app/home
+			IFolder srcFolder23411 = srcFolder2341.getFolder(new Path("home"));
+			srcFolder23411.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/src/app/home", srcFolder23411);
+			
+			//src/ui/src/assets
+			IFolder srcFolder2342 = srcFolder234.getFolder(new Path("assets"));
+			srcFolder2342.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/src/assets", srcFolder2342);
+			
+			//src/ui/src/environments
+			IFolder srcFolder2343 = srcFolder234.getFolder(new Path("environments"));
+			srcFolder2343.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/src/environments", srcFolder2343);
+			
+		}
 		
 		//src/main/resources
 		IFolder srcFolder42 = srcFolder21.getFolder(new Path("resources"));
@@ -835,89 +984,89 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 		
 		//Statics
 		//src/main/resources/public/resources
-				IFolder resourcesFolder = srcFolder422.getFolder(new Path("resources"));
-				resourcesFolder.create(false, true, new NullProgressMonitor());
-				folders.put("src/main/resources/public/resources", resourcesFolder);
+		IFolder resourcesFolder = srcFolder422.getFolder(new Path("resources"));
+		resourcesFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources", resourcesFolder);
 
 	    //src/main/resources/public/resources/css
-			IFolder cssFolder = resourcesFolder.getFolder(new Path("css"));
-			cssFolder.create(false, true, new NullProgressMonitor());
-			folders.put("src/main/resources/public/resources/css", cssFolder);
-			
-			//src/main/resources/public/resources/css/libs
-			IFolder thirdPartyCssFolder = cssFolder.getFolder(new Path("libs"));
-			thirdPartyCssFolder.create(false, true, new NullProgressMonitor());
-			folders.put("src/main/resources/public/resources/css/libs", thirdPartyCssFolder);
-			
-			//src/main/resources/public/resources/css/fonts
-			IFolder thirdPartyFontsFolder = cssFolder.getFolder(new Path("fonts"));
-			thirdPartyFontsFolder.create(false, true, new NullProgressMonitor());
-			folders.put("src/main/resources/public/resources/css/fonts", thirdPartyFontsFolder);
-			
-			//src/main/resources/public/resources/js
-			IFolder jsFolder = resourcesFolder.getFolder(new Path("js"));
-			jsFolder.create(false, true, new NullProgressMonitor());
-			folders.put("src/main/resources/public/resources/js", jsFolder);
-			
-			//src/main/resources/public/resources/js/angular_controllers
-			IFolder angularControllerFolder = jsFolder.getFolder(new Path("angular_controllers"));
-			angularControllerFolder.create(false, true, new NullProgressMonitor());
-			folders.put("src/main/resources/public/resources/js/angular_controllers", angularControllerFolder);
-			
-			//src/main/resources/public/resources/js/angular_factories
-			IFolder angularFactoriesFolder = jsFolder.getFolder(new Path("angular_factories"));
-			angularFactoriesFolder.create(false, true, new NullProgressMonitor());
-			folders.put("src/main/resources/public/resources/js/angular_factories", angularFactoriesFolder);
-			
-			//src/main/resources/public/resources/js/angular_templates
-			IFolder angularTemplatesFolder = jsFolder.getFolder(new Path("angular_templates"));
-			angularTemplatesFolder.create(false, true, new NullProgressMonitor());
-			folders.put("src/main/resources/public/resources/js/angular_templates", angularTemplatesFolder);
-					
-			//src/main/resources/public/resources/js/angular_services
-			IFolder angularServicesFolder = jsFolder.getFolder(new Path("angular_services"));
-			angularServicesFolder.create(false, true, new NullProgressMonitor());
-			folders.put("src/main/resources/public/resources/js/angular_services", angularServicesFolder);
-			
-			//src/main/resources/public/resources/js/fonts
-			IFolder fontsFolder = jsFolder.getFolder(new Path("fonts"));
-			fontsFolder.create(false, true, new NullProgressMonitor());
-			folders.put("src/main/resources/public/resources/js/fonts", fontsFolder);
-			
-			//src/main/resources/public/resources/js/libs
-			IFolder jsLibsFolder = jsFolder.getFolder(new Path("libs"));
-			jsLibsFolder.create(false, true, new NullProgressMonitor());
-			folders.put("src/main/resources/public/resources/js/libs", jsLibsFolder);
-			
-			//src/main/resources/public/resources/js/models
-			IFolder modelsFolder = jsFolder.getFolder(new Path("models"));
-			modelsFolder.create(false, true, new NullProgressMonitor());
-			folders.put("src/main/resources/public/resources/js/models", modelsFolder);
-			
-			//src/main/resources/public/resources/js/collections
-			IFolder collectionsFolder = jsFolder.getFolder(new Path("collections"));
-			collectionsFolder.create(false, true, new NullProgressMonitor());
-			folders.put("src/main/resources/public/resources/js/collections", collectionsFolder);
-			
-			//src/main/resources/public/resources/js/globals
-			IFolder globalsFolder = jsFolder.getFolder(new Path("globals"));
-			globalsFolder.create(false, true, new NullProgressMonitor());
-			folders.put("src/main/resources/public/resources/js/globals", globalsFolder);
-			
-			//src/main/resources/public/resources/js/views
-			IFolder viewsFolder = jsFolder.getFolder(new Path("views"));
-			viewsFolder.create(false, true, new NullProgressMonitor());
-			folders.put("src/main/resources/public/resources/js/views", viewsFolder);
-			
-			//src/main/resources/public/resources/js/presenters
-			IFolder presentersFolder = jsFolder.getFolder(new Path("presenters"));
-			presentersFolder.create(false, true, new NullProgressMonitor());
-			folders.put("src/main/resources/public/resources/js/presenters", presentersFolder);
-			
-			//src/main/resources/public/resources/js/templates
-			IFolder templatesFolder = jsFolder.getFolder(new Path("templates"));
-			templatesFolder.create(false, true, new NullProgressMonitor());
-			folders.put("src/main/resources/public/resources/js/templates", templatesFolder);
+		IFolder cssFolder = resourcesFolder.getFolder(new Path("css"));
+		cssFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources/css", cssFolder);
+		
+		//src/main/resources/public/resources/css/libs
+		IFolder thirdPartyCssFolder = cssFolder.getFolder(new Path("libs"));
+		thirdPartyCssFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources/css/libs", thirdPartyCssFolder);
+		
+		//src/main/resources/public/resources/css/fonts
+		IFolder thirdPartyFontsFolder = cssFolder.getFolder(new Path("fonts"));
+		thirdPartyFontsFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources/css/fonts", thirdPartyFontsFolder);
+		
+		//src/main/resources/public/resources/js
+		IFolder jsFolder = resourcesFolder.getFolder(new Path("js"));
+		jsFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources/js", jsFolder);
+		
+		//src/main/resources/public/resources/js/angular_controllers
+		IFolder angularControllerFolder = jsFolder.getFolder(new Path("angular_controllers"));
+		angularControllerFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources/js/angular_controllers", angularControllerFolder);
+		
+		//src/main/resources/public/resources/js/angular_factories
+		IFolder angularFactoriesFolder = jsFolder.getFolder(new Path("angular_factories"));
+		angularFactoriesFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources/js/angular_factories", angularFactoriesFolder);
+		
+		//src/main/resources/public/resources/js/angular_templates
+		IFolder angularTemplatesFolder = jsFolder.getFolder(new Path("angular_templates"));
+		angularTemplatesFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources/js/angular_templates", angularTemplatesFolder);
+				
+		//src/main/resources/public/resources/js/angular_services
+		IFolder angularServicesFolder = jsFolder.getFolder(new Path("angular_services"));
+		angularServicesFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources/js/angular_services", angularServicesFolder);
+		
+		//src/main/resources/public/resources/js/fonts
+		IFolder fontsFolder = jsFolder.getFolder(new Path("fonts"));
+		fontsFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources/js/fonts", fontsFolder);
+		
+		//src/main/resources/public/resources/js/libs
+		IFolder jsLibsFolder = jsFolder.getFolder(new Path("libs"));
+		jsLibsFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources/js/libs", jsLibsFolder);
+		
+		//src/main/resources/public/resources/js/models
+		IFolder modelsFolder = jsFolder.getFolder(new Path("models"));
+		modelsFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources/js/models", modelsFolder);
+		
+		//src/main/resources/public/resources/js/collections
+		IFolder collectionsFolder = jsFolder.getFolder(new Path("collections"));
+		collectionsFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources/js/collections", collectionsFolder);
+		
+		//src/main/resources/public/resources/js/globals
+		IFolder globalsFolder = jsFolder.getFolder(new Path("globals"));
+		globalsFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources/js/globals", globalsFolder);
+		
+		//src/main/resources/public/resources/js/views
+		IFolder viewsFolder = jsFolder.getFolder(new Path("views"));
+		viewsFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources/js/views", viewsFolder);
+		
+		//src/main/resources/public/resources/js/presenters
+		IFolder presentersFolder = jsFolder.getFolder(new Path("presenters"));
+		presentersFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources/js/presenters", presentersFolder);
+		
+		//src/main/resources/public/resources/js/templates
+		IFolder templatesFolder = jsFolder.getFolder(new Path("templates"));
+		templatesFolder.create(false, true, new NullProgressMonitor());
+		folders.put("src/main/resources/public/resources/js/templates", templatesFolder);
 		
 		//end of Statics
 		
