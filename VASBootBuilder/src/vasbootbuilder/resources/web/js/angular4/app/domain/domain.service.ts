@@ -2,6 +2,7 @@
 import {Injectable, OnInit} from '@angular/core';
 import { $domainClassName } from './${domainObjectName}.model';
 
+
 @Injectable()
 export class ${domainClassName}Service implements OnInit{
   ${domainObjectName}s: ${domainClassName}[] = [];
