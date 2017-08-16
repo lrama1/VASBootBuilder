@@ -517,6 +517,9 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 				
 				
 				//template files
+				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("proxy.conf.json"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/other2/proxy.conf.json", mapOfValues), monitor);
+				
 				CommonUtils.addFileToProject(folders.get("src/ui/src/app/home"), new Path("home.component.css"), 
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/home/home.component.css", mapOfValues), monitor);
 				CommonUtils.addFileToProject(folders.get("src/ui/src/app/home"), new Path("home.component.html"), 

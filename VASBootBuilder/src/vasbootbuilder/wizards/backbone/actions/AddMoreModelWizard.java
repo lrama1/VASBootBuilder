@@ -154,6 +154,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 					/**************END OF ANGULAR SPECIFIC****************************/
 				}else if(uiType.equalsIgnoreCase("Angular4")){
 					createAngular4Templates(projectContainer, projectName);
+					addNewTabsToAngular4AppComponentPage(projectContainer, pageThree.getDomainClassName());
 				}else{
 					/**************VUEJS SPECIFIC****************************/
 					createVueTemplates(projectContainer, projectName);
@@ -297,6 +298,41 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		return buffer;
 	}
 	
+	private void addNewTabsToAngular4AppComponentPage(IContainer projectContainer, String domainClassName) throws Exception{
+		IFolder indexFolder = projectContainer.getFolder(new Path("src/ui/src/app"));
+		IFile appComponentHTMLFile = indexFolder.getFile("app.component.html");
+		File file = appComponentHTMLFile.getRawLocation().toFile();
+		String modifiedFile = FileUtils.readFileToString(file);
+		
+		//String fileContents = FileUtils.readFileToString(new File("/home/oleng/MyStuff/tmp1/app.component.html"), "UTF8");
+		//String whenRegex = "import\\s*\\{.*;";
+		String whenRegex = "<li\\s*routerLink\\S*>.*</li>";
+		Pattern whenPattern = Pattern.compile(whenRegex, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE );
+		
+		int positionToInsert = -1;
+		Matcher matcher = whenPattern.matcher(modifiedFile);
+		
+		while(matcher.find()){
+			String group = matcher.group(0);
+			System.out.println(group);
+			positionToInsert = matcher.end();
+		}
+		
+		StringBuffer buffer = new StringBuffer(modifiedFile);
+		if(positionToInsert > -1){
+			buffer = new StringBuffer(modifiedFile);
+			//<li><router-link to='/accounts'>Accounts List</router-link></li>
+			String stringToInsert = "          <li routerLinkActive=\"active\"><a routerLink=\"/" + domainClassName.toLowerCase() + 
+					"s\">" + domainClassName + " List</a></li>";
+			buffer.insert(positionToInsert, "\n" +  stringToInsert);
+		}
+		
+		modifiedFile =  buffer.toString();
+		InputStream modifiedFileContent = new ByteArrayInputStream(modifiedFile.getBytes());
+		appComponentHTMLFile.setContents(modifiedFileContent, IFile.FORCE, new NullProgressMonitor());
+		appComponentHTMLFile.refreshLocal(IFile.DEPTH_ZERO, new NullProgressMonitor());
+	}
+	
 	private void addNewTabsToVueAppPage(IContainer projectContainer, String domainClassName) throws Exception{
 		IFolder indexFolder = projectContainer.getFolder(new Path("src/ui/src"));
 		IFile indexJSPFile = indexFolder.getFile("App.vue");
@@ -324,7 +360,6 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		}
 		
 		modifiedFile =  buffer.toString();
-		
 		
 		InputStream modifiedFileContent = new ByteArrayInputStream(modifiedFile.getBytes());
 		indexJSPFile.setContents(modifiedFileContent, IFile.FORCE, new NullProgressMonitor());

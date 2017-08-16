@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule} from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { APP_BASE_HREF} from '@angular/common';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { ${domainClassName}ListComponent } from './${domainObjectName}/${domainObjectName}-list/${domainObjectName}-list.component';
@@ -27,7 +28,8 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    HttpModule
   ],
   providers: [{provide: APP_BASE_HREF, useValue: '/${projectName}'}, ${domainClassName}Service],
   bootstrap: [AppComponent]

@@ -1,3 +1,4 @@
+VUE JS SECTION-------------------------------------------------------------------------------------------------- 
 For Vue Projects Only
 1.  setup these maven builds
 		a.  mvn clean install  #this will build the 'deployable/' VUE distribution files  and copy them to where Spring Boot expects them.
@@ -9,7 +10,15 @@ For Vue Projects Only
 	
 But if you want to stay in 'development mode' you have to:
 1.  run "npm run dev" from the command line in the 'src/ui' folder
- 	
+END OF VUE JS SECTION-------------------------------------------------------------------------------------------------- 	
+
+ANGULAR4 SECTION------------------------------------------------------------------------------------------------------
+Running:
+From console: ng serve --proxy-config proxy.conf.json
+
+local URL: localhost:4200/<web context>
+
+END OF ANGULAR4 SECTION-----------------------------------------------------------------------------------------------
 
 Libs Used For Backbone:
 1.  BackboneJS

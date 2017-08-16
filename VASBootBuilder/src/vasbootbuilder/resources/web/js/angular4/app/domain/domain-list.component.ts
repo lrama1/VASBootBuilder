@@ -15,7 +15,16 @@ export class ${domainClassName}ListComponent implements OnInit {
 
   ngOnInit() {
     console.log('invoking ${domainClassName} Service');
-    this.listOf${domainClassName}s = this.${domainObjectName}Service.getAll${domainClassName}s();
+    //this.listOf${domainClassName}s = this.${domainObjectName}Service.getAll${domainClassName}s();
+    this.${domainObjectName}Service.getAll${domainClassName}s().subscribe(
+      (response) => {
+        this.listOf${domainClassName}s = response.json().rows;
+        console.log('start of results..');
+        console.log(response.json().rows);
+        console.log('end of results.');
+        },
+      (error) => { console.log(error); }
+    );
   }
 
 }
