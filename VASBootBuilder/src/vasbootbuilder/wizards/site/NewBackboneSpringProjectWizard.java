@@ -184,6 +184,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 		mapOfValues.put("oracleNames", pageThree.getOracleDerivedNamesForTableAndAttrs());		
 		mapOfValues.put("fieldTypes", pageThree.getFieldTypes());
 		mapOfValues.put("vueComponentTagName", createComponentTag(domainClassName));
+		mapOfValues.put("uiType",pageFive.getUIType());
 		
 		final String controllerClassName = domainClassName + "Controller";
 		//final String mainControllerSourceCode = pageThree.getMainControllerSource(controllerPackageName, utilPackageName);
@@ -820,8 +821,12 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 					TemplateMerger.merge("/vasbootbuilder/resources/other/env_local.properties-template", proj.getName(),params.getBasePackageName(),params.getControllerPackageName(), params.getUtilPackageName()), monitor);
 
 			
-			CommonUtils.addFileToProject(container, new Path("readme.txt"),
+			/*CommonUtils.addFileToProject(container, new Path("readme.txt"),
 					TemplateMerger.merge("/vasbootbuilder/resources/other/readme.txt-template", proj.getName(),params.getBasePackageName(),params.getControllerPackageName(), params.getUtilPackageName()), monitor);
+					*/
+			
+			CommonUtils.addFileToProject(container, new Path("readme.txt"),
+					TemplateMerger.merge("/vasbootbuilder/resources/other/readme.txt-template", mapOfValues), monitor);
 	
 			/* Add Test Data in an external text file*/
 			StringWriter sampleDataStringWriter = new StringWriter();

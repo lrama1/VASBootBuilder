@@ -1,5 +1,5 @@
 {
-  "/${projectName}/[a-z]*": {
+  "/${projectName}/[a-z]**": {
     "target": "http://localhost:8000",
     "secure": false,
     "logLevel": "debug"

@@ -1,3 +1,5 @@
+
+#if(${uiType} == 'VueJS')
 VUE JS SECTION-------------------------------------------------------------------------------------------------- 
 For Vue Projects Only
 1.  setup these maven builds
@@ -10,8 +12,12 @@ For Vue Projects Only
 	
 But if you want to stay in 'development mode' you have to:
 1.  run "npm run dev" from the command line in the 'src/ui' folder
-END OF VUE JS SECTION-------------------------------------------------------------------------------------------------- 	
+2.  navigate to localhost:8000/<context>/home
 
+END OF VUE JS SECTION-------------------------------------------------------------------------------------------------- 	
+#end
+
+#if(${uiType} == 'Angular4')
 ANGULAR4 SECTION------------------------------------------------------------------------------------------------------
 Running:
 From console: ng serve --proxy-config proxy.conf.json
@@ -19,7 +25,9 @@ From console: ng serve --proxy-config proxy.conf.json
 local URL: localhost:4200/<web context>
 
 END OF ANGULAR4 SECTION-----------------------------------------------------------------------------------------------
+#end
 
+#if(${uiType} == 'BackboneJS')
 Libs Used For Backbone:
 1.  BackboneJS
 2.  Backgrid - for rendering data in a grid
@@ -51,7 +59,7 @@ Deploying Optimized Javascripts
     0.  Change the index JSP.  Comment out the line which points to the
          non-optimized main.js and Uncomment the line below it (which points to the optimized one).
     1.  Maven Build (clean compile).  By default the build will optimize all JS files    
-    
+#end    
     
 XSS Testers
 \"/><script>alert('test');</script>

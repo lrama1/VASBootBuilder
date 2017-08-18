@@ -1,8 +1,8 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 import { Component, OnInit } from '@angular/core';
-import {${domainClassName}Service} from '../${domainObjectName}.service';
-import {${domainClassName}} from '../${domainObjectName}.model';
-import {ActivatedRoute} from "@angular/router";
+import { ${domainClassName}Service } from '../${domainObjectName}.service';
+import { ${domainClassName} } from '../${domainObjectName}.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-${domainObjectName}-edit',
@@ -17,8 +17,10 @@ export class ${domainClassName}EditComponent implements OnInit {
   ngOnInit() {
     // param name should match what you defined in appRoutes
     console.log('loading ${domainObjectName}:' + this.route.snapshot.params['id']);
-    const ${domainObjectName}Found = this.${domainObjectName}Service.get${domainClassName}(this.route.snapshot.params['id']);
-    this.${domainObjectName} = ${domainObjectName}Found;
+    this.${domainObjectName}Service.get${domainClassName}(this.route.snapshot.params['id']).subscribe(
+      (response) => { this.${domainObjectName} = response.json(); },
+      (error) => { console.log(error); }
+    );
   }
 
   save${domainClassName}() {

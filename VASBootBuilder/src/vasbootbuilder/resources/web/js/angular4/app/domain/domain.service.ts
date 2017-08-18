@@ -17,11 +17,7 @@ export class ${domainClassName}Service implements OnInit{
   }
 
   get${domainClassName} (id: string) {
-    for (const ${domainObjectName} of this.${domainObjectName}s){
-      if (${domainObjectName}.$domainClassIdAttributeName === id){
-        return ${domainObjectName};
-      }
-    }
+    return this.http.get('/${projectName}/${domainObjectName}/' + id);
   }
 
   getAll${domainClassName}s () {
