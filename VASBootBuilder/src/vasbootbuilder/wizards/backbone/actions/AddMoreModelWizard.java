@@ -197,6 +197,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		mapOfValues.put("projectName", projectName);
 		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
 		mapOfValues.put("attrs", pageThree.getModelAttributes());
+		mapOfValues.put("fieldTypes", pageThree.getFieldTypes());
 		//create the folders
 		IFolder domainFolder = projectContainer.getFolder(new Path("src/ui/src/app/" + domainName));
 		domainFolder.create(false, true, new NullProgressMonitor());
@@ -405,6 +406,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		mapOfValues.put("projectName", projectName);
 		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
 		mapOfValues.put("attrs", pageThree.getModelAttributes());
+		mapOfValues.put("fieldTypes", pageThree.getFieldTypes());
 
 		CommonUtils.addFileToProject(vueTemplatesFolder, new Path(domainClassName  + ".vue"), 
 				TemplateMerger.merge("/vasbootbuilder/resources/web/js/vue/DomainEditor-template.vue", mapOfValues), new NullProgressMonitor());

@@ -3,11 +3,19 @@
 <template>
 	<div class="row">
 		#foreach($key in $attrs.keySet() )
-		<div class="form-group">
+        <div class="form-group">
 	    	<label for="${key}">${key}</label>
+	    	#if ($fieldTypes.get($key) == "TextField")
 	    	<input type="text" class="form-control" id="${key}" name="${key}" v-validate="'required'" data-vv-as="${key.toUpperCase()}" v-model="${domainObjectName}.${key}">
+	    	#elseif ($fieldTypes.get($key) == "DropDown")
+	    	<select class="form-control" v-model="${domainObjectName}.${key}">
+              <option v-for="option in ${key.toLowerCase()}s" v-bind:value="option.name">{{option.value}}</option>
+            </select>
+	    	#elseif ($fieldTypes.get($key) == "TextArea")
+	    	<textarea rows="4" cols="60" class="form-control"  id="${key}" name='${key}' v-model="${domainObjectName}.${key}"></textarea>
+	    	#end
 	    	<span v-show="errors.has('${key}')">{{ errors.first('${key}') }}</span>
-	  	</div>
+        </div>
 	  	#end 
 	  	<div>
 	  		<button type="button" class="btn btn-primary" v-bind:disabled="saveDisabled" @click="save${domainClassName}">Save</button>
@@ -24,8 +32,18 @@
         firstName: '',
         lastName: ''
       }
+      #foreach($key in $attrs.keySet() )		
+      #if ($fieldTypes.get($key) == "DropDown")
+	  let ${key.toLowerCase()}s	= []
+      #end
+      #end	
       return {
         ${domainObjectName}
+        #foreach($key in $attrs.keySet() )
+        #if ($fieldTypes.get($key) == "DropDown")
+		, ${key.toLowerCase()}s	
+		#end
+        #end
       }
     },
     created () {
@@ -40,6 +58,17 @@
           console.log('Error:' + response.statusText)
         })
       }
+      #foreach($key in $attrs.keySet() )		
+		#if ($fieldTypes.get($key) == "DropDown")
+			var resource${foreach.index} = this.$resource('/${projectName}/${key.toLowerCase()}s')
+	        resource${foreach.index}.query().then((response) => {
+	          this.${key.toLowerCase()}s = response.data
+	        }, (response) => {
+	        // error callback
+	          console.log('Error:' + response.statusText)
+	        })
+		#end
+	  #end
     },
     computed: {
     	saveDisabled(){
