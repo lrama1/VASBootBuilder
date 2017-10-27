@@ -12,8 +12,9 @@ export class ${domainClassName}Service implements OnInit{
   ngOnInit() {
   }
 
-  saveNew${domainClassName}(${domainObjectName}ToSave: ${domainClassName}) {
+  save${domainClassName}(${domainObjectName}ToSave: ${domainClassName}) {
     this.${domainObjectName}s.push(${domainObjectName}ToSave);
+    return this.http.put('/${projectName}/${domainObjectName}/' + ${domainObjectName}ToSave.${domainClassIdAttributeName}, ${domainObjectName}ToSave);
   }
 
   get${domainClassName} (id: string) {

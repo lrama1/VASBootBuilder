@@ -26,4 +26,4 @@ const router = new VueRouter({
 })
 
 const App1 = Vue.extend(App)
-new App1({router}).$mount('#app')
+new App1({router}).$mount('#app${projectName}')

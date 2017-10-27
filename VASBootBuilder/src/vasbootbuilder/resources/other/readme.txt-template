@@ -2,6 +2,7 @@
 #if(${uiType} == 'VueJS')
 VUE JS SECTION-------------------------------------------------------------------------------------------------- 
 For Vue Projects Only
+Production Mode
 1.  setup these maven builds
 		a.  mvn clean install  #this will build the 'deployable/' VUE distribution files  and copy them to where Spring Boot expects them.
 	    b.  mvn spring-boot:run
@@ -9,7 +10,7 @@ For Vue Projects Only
 2.  Access local URL
 	localhost:8000/<context>/index.html
 	
-	
+Development Mode	
 But if you want to stay in 'development mode' you have to:
 1.  run "npm run dev" from the command line in the 'src/ui' folder
 2.  navigate to localhost:8000/<context>/home

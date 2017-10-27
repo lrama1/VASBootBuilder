@@ -3,7 +3,8 @@
 <template>
 	<div class="row">
 		#foreach($key in $attrs.keySet() )
-        <div class="form-group">
+        <div class="col-md-12">
+          <div class="form-group">
 	    	<label for="${key}">${key}</label>
 	    	#if ($fieldTypes.get($key) == "TextField")
 	    	<input type="text" class="form-control" id="${key}" name="${key}" v-validate="'required'" data-vv-as="${key.toUpperCase()}" v-model="${domainObjectName}.${key}">
@@ -15,12 +16,15 @@
 	    	<textarea rows="4" cols="60" class="form-control"  id="${key}" name='${key}' v-model="${domainObjectName}.${key}"></textarea>
 	    	#end
 	    	<span v-show="errors.has('${key}')">{{ errors.first('${key}') }}</span>
+          </div>
         </div>
-	  	#end 
-	  	<div>
-	  		<button type="button" class="btn btn-primary" v-bind:disabled="saveDisabled" @click="save${domainClassName}">Save</button>
-	  		<button type="button" class="btn btn-primary" v-bind:disabled="saveDisabled" @click="update${domainClassName}">Update</button>
-		</div>
+	  	#end
+        <div class="col-md-12"> 
+          <div>
+            <button type="button" class="btn btn-primary" v-bind:disabled="saveDisabled" @click="save${domainClassName}">Save</button>
+            <button type="button" class="btn btn-primary" v-bind:disabled="saveDisabled" @click="update${domainClassName}">Update</button>
+          </div>
+        </div>
 	  	
 	</div>
 </template>

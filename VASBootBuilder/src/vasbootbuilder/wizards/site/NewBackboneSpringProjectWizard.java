@@ -627,8 +627,13 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/vue/root/x.eslintignore"), monitor);
 				CommonUtils.addFileToProject(folders.get("src/ui"), new Path(".eslintrc.js"), 
 						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/vue/root/x.eslintrc.js"), monitor);
+				
+				//CommonUtils.addFileToProject(folders.get("src/ui"), new Path("index.html"), 
+				//		this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/vue/root/index.html"), monitor);
 				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("index.html"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/vue/root/index.html"), monitor);
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/vue/root/index.html", mapOfValues), monitor);
+				
+				
 				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("package.json"), 
 						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/vue/root/package.json"), monitor);
 				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("README.md"), 

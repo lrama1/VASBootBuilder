@@ -17,7 +17,8 @@ Import VuePaginator from 'vuejs-paginator'
 				</thead>
 				<tbody>
 					<tr v-for="${domainObjectName} in listOf${domainClassName}s">
-				          <td><a v-bind:href="'#/${domainObjectName}/' + ${domainObjectName}.${domainClassIdAttributeName}">E</a></td>
+				          <!--td><a v-bind:href="'#/${domainObjectName}/' + ${domainObjectName}.${domainClassIdAttributeName}">E</a></td-->
+				          <td><a @click="editRecord(${domainObjectName}.${domainClassIdAttributeName})">Edit</a></td>
 				          #foreach($key in $attrs.keySet() )
 							<td>{{${domainObjectName}.${key}}}</td>
 						  #end
@@ -59,6 +60,10 @@ Import VuePaginator from 'vuejs-paginator'
       dummyFunction () {
         console.log('dummy')
       },
+      editRecord(id){
+          alert(id)
+		  this.#[[$router]]#.push('/${domainObjectName}/' + id)
+	  },
       previousPage () {
       	  this.currentPage = this.currentPage - 1
       	  var resource = this.$resource('/${projectName}/${domainObjectName.toLowerCase()}s')

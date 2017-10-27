@@ -10,7 +10,16 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./${domainObjectName}-edit.component.css']
 })
 export class ${domainClassName}EditComponent implements OnInit {
-  ${domainObjectName}: ${domainClassName};
+  ${domainObjectName}: ${domainClassName} = new ${domainClassName}(
+  #set($index = 0)
+  #foreach($key in $attrs.keySet() )
+  #if($index == 0)
+  '' 
+  #else##
+  , '' #end##
+  #set($index = $index + 1)
+  #end
+  );
 
   constructor(private ${domainObjectName}Service: ${domainClassName}Service, private route: ActivatedRoute) { }
 
@@ -24,7 +33,10 @@ export class ${domainClassName}EditComponent implements OnInit {
   }
 
   save${domainClassName}() {
-    this.${domainObjectName}Service.saveNew${domainClassName}(this.${domainObjectName});
+    this.${domainObjectName}Service.save${domainClassName}(this.${domainObjectName}).subscribe(
+      (response) => { this.${domainObjectName} = response.json(); },
+      (error) => { console.log(error); }
+    );
   }
 
 }
