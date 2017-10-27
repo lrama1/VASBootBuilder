@@ -456,6 +456,8 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular/tern-project", mapOfValues), monitor);
 			}else if(params.getUiType().equalsIgnoreCase("Angular4")){
 				//ANGULAR4 Components
+				CommonUtils.addFileToProject(container, new Path("npm-build.sh"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/other/npm-build.sh", mapOfValues), monitor);
 				
 				//non-templated files
 				CommonUtils.addFileToProject(folders.get("src/ui/src/environments"), new Path("environment.prod.ts"), 
@@ -494,8 +496,9 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other2/tsconfig.json"), monitor);
 				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("tslint.json"), 
 						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other2/tslint.json"), monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui"), new Path(".angular-cli.json"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other2/x.angular-cli.json"), monitor);
+				//CommonUtils.addFileToProject(folders.get("src/ui"), new Path(".angular-cli.json"), 
+				//		this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other2/x.angular-cli.json"), monitor);
+				
 				CommonUtils.addFileToProject(folders.get("src/ui"), new Path(".editorconfig"), 
 						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/angular4/other2/x.editorconfig"), monitor);
 				CommonUtils.addFileToProject(folders.get("src/ui"), new Path(".gitignore"), 
@@ -518,6 +521,9 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 				
 				
 				//template files
+				CommonUtils.addFileToProject(folders.get("src/ui"), new Path(".angular-cli.json"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/other2/x.angular-cli.json", mapOfValues), monitor);
+				
 				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("proxy.conf.json"), 
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/other2/proxy.conf.json", mapOfValues), monitor);
 				
