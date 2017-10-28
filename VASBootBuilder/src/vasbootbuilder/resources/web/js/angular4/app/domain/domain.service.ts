@@ -21,8 +21,8 @@ export class ${domainClassName}Service implements OnInit{
     return this.http.get('/${projectName}/${domainObjectName}/' + id);
   }
 
-  getAll${domainClassName}s () {
+  get${domainClassName}s (page: number, pageSize: number) {
     //return this.${domainObjectName}s;
-    return this.http.get('/${projectName}/${domainObjectName}s?page=1&per_page=3');
+    return this.http.get('/${projectName}/${domainObjectName}s?page=' + page + '&per_page=' + pageSize);
   }
 }

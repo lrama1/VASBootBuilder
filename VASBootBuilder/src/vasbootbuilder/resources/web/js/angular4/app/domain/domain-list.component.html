@@ -10,5 +10,10 @@
     </tr>
   </tbody>
 </table>
-
+<div class="col-md-12">
+  <ul class="pager">
+    <li *ngIf="currentPage > 1"><a  (click)="previousPage()">Previous</a></li>
+    <li *ngIf="currentPage < lastPage"><a  (click)="nextPage()">Next</a></li>
+  </ul>
+</div>
 

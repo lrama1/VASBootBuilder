@@ -1,8 +1,12 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 #foreach($key in $attrs.keySet() )
 <div class="row">
-  <div class="col-sm-2">${key}</div>
-  <div class="col-sm-4"><input type="text" [(ngModel)]="${domainObjectName}.${key}"></div>
+  <div class="col-md-12">
+    <div class="form-group">
+      <label for="${key}">${key}</label>
+      <div ><input type="text" id="${key}"  class="form-control" [(ngModel)]="${domainObjectName}.${key}"></div>
+    </div>
+  </div>
 </div>
 #end
 <div class="row">
