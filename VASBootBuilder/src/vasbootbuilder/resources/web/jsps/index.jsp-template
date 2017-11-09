@@ -60,7 +60,7 @@
 		<div class="row">
 			<div class="col-md-12" id="bodyContainer">
 				<p>
-					<spring:message code="welcome.message"/>
+					
 				</p>
 			</div>
 		</div>
