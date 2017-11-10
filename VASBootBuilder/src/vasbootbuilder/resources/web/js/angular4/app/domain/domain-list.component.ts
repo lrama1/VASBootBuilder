@@ -1,12 +1,12 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 import { Component, OnInit } from '@angular/core';
-import {${domainClassName}Service} from "../${domainObjectName}.service";
-import {${domainClassName}} from "../${domainObjectName}.model";
+import {${domainClassName}Service} from "../${domainObjectName.toLowerCase()}.service";
+import {${domainClassName}} from "../${domainObjectName.toLowerCase()}.model";
 
 @Component({
-  selector: 'app-${domainObjectName}-list',
-  templateUrl: './${domainObjectName}-list.component.html',
-  styleUrls: ['./${domainObjectName}-list.component.css']
+  selector: 'app-${domainObjectName.toLowerCase()}-list',
+  templateUrl: './${domainObjectName.toLowerCase()}-list.component.html',
+  styleUrls: ['./${domainObjectName.toLowerCase()}-list.component.css']
 })
 export class ${domainClassName}ListComponent implements OnInit {
 

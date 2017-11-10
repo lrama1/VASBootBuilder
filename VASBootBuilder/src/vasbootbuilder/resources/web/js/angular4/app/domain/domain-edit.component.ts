@@ -1,13 +1,13 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 import { Component, OnInit } from '@angular/core';
-import { ${domainClassName}Service } from '../${domainObjectName}.service';
-import { ${domainClassName} } from '../${domainObjectName}.model';
+import { ${domainClassName}Service } from '../${domainObjectName.toLowerCase()}.service';
+import { ${domainClassName} } from '../${domainObjectName.toLowerCase()}.model';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-${domainObjectName}-edit',
-  templateUrl: './${domainObjectName}-edit.component.html',
-  styleUrls: ['./${domainObjectName}-edit.component.css']
+  selector: 'app-${domainObjectName.toLowerCase()}-edit',
+  templateUrl: './${domainObjectName.toLowerCase()}-edit.component.html',
+  styleUrls: ['./${domainObjectName.toLowerCase()}-edit.component.css']
 })
 export class ${domainClassName}EditComponent implements OnInit {
   ${domainObjectName}: ${domainClassName} = new ${domainClassName}(

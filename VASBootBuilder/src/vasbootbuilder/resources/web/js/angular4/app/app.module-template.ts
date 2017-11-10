@@ -7,9 +7,9 @@ import { APP_BASE_HREF} from '@angular/common';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { ${domainClassName}ListComponent } from './${domainObjectName}/${domainObjectName}-list/${domainObjectName}-list.component';
-import { ${domainClassName}EditComponent } from './${domainObjectName}/${domainObjectName}-edit/${domainObjectName}-edit.component';
-import {${domainClassName}Service} from './${domainObjectName}/${domainObjectName}.service';
+import { ${domainClassName}ListComponent } from './${domainObjectName.toLowerCase()}/${domainObjectName.toLowerCase()}-list/${domainObjectName.toLowerCase()}-list.component';
+import { ${domainClassName}EditComponent } from './${domainObjectName.toLowerCase()}/${domainObjectName.toLowerCase()}-edit/${domainObjectName.toLowerCase()}-edit.component';
+import {${domainClassName}Service} from './${domainObjectName.toLowerCase()}/${domainObjectName.toLowerCase()}.service';
 import { HomeComponent } from './home/home.component';
 
 const appRoutes: Routes = [
