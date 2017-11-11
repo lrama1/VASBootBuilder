@@ -3,13 +3,12 @@ package  ${basePackageName}.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.security.Principal;
 import javax.annotation.Resource;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 //import the domain
 import ${basePackageName}.web.domain.$domainClassName;
@@ -24,7 +23,7 @@ import org.springframework.context.MessageSource;
 import java.util.List;
 import java.util.ArrayList;
 
-@Controller
+@RestController
 public class ${domainClassName}Controller {	
 
 	#set($serviceObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)} + "Service")
@@ -38,7 +37,7 @@ public class ${domainClassName}Controller {
 		
 	@PreAuthorize("@sampleUserDetailsService.isAuthorizedToAccessData(#id)")	
 	@RequestMapping(value = "/$domainClassName.toLowerCase()/{id}", method = RequestMethod.GET)
-	public @ResponseBody $domainClassName get$domainClassName(@PathVariable("id") String id, Principal principal){
+	public $domainClassName get$domainClassName(@PathVariable("id") String id, Principal principal){
 		Authentication authenticationToken = (Authentication)principal;
 		SampleUserDetails user = (SampleUserDetails)authenticationToken.getPrincipal();		
 		${domainClassName} ${domainObjectName} =
@@ -51,21 +50,20 @@ public class ${domainClassName}Controller {
 	
 	@PreAuthorize("@sampleUserDetailsService.isAuthorizedToAccessData(#${domainObjectName})")
 	@RequestMapping(value = "/${domainClassName.toLowerCase()}", headers = {"accept=application/json"}, method = RequestMethod.POST)
-	public @ResponseBody ${domainClassName} saveNew${domainClassName}(@RequestBody ${domainClassName} ${domainObjectName}){		
+	public ${domainClassName} saveNew${domainClassName}(@RequestBody ${domainClassName} ${domainObjectName}){		
 		${serviceObjectName}.saveNew${domainClassName}(${domainObjectName});
 		return ${domainClassName.substring(0,1).toLowerCase()}${domainClassName.substring(1)};
 	}
 	
 	@PreAuthorize("@sampleUserDetailsService.isAuthorizedToAccessData(#${domainObjectName})")
 	@RequestMapping(value = "/${domainClassName.toLowerCase()}/{id}", headers = {"accept=application/json"}, method = RequestMethod.PUT)
-	public  @ResponseBody ${domainClassName}  update${domainClassName}(@RequestBody ${domainClassName} ${domainObjectName}){
+	public ${domainClassName}  update${domainClassName}(@RequestBody ${domainClassName} ${domainObjectName}){
 		${serviceObjectName}.save${domainClassName}(${domainObjectName});
 		return ${domainObjectName};
 	}
 	
 	@RequestMapping("/${domainClassName.toLowerCase()}s")
-	public @ResponseBody
-	ListWrapper<${domainClassName}> getAll${domainClassName}s(
+	public ListWrapper<${domainClassName}> getAll${domainClassName}s(
 			@RequestParam("page") int pageNumber,
 			@RequestParam("per_page") int pageSize,
 			@RequestParam(value = "sort_by", required = false) String sortByAttributeName,
