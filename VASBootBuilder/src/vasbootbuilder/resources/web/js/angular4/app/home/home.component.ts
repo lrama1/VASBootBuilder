@@ -1,4 +1,6 @@
+#set($domainObjectNameL = ${domainClassName.toLowerCase()})
 import { Component, OnInit } from '@angular/core';
+import {${domainClassName}ListComponent } from "../${domainObjectNameL}/${domainObjectNameL}-list/${domainObjectNameL}-list.component";
 
 @Component({
   selector: 'app-home',
