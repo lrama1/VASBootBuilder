@@ -1,5 +1,4 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 <p>
-  home works!
-  <app-${domainObjectName.toLowerCase()}-list></app-${domainObjectName.toLowerCase()}-list>
+  <app-${domainObjectName.toLowerCase()}-list titleToDisplay="Title Attr Passed to Component"></app-${domainObjectName.toLowerCase()}-list>
 </p>

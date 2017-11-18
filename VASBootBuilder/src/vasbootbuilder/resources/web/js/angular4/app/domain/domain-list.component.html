@@ -1,4 +1,7 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
+<div>
+<h1>{{titleToDisplay}}</h1>
+<!-- 
 <table class="table">
   <thead>
     <tr>
@@ -23,4 +26,16 @@
     <li *ngIf="currentPage < lastPage"><a  (click)="nextPage()">Next</a></li>
   </ul>
 </div>
-
+-->
+  <p-dataTable [value]="listOf${domainClassName}s" [rows]="5" [paginator]="true" [pageLinks]="3"
+               [lazy]="true"  [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" [rowsPerPageOptions]="[5,10,20]">         
+     <p-column styleClass="col-button">
+      <ng-template let-objectToEdit="rowData" pTemplate="body">
+        <button type="button" pButton (click)="editRow(objectToEdit)" icon="fa-search"></button>
+      </ng-template>
+    </p-column>
+     #foreach($key in $attrs.keySet() )      
+      <p-column field="${key}" header="${key.toUpperCase()}"></p-column>
+      #end          
+  </p-dataTable>
+</div>

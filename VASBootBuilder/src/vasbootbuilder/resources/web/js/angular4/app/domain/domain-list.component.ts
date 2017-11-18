@@ -1,7 +1,9 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
-import { Component, OnInit } from '@angular/core';
-import {${domainClassName}Service} from "../${domainObjectName.toLowerCase()}.service";
-import {${domainClassName}} from "../${domainObjectName.toLowerCase()}.model";
+import { Component, OnInit, Input } from '@angular/core';
+import {${domainClassName}Service} from '../${domainObjectName.toLowerCase()}.service';
+import {${domainClassName}} from '../${domainObjectName.toLowerCase()}.model';
+import {LazyLoadEvent} from 'primeng/primeng';
+import { Router} from '@angular/router';
 
 @Component({
   selector: 'app-${domainObjectName.toLowerCase()}-list',
@@ -14,8 +16,11 @@ export class ${domainClassName}ListComponent implements OnInit {
   currentPage = 1;
   pageSize = 5;
   lastPage = 1;
+  totalRecords = 0;
+  // attribute that can be set by the parent component
+  @Input() titleToDisplay: string;
   
-  constructor(private ${domainObjectName}Service: ${domainClassName}Service) { }
+  constructor(private ${domainObjectName}Service: ${domainClassName}Service, private router: Router) { }
 
   ngOnInit() {
     console.log('invoking ${domainClassName} Service');
@@ -24,6 +29,28 @@ export class ${domainClassName}ListComponent implements OnInit {
       (response) => {
         this.listOf${domainClassName}s = response.json().rows;
         this.lastPage = response.json().lastPage;
+        this.totalRecords = response.json().totalRecords;
+        console.log('start of results..');
+        console.log(response.json().rows);
+        console.log('end of results.');
+        },
+      (error) => { console.log(error); }
+    );
+  }
+  
+  editRow(${domainObjectName}: ${domainClassName}){
+    this.router.navigateByUrl('/${domainObjectName}/' + $domainObjectName.${domainClassIdAttributeName});
+  }
+
+  loadPage(event: LazyLoadEvent) {
+    const page = (event.first / event.rows) + 1;
+    console.log('invoking ${domainClassName} Service');
+    //this.listOf${domainClassName}s = this.${domainObjectName}Service.getAll${domainClassName}s();
+    this.${domainObjectName}Service.get${domainClassName}s(page, event.rows).subscribe(
+      (response) => {
+        this.listOf${domainClassName}s = response.json().rows;
+        this.lastPage = response.json().lastPage;
+        this.totalRecords = response.json().totalRecords;
         console.log('start of results..');
         console.log(response.json().rows);
         console.log('end of results.');
