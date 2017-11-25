@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { APP_BASE_HREF} from '@angular/common';
 import { HttpModule } from '@angular/http';
 
-import {DataTableModule, SharedModule} from 'primeng/primeng';
+import { ButtonModule, DataTableModule, PanelModule, SharedModule } from 'primeng/primeng';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { ${domainClassName}ListComponent } from './${domainObjectName.toLowerCase()}/${domainObjectName.toLowerCase()}-list/${domainObjectName.toLowerCase()}-list.component';
@@ -34,7 +34,9 @@ const appRoutes: Routes = [
     HttpModule,
     DataTableModule,
     SharedModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    PanelModule,
+    ButtonModule
   ],
   providers: [{provide: APP_BASE_HREF, useValue: '/${projectName}'}, ${domainClassName}Service],
   bootstrap: [AppComponent]
