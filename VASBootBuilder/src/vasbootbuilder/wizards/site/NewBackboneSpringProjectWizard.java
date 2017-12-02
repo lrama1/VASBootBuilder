@@ -458,6 +458,8 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 				//ANGULAR4 Components
 				CommonUtils.addFileToProject(container, new Path("npm-build.sh"), 
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/other/npm-build.sh", mapOfValues), monitor);
+				CommonUtils.addFileToProject(container, new Path("npm-build.cmd"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/other/npm-build.cmd", mapOfValues), monitor);
 				
 				//non-templated files
 				CommonUtils.addFileToProject(folders.get("src/ui/src/environments"), new Path("environment.prod.ts"), 
