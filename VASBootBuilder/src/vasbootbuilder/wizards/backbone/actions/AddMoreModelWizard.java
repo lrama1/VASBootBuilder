@@ -238,8 +238,8 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 	}
 	
 	private void addNewRoutesToAngular4Router(IContainer projectContainer, String domainClassName) throws Exception{
-		String routesToAdd = ",\n  { path: '" + domainClassName.toLowerCase() + "/:id', component: " + domainClassName + "EditComponent },\n" +
-				"  { path: '" + domainClassName.toLowerCase() + "s', component: " + domainClassName + "ListComponent}";
+		String routesToAdd = "{ path: '" + domainClassName.toLowerCase() + "/:id', component: " + domainClassName + "EditComponent },\n" +
+				"  { path: '" + domainClassName.toLowerCase() + "s', component: " + domainClassName + "ListComponent},\n";
 		IFolder jsFolder = projectContainer.getFolder(new Path("src/ui/src/app"));
 		IFile appModuleFile = jsFolder.getFile("app.module.ts");
 		File file = appModuleFile.getRawLocation().toFile();
@@ -247,22 +247,23 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		String fileContents = FileUtils.readFileToString(file);
 		
 		//insert to routes expression
-		String whenRegex = "path\\s*:.*}";
+		//String whenRegex = "path\\s*:.*}";
+		String whenRegex = "\\{\\s*path\\s*:.*}";
 		Pattern whenPattern = Pattern.compile(whenRegex, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);		
-		StringBuffer buffer = insertAngular4Code(routesToAdd, fileContents, whenPattern);
+		StringBuffer buffer = prependToExpressionAngular4(routesToAdd, fileContents, whenPattern);
 		
 		//insert to declarations
 		whenRegex = "declarations\\s*:\\s*\\[.*";
 		whenPattern = Pattern.compile(whenRegex, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);		
 		String declarationsToInsert = domainClassName + "ListComponent,\n" +
 								domainClassName + "EditComponent,\n";
-		buffer = insertAngular4Code(declarationsToInsert, buffer.toString(), whenPattern);
+		buffer = appendToExpressionAngular4(declarationsToInsert, buffer.toString(), whenPattern);
 		
 		//insert to providers
 		whenRegex = "providers\\s*:\\s*\\[";
 		whenPattern = Pattern.compile(whenRegex, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);		
 		String providerToInsert =  domainClassName + "Service, ";
-		buffer = insertAngular4Code(providerToInsert, buffer.toString(), whenPattern);
+		buffer = appendToExpressionAngular4(providerToInsert, buffer.toString(), whenPattern);
 
 		String finalString = "import { " + domainClassName + "ListComponent } from './" + 
 				domainClassName.toLowerCase() +"/" + domainClassName.toLowerCase() + "-list/" +
@@ -281,7 +282,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		appModuleFile.refreshLocal(IFile.DEPTH_ZERO, new NullProgressMonitor());
 	}
 
-	private StringBuffer insertAngular4Code(String stringToInsert, String fileContents, Pattern whenPattern) {
+	private StringBuffer appendToExpressionAngular4(String stringToInsert, String fileContents, Pattern whenPattern) {
 		int positionToInsert = -1;
 		Matcher matcher = whenPattern.matcher(fileContents);
 		
@@ -289,6 +290,25 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 			String group = matcher.group(0);
 			System.out.println(group);
 			positionToInsert = matcher.end();
+		}
+		
+		StringBuffer buffer = new StringBuffer(fileContents);
+		if(positionToInsert > -1){
+			buffer = new StringBuffer(fileContents);
+			buffer.insert(positionToInsert, stringToInsert);
+		}
+		return buffer;
+	}
+	
+	private StringBuffer prependToExpressionAngular4(String stringToInsert, String fileContents, Pattern whenPattern) {
+		int positionToInsert = -1;
+		Matcher matcher = whenPattern.matcher(fileContents);
+		
+		if(matcher.find()){
+			String group = matcher.group(0);
+			System.out.println(group);
+			//positionToInsert = matcher.end();
+			positionToInsert = matcher.start();
 		}
 		
 		StringBuffer buffer = new StringBuffer(fileContents);

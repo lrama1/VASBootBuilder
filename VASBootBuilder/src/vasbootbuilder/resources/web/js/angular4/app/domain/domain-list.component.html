@@ -28,7 +28,7 @@
 </div>
 -->
   <p-dataTable [value]="listOf${domainClassName}s" [rows]="5" [paginator]="true" [pageLinks]="3"
-               [lazy]="true"  [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" [rowsPerPageOptions]="[5,10,20]">         
+               [lazy]="true"  [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" [rowsPerPageOptions]="[5,10,20]" [responsive]="true" [stacked]="stacked">         
      <p-column styleClass="col-button">
       <ng-template let-objectToEdit="rowData" pTemplate="body">
         <button type="button" pButton (click)="editRow(objectToEdit)" icon="fa-search"></button>

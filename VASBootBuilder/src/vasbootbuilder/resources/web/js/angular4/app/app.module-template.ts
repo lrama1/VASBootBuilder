@@ -14,10 +14,10 @@ import { ${domainClassName}EditComponent } from './${domainObjectName.toLowerCas
 import {${domainClassName}Service} from './${domainObjectName.toLowerCase()}/${domainObjectName.toLowerCase()}.service';
 import { HomeComponent } from './home/home.component';
 
-const appRoutes: Routes = [
-  { path: '', component: HomeComponent},
+const appRoutes: Routes = [  
   { path: '${domainObjectName}s', component: ${domainClassName}ListComponent},
-  { path: '${domainObjectName}/:id', component: ${domainClassName}EditComponent}
+  { path: '${domainObjectName}/:id', component: ${domainClassName}EditComponent},
+  { path: '', component: HomeComponent}
 ];
 
 @NgModule({
