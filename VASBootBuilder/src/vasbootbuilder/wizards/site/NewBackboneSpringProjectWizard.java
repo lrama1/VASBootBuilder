@@ -591,6 +591,9 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 				CommonUtils.addFileToProject(container, new Path("npm-build.sh"), 
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/vue/npm-build.sh", mapOfValues), monitor);
 				
+				CommonUtils.addFileToProject(container, new Path("npm-build.cmd"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/vue/npm-build.cmd", mapOfValues), monitor);
+				
 				//CommonUtils.addFileToProject(folders.get("src/ui"), new Path("runapp.cmd"), 
 				//		TemplateMerger.merge("/vasbootbuilder/resources/web/js/vue/runapp-template.cmd", mapOfValues), monitor);
 				CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF"), new Path("index.jsp"), 
