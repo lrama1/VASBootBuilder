@@ -27,14 +27,14 @@ export class ${domainClassName}EditComponent implements OnInit {
     // param name should match what you defined in appRoutes
     console.log('loading ${domainObjectName}:' + this.route.snapshot.params['id']);
     this.${domainObjectName}Service.get${domainClassName}(this.route.snapshot.params['id']).subscribe(
-      (response) => { this.${domainObjectName} = response.json(); },
+      (response) => { this.${domainObjectName} = response; },
       (error) => { console.log(error); }
     );
   }
 
   save${domainClassName}() {
     this.${domainObjectName}Service.save${domainClassName}(this.${domainObjectName}).subscribe(
-      (response) => { this.${domainObjectName} = response.json(); },
+      (response) => { this.${domainObjectName} = response; },
       (error) => { console.log(error); }
     );
   }

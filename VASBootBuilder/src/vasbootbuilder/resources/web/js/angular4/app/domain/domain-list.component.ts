@@ -27,12 +27,9 @@ export class ${domainClassName}ListComponent implements OnInit {
     //this.listOf${domainClassName}s = this.${domainObjectName}Service.getAll${domainClassName}s();
     this.${domainObjectName}Service.get${domainClassName}s(this.currentPage, this.pageSize).subscribe(
       (response) => {
-        this.listOf${domainClassName}s = response.json().rows;
-        this.lastPage = response.json().lastPage;
-        this.totalRecords = response.json().totalRecords;
-        console.log('start of results..');
-        console.log(response.json().rows);
-        console.log('end of results.');
+        this.listOf${domainClassName}s = response.rows;
+        this.lastPage = response.lastPage;
+        this.totalRecords = response.totalRecords;
         },
       (error) => { console.log(error); }
     );
@@ -48,12 +45,9 @@ export class ${domainClassName}ListComponent implements OnInit {
     //this.listOf${domainClassName}s = this.${domainObjectName}Service.getAll${domainClassName}s();
     this.${domainObjectName}Service.get${domainClassName}s(page, event.rows).subscribe(
       (response) => {
-        this.listOf${domainClassName}s = response.json().rows;
-        this.lastPage = response.json().lastPage;
-        this.totalRecords = response.json().totalRecords;
-        console.log('start of results..');
-        console.log(response.json().rows);
-        console.log('end of results.');
+        this.listOf${domainClassName}s = response.rows;
+        this.lastPage = response.lastPage;
+        this.totalRecords = response.totalRecords;
         },
       (error) => { console.log(error); }
     );
@@ -65,11 +59,8 @@ export class ${domainClassName}ListComponent implements OnInit {
     //this.listOf${domainClassName}s = this.${domainObjectName}Service.getAll${domainClassName}s();
     this.${domainObjectName}Service.get${domainClassName}s(this.currentPage, this.pageSize).subscribe(
       (response) => {
-        this.listOf${domainClassName}s = response.json().rows;
-        this.lastPage = response.json().lastPage;
-        console.log('start of results..');
-        console.log(response.json().rows);
-        console.log('end of results.');
+        this.listOf${domainClassName}s = response.rows;
+        this.lastPage = response.lastPage;
         },
       (error) => { console.log(error); }
     );
@@ -81,11 +72,8 @@ export class ${domainClassName}ListComponent implements OnInit {
     //this.listOf${domainClassName}s = this.${domainObjectName}Service.getAll${domainClassName}s();
     this.${domainObjectName}Service.get${domainClassName}s(this.currentPage, this.pageSize).subscribe(
       (response) => {
-        this.listOf${domainClassName}s = response.json().rows;
-        this.lastPage = response.json().lastPage;
-        console.log('start of results..');
-        console.log(response.json().rows);
-        console.log('end of results.');
+        this.listOf${domainClassName}s = response.rows;
+        this.lastPage = response.lastPage;
         },
       (error) => { console.log(error); }
     );

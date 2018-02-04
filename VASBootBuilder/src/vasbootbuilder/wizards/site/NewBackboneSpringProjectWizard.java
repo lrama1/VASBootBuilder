@@ -226,6 +226,8 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 		params.setSecurityPackageName(securityPackageName);
 		params.setSecurityUserDetailsServiceSourceCode(pageThree.getSecurityUserDetailsServiceSourceCode(securityPackageName));
 		params.setSecurityUserDetailsSourceCode(pageThree.getSecurityUserDetailsSourceCode(securityPackageName));
+		params.setSpringSecurityConfigSourceCode(pageThree.getSpringSecurityConfigSourceCode(securityPackageName));
+		
 		if(xssSelected || csrfSelected){
 			params.setGenerateSecurityCode(true);
 			params.setSecurityAspectCode(pageThree.buildSourceCode(mapOfValues, "security-aspect.java-template"));
@@ -547,6 +549,10 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/app.component-template.ts", mapOfValues), monitor);
 				CommonUtils.addFileToProject(folders.get("src/ui/src/app"), new Path("app.module.ts"), 
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/app.module-template.ts", mapOfValues), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app"), new Path("app.login.interceptor.ts"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/app.login.interceptor-template.ts", mapOfValues), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/app"), new Path("app.listwrapper.ts"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/app.listwrapper-template.ts", mapOfValues), monitor);
 				
 				//model and service classes
 				CommonUtils.addFileToProject(folders.get("src/ui/src/app/" + domainName), new Path(domainName + ".model.ts"), 
@@ -808,6 +814,8 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 					params.getSecurityUserDetailsSourceCode() , monitor);
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getSecurityPackageName(), "ClearSessionOnSMHeaderChange",
 					params.getSmHeaderChangeSourceCode() , monitor);
+			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getSecurityPackageName(), "SpringSecurityConfig",
+					params.getSpringSecurityConfigSourceCode() , monitor);
 		
 			
 			/* Add ListWrapper */
@@ -1306,6 +1314,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 		private String securityPackageName;
 		private String securityUserDetailsServiceSourceCode;
 		private String securityUserDetailsSourceCode;
+		private String springSecurityConfigSourceCode;
 		private String smHeaderChangeSourceCode;
 		private boolean generateSecurityCode;
 		private String securityAspectCode;
@@ -1579,6 +1588,12 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 		}
 		public void setSpringBootStarterSourceCode(String springBootStarterSourceCode) {
 			this.springBootStarterSourceCode = springBootStarterSourceCode;
+		}
+		public String getSpringSecurityConfigSourceCode() {
+			return springSecurityConfigSourceCode;
+		}
+		public void setSpringSecurityConfigSourceCode(String springSecurityConfigSourceCode) {
+			this.springSecurityConfigSourceCode = springSecurityConfigSourceCode;
 		}
 		
 		

@@ -484,6 +484,25 @@ public class BackboneProjectWizardPageThree extends WizardPage {
 		return stringWriter.toString();
 	}
 	
+	public String getSpringSecurityConfigSourceCode(String securityPackageName) throws Exception{
+		Map<String, Object> valuesToPlug = new LinkedHashMap<String, Object>();
+		valuesToPlug.put("securityPackageName", securityPackageName);
+		InputStream is = 
+				TemplateMerger.merge("/vasbootbuilder/resources/java/spring-security-config.java-template", valuesToPlug);
+		
+		BufferedReader br 	= new BufferedReader(new InputStreamReader(is));
+		String line = "";
+		StringWriter stringWriter = new StringWriter();
+		try{
+		while((line = br.readLine())!= null){
+			stringWriter.write(line + "\n");
+		}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return stringWriter.toString();
+	}
+	
 	//getListWrapperSourceCode
 	public String getListWrapperSourceCode(String basePackageName, 
 			String commonPackageName,String domainClassName)
