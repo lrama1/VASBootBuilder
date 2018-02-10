@@ -442,53 +442,35 @@ public class BackboneProjectWizardPageThree extends WizardPage {
 	}
 		
 	
-	public String getSecurityUserDetailsServiceSourceCode(String securityPackageName)
+	public String getSecurityUserDetailsServiceSourceCode(String securityPackageName, String domainClassName)
 			 throws Exception{				
-		
-		Map<String, Object> valuesToPlug = new LinkedHashMap<String, Object>();
-		valuesToPlug.put("securityPackageName", securityPackageName);
-		InputStream is = 
-				TemplateMerger.merge("/vasbootbuilder/resources/java/security-userdetailsservice.java-template", valuesToPlug);
-		
-		BufferedReader br 	= new BufferedReader(new InputStreamReader(is));
-		String line = "";
-		StringWriter stringWriter = new StringWriter();
-		try{
-		while((line = br.readLine())!= null){
-			stringWriter.write(line + "\n");
-		}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return stringWriter.toString();
+		return generateSecurityCode("/vasbootbuilder/resources/java/security-userdetailsservice.java-template", 
+				securityPackageName, domainClassName);
 	}
 	
-	public String getSecurityUserDetailsSourceCode(String securityPackageName)
+	public String getSecurityUserDetailsSourceCode(String securityPackageName, String domainClassName)
 			 throws Exception{				
-		
-		Map<String, Object> valuesToPlug = new LinkedHashMap<String, Object>();
-		valuesToPlug.put("securityPackageName", securityPackageName);
-		InputStream is = 
-				TemplateMerger.merge("/vasbootbuilder/resources/java/security-userdetails.java-template", valuesToPlug);
-		
-		BufferedReader br 	= new BufferedReader(new InputStreamReader(is));
-		String line = "";
-		StringWriter stringWriter = new StringWriter();
-		try{
-		while((line = br.readLine())!= null){
-			stringWriter.write(line + "\n");
-		}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return stringWriter.toString();
+		return generateSecurityCode("/vasbootbuilder/resources/java/security-userdetails.java-template", 
+				securityPackageName, domainClassName);
 	}
 	
-	public String getSpringSecurityConfigSourceCode(String securityPackageName) throws Exception{
+	public String getSpringSecurityConfigSourceCode(String securityPackageName, String domainClassName) throws Exception{
+		return generateSecurityCode("/vasbootbuilder/resources/java/spring-security-config.java-template", 
+				securityPackageName, domainClassName);
+	}
+	
+	public String getSpringSecurityAuthProviderSourceCode(String securityPackageName, String domainClassName) throws Exception{
+		return generateSecurityCode("/vasbootbuilder/resources/java/spring-authentication-provider.java-template", 
+				securityPackageName, domainClassName);
+	}
+	
+	
+	private String generateSecurityCode(String filePath, String securityPackageName, String domainClassName) throws Exception{
 		Map<String, Object> valuesToPlug = new LinkedHashMap<String, Object>();
 		valuesToPlug.put("securityPackageName", securityPackageName);
+		valuesToPlug.put("domainClassName", domainClassName);
 		InputStream is = 
-				TemplateMerger.merge("/vasbootbuilder/resources/java/spring-security-config.java-template", valuesToPlug);
+				TemplateMerger.merge(filePath, valuesToPlug);
 		
 		BufferedReader br 	= new BufferedReader(new InputStreamReader(is));
 		String line = "";

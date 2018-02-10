@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 //import the domain
 import ${basePackageName}.web.domain.$domainClassName;
 import ${basePackageName}.service.${domainClassName}Service;
-import ${basePackageName}.security.SampleUserDetails;
 import ${basePackageName}.common.ListWrapper;
 import ${basePackageName}.common.NameValuePair;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,11 +34,10 @@ public class ${domainClassName}Controller {
 	@Resource(name = "messageSource")
     private MessageSource messageSource;	
 		
-	@PreAuthorize("@sampleUserDetailsService.isAuthorizedToAccessData(#id)")	
+	//@PreAuthorize("@sampleUserDetailsService.isAuthorizedToAccessData(#id)")	
 	@RequestMapping(value = "/$domainClassName.toLowerCase()/{id}", method = RequestMethod.GET)
 	public $domainClassName get$domainClassName(@PathVariable("id") String id, Principal principal){
-		Authentication authenticationToken = (Authentication)principal;
-		SampleUserDetails user = (SampleUserDetails)authenticationToken.getPrincipal();		
+		Authentication authenticationToken = (Authentication)principal;		
 		${domainClassName} ${domainObjectName} =
 				${domainObjectName}Service.get${domainClassName}(id);
 		if(${domainObjectName} == null)
@@ -48,14 +46,13 @@ public class ${domainClassName}Controller {
 			return ${domainObjectName};
 	}
 	
-	@PreAuthorize("@sampleUserDetailsService.isAuthorizedToAccessData(#${domainObjectName})")
+
 	@RequestMapping(value = "/${domainClassName.toLowerCase()}", headers = {"accept=application/json"}, method = RequestMethod.POST)
 	public ${domainClassName} saveNew${domainClassName}(@RequestBody ${domainClassName} ${domainObjectName}){		
 		${serviceObjectName}.saveNew${domainClassName}(${domainObjectName});
 		return ${domainClassName.substring(0,1).toLowerCase()}${domainClassName.substring(1)};
 	}
 	
-	@PreAuthorize("@sampleUserDetailsService.isAuthorizedToAccessData(#${domainObjectName})")
 	@RequestMapping(value = "/${domainClassName.toLowerCase()}/{id}", headers = {"accept=application/json"}, method = RequestMethod.PUT)
 	public ${domainClassName}  update${domainClassName}(@RequestBody ${domainClassName} ${domainObjectName}){
 		${serviceObjectName}.save${domainClassName}(${domainObjectName});

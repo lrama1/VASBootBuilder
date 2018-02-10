@@ -14,7 +14,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
 		http.headers().disable().addFilterAfter(siteminderFilter(), RequestHeaderAuthenticationFilter.class)
-		.authorizeRequests().antMatchers("/vehicle**").hasRole("USER")
+		.authorizeRequests().antMatchers("/${domainClassName.toLowerCase()}**").hasRole("USER")
 		.and()
 		.formLogin()
 		.and()
@@ -28,5 +28,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		siteminderFilter.setExceptionIfHeaderMissing(false);
 		siteminderFilter.setAuthenticationManager(authenticationManagerBean());
 		return siteminderFilter;
+	}
+	
+	@Bean
+	public SpringAuthenticationProvider springAuthenticationProvider() {
+		return new SpringAuthenticationProvider();
+	}
+	
+	@Bean
+	public ClearSessionOnSMHeaderChange clearSessionOnSMHeaderChange() {
+		return new ClearSessionOnSMHeaderChange();
 	}
 }

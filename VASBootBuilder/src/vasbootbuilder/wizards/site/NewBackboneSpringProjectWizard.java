@@ -224,9 +224,10 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 		params.setListWrapperSourceCode(pageThree.getListWrapperSourceCode(basePackageName, commonPackageName, domainClassName));
 		params.setNameValuePairSourceCode(pageThree.getNameValueSourceCode(basePackageName, commonPackageName, domainClassName));
 		params.setSecurityPackageName(securityPackageName);
-		params.setSecurityUserDetailsServiceSourceCode(pageThree.getSecurityUserDetailsServiceSourceCode(securityPackageName));
-		params.setSecurityUserDetailsSourceCode(pageThree.getSecurityUserDetailsSourceCode(securityPackageName));
-		params.setSpringSecurityConfigSourceCode(pageThree.getSpringSecurityConfigSourceCode(securityPackageName));
+		params.setSecurityUserDetailsServiceSourceCode(pageThree.getSecurityUserDetailsServiceSourceCode(securityPackageName,domainClassName));
+		params.setSecurityUserDetailsSourceCode(pageThree.getSecurityUserDetailsSourceCode(securityPackageName,domainClassName));
+		params.setSpringSecurityConfigSourceCode(pageThree.getSpringSecurityConfigSourceCode(securityPackageName,domainClassName));
+		params.setSpringSecurityAuhenticationProvider(pageThree.getSpringSecurityAuthProviderSourceCode(securityPackageName, domainClassName));
 		
 		if(xssSelected || csrfSelected){
 			params.setGenerateSecurityCode(true);
@@ -808,15 +809,17 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 			}
 			
 			/* Add Security */
-			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getSecurityPackageName(), "SampleUserDetailsService",
+			/*CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getSecurityPackageName(), "SampleUserDetailsService",
 					params.getSecurityUserDetailsServiceSourceCode() , monitor);
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getSecurityPackageName(), "SampleUserDetails",
 					params.getSecurityUserDetailsSourceCode() , monitor);
+					*/
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getSecurityPackageName(), "ClearSessionOnSMHeaderChange",
 					params.getSmHeaderChangeSourceCode() , monitor);
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getSecurityPackageName(), "SpringSecurityConfig",
 					params.getSpringSecurityConfigSourceCode() , monitor);
-		
+			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getSecurityPackageName(), "SpringAuthenticationProvider",
+					params.getSpringSecurityAuhenticationProvider() , monitor);
 			
 			/* Add ListWrapper */
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getCommonPackageName(), "ListWrapper",
@@ -1315,6 +1318,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 		private String securityUserDetailsServiceSourceCode;
 		private String securityUserDetailsSourceCode;
 		private String springSecurityConfigSourceCode;
+		private String springSecurityAuhenticationProvider;
 		private String smHeaderChangeSourceCode;
 		private boolean generateSecurityCode;
 		private String securityAspectCode;
@@ -1594,6 +1598,12 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 		}
 		public void setSpringSecurityConfigSourceCode(String springSecurityConfigSourceCode) {
 			this.springSecurityConfigSourceCode = springSecurityConfigSourceCode;
+		}
+		public String getSpringSecurityAuhenticationProvider() {
+			return springSecurityAuhenticationProvider;
+		}
+		public void setSpringSecurityAuhenticationProvider(String springSecurityAuhenticationProvider) {
+			this.springSecurityAuhenticationProvider = springSecurityAuhenticationProvider;
 		}
 		
 		
