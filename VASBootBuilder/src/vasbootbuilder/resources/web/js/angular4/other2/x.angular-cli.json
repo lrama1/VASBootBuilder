@@ -7,7 +7,7 @@
     {
       "root": "src",
       "outDir": "dist",
-      "deployUrl" : "/${projectName}",
+      "deployUrl" : "/${projectName}/",
       "assets": [
         "assets",
         "favicon.ico"

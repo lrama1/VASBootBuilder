@@ -32,14 +32,14 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes),    
+    RouterModule.forRoot(appRoutes,  { useHash: true }),    
     DataTableModule,
     SharedModule,
     BrowserAnimationsModule,
     PanelModule,
     ButtonModule
   ],
-  providers: [{provide: APP_BASE_HREF, useValue: '/${projectName}'},{ provide: HTTP_INTERCEPTORS, useClass: MyLoginInterceptor, multi: true }, ${domainClassName}Service],
+  providers: [/*{provide: APP_BASE_HREF, useValue: '/${projectName}'},*/{ provide: HTTP_INTERCEPTORS, useClass: MyLoginInterceptor, multi: true }, ${domainClassName}Service],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

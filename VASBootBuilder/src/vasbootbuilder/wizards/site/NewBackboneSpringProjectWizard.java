@@ -581,7 +581,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 				CommonUtils.addFileToProject(folders.get("src/ui/src/app/" + domainName + "-list"), new Path(domainName + "-list.component.ts"), 
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular4/app/domain/domain-list.component.ts", mapOfValues), monitor);
 			
-			}else{ //VueJS
+			}else if(params.getUiType().equalsIgnoreCase("VueJS")){ //VueJS
 				CommonUtils.addFileToProject(folders.get("src/ui/config"), new Path("index.js"), 
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/vue/index-template.js", mapOfValues), monitor);
 				CommonUtils.addFileToProject(folders.get("src/ui/src/components"), new Path("Home.vue"), 
@@ -657,67 +657,70 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("README.md"), 
 						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/vue/root/README.md"), monitor);
 				
+			}else {
+				//None.  Don't create UI Portion
 			}
 			
 			
-			
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("localizedmessages.js"), 
-					this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/localizedmessages.js"), monitor);
-			
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("ejs_fulljslint.js"), 
-					this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/ejs_fulljslint.js"), monitor);
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("jquery.js"), 
-					this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/jquery-1.10.2.min.js"), monitor);
-			
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("jquery-1.10.2.min.map"), 
-					this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/jquery-1.10.2.min.map"), monitor);
-			
+			//Common UI-related JS
+			if(!params.getUiType().equalsIgnoreCase("None")){
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("localizedmessages.js"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/localizedmessages.js"), monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("ejs_fulljslint.js"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/ejs_fulljslint.js"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("jquery.js"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/jquery-1.10.2.min.js"), monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("jquery-1.10.2.min.map"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/jquery-1.10.2.min.map"), monitor);
+				
+							
+				//CommonUtils.CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("jquery.dataTables.js"), 
+				//		this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/jquery.dataTables.js"), monitor);
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("json2.js"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/json2.js"), monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("jquery.bootstrap.wizard.js"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/jquery.bootstrap.wizard.js"), monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("bootstrap.min.js"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/bootstrap.min.js"), monitor);
 						
-			//CommonUtils.CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("jquery.dataTables.js"), 
-			//		this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/jquery.dataTables.js"), monitor);
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("json2.js"), 
-					this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/json2.js"), monitor);
-			
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("jquery.bootstrap.wizard.js"), 
-					this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/jquery.bootstrap.wizard.js"), monitor);
-			
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("bootstrap.min.js"), 
-					this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/bootstrap.min.js"), monitor);
-					
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/css/fonts"), new Path("glyphicons-halflings-regular.eot"), 
-					this.getClass().getResourceAsStream("/vasbootbuilder/resources/fonts/glyphicons-halflings-regular.eot"), monitor);
-			
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/css/fonts"), new Path("glyphicons-halflings-regular.svg"), 
-					this.getClass().getResourceAsStream("/vasbootbuilder/resources/fonts/glyphicons-halflings-regular.svg"), monitor);
-			
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/css/fonts"), new Path("glyphicons-halflings-regular.ttf"), 
-					this.getClass().getResourceAsStream("/vasbootbuilder/resources/fonts/glyphicons-halflings-regular.ttf"), monitor);
-			
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/css/fonts"), new Path("glyphicons-halflings-regular.woff"), 
-					this.getClass().getResourceAsStream("/vasbootbuilder/resources/fonts/glyphicons-halflings-regular.woff"), monitor);
-			
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/css/fonts"), new Path("glyphicons-halflings-regular.woff2"), 
-					this.getClass().getResourceAsStream("/vasbootbuilder/resources/fonts/glyphicons-halflings-regular.woff2"), monitor);
-			
-			
-			
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("respond.min.js"), 
-					this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/respond.min.js"), monitor);
-			
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("html5shiv.min.js"), 
-					this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/html5shiv.min.js"), monitor);
-			
-			
-			//ANOMALY, why does text.js have to be outside the libs folder
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js"), new Path("text.js"), 
-					this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/text.js"), monitor);
-						
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/globals"), new Path("global.js"), 
-					TemplateMerger.merge("/vasbootbuilder/resources/web/js/libs/global.js", mapOfValues), monitor);
-			
-			CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js"), new Path("main.js"), 
-					TemplateMerger.merge("/vasbootbuilder/resources/web/js/backbone/main/main-template.js", mapOfValues), monitor);
-		
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/css/fonts"), new Path("glyphicons-halflings-regular.eot"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/fonts/glyphicons-halflings-regular.eot"), monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/css/fonts"), new Path("glyphicons-halflings-regular.svg"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/fonts/glyphicons-halflings-regular.svg"), monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/css/fonts"), new Path("glyphicons-halflings-regular.ttf"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/fonts/glyphicons-halflings-regular.ttf"), monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/css/fonts"), new Path("glyphicons-halflings-regular.woff"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/fonts/glyphicons-halflings-regular.woff"), monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/css/fonts"), new Path("glyphicons-halflings-regular.woff2"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/fonts/glyphicons-halflings-regular.woff2"), monitor);
+				
+				
+				
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("respond.min.js"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/respond.min.js"), monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"), new Path("html5shiv.min.js"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/html5shiv.min.js"), monitor);
+				
+				
+				//ANOMALY, why does text.js have to be outside the libs folder
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js"), new Path("text.js"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/text.js"), monitor);
+							
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/globals"), new Path("global.js"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/libs/global.js", mapOfValues), monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js"), new Path("main.js"), 
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/backbone/main/main-template.js", mapOfValues), monitor);
+			}
 			
 			addVariousSettings(folders.get(".settings"), proj, params.getBasePackageName(), params.getControllerPackageName(),
 					monitor);

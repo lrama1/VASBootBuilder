@@ -59,12 +59,16 @@ public class BackboneProjectWizardPageFive extends WizardPage {
 		cmbUIType.add("Angular4");	
 		cmbUIType.add("BackboneJS");
 		cmbUIType.add("AngularJS");		
+		cmbUIType.add("None");	
 		cmbUIType.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		//cmbUIType.select(0);		
-		int index = Arrays.binarySearch(cmbUIType.getItems(), this.uiType);
+		System.out.println("*******************************Project has been generated using UI Type: " + this.uiType);
+		int index = findElement(cmbUIType.getItems(), this.uiType);
 		if(index >= 0){
 			cmbUIType.select(index);
+			System.out.println("Detected previously selected UI.");
 		}else{
+			System.out.println("unable to detect UI");
 			cmbUIType.select(0);
 		}
 		new Label(container, SWT.NONE);
@@ -98,6 +102,16 @@ public class BackboneProjectWizardPageFive extends WizardPage {
 		btnInjectLocalizedMessages.setBounds(10, 29, 215, 24);
 		btnInjectLocalizedMessages.setText("Inject Localized Messages");
 		
+	}
+	
+	private int findElement(String[] array, String valueToFind) {
+		int index = 0;
+		for(String element: array) {
+			if(element.equalsIgnoreCase(valueToFind))
+				return index;
+			index++;
+		}
+		return -1;
 	}
 	
 	public boolean isJSPTemplate(){

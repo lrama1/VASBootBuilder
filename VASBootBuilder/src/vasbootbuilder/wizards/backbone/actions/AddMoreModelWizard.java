@@ -74,6 +74,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		String uiType = vasBootBuilderProperties.getProperty("uiType");
 		pageThree = new BackboneProjectWizardPageThree("");		
 		pageFour = new BackboneProjectWizardPageFour("");
+		System.out.println("********************************** " + uiType);
 		pageFive = new BackboneProjectWizardPageFive("", uiType);
 		addPage(pageThree);
 		if(generateSecurityCode)
