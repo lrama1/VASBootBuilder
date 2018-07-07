@@ -1168,12 +1168,14 @@ public class NewBackboneSpringProjectWizard extends Wizard implements
 		IClasspathEntry testsrc = JavaCore.newSourceEntry(srcFolder32.getFullPath(), null, null, outputFolder3.getFullPath(), 
 				new IClasspathAttribute[] { 
 					JavaCore.newClasspathAttribute("optional", "true"),
-					JavaCore.newClasspathAttribute("maven.pomderived", "true")
+					JavaCore.newClasspathAttribute("maven.pomderived", "true"),
+					JavaCore.newClasspathAttribute("test", "true")
 					});
 		IClasspathEntry testResources = JavaCore.newSourceEntry(testResourcesFolder.getFullPath(), null, null, outputFolder3.getFullPath(), 
 				new IClasspathAttribute[] { 
 					JavaCore.newClasspathAttribute("optional", "true"),
-					JavaCore.newClasspathAttribute("maven.pomderived", "true")
+					JavaCore.newClasspathAttribute("maven.pomderived", "true"),
+					JavaCore.newClasspathAttribute("test", "true")
 					});
 		
 		IClasspathEntry jre = JavaCore.newContainerEntry(new Path("org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"),
