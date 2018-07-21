@@ -16,7 +16,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.headers().disable().addFilterAfter(siteminderFilter(), RequestHeaderAuthenticationFilter.class)
 		.authorizeRequests().antMatchers("/${domainClassName.toLowerCase()}**").hasRole("USER")
 		.and()
-		.formLogin()
+		.httpBasic()
 		.and()
 		.csrf().disable();
 	}
