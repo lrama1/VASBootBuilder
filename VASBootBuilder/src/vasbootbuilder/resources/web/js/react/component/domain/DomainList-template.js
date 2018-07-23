@@ -60,7 +60,7 @@ render() {
     
     const dataRows = this.state.${domainObjectName}s.map(($domainObjectName, index)=> {
  	   return (
- 	     <tr>
+ 	     <tr key= {$domainObjectName.${domainClassIdAttributeName}}>
  			 <td><button onClick={() => this.summaryClickedHandler($domainObjectName.${domainClassIdAttributeName})}>Edit</button></td>
  			#foreach($key in $attrs.keySet() )
  			  <td>{$domainObjectName.$key}</td>
@@ -74,7 +74,7 @@ render() {
 			
 return(
 	<div>
-	<table>
+	<table className="table">
 	  <thead>
 	    
 	  </thead>

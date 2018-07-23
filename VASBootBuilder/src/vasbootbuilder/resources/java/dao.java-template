@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ${basePackageName}.web.domain.$domainClassName;
 import ${basePackageName}.common.ListWrapper;
 import ${basePackageName}.dao.${domainClassName}DAO;
-#if(${prepForOracle} == true)
+#if(${prepForOracle} == true || ${prepForHSQL} == true)
 import ${basePackageName}.dao.mapper.${domainClassName}Mapper;
 #end
 import java.io.BufferedReader;
@@ -37,7 +37,7 @@ public class ${domainClassName}DAO {
 	private MongoTemplate mongoTemplate;
 	#end
 	
-	#if(${prepForOracle} == true)
+	#if(${prepForOracle} == true || ${prepForHSQL} == true)
 	@Autowired
 	private ${domainClassName}Mapper ${domainVar}Mapper;
 	#end
@@ -80,7 +80,7 @@ public class ${domainClassName}DAO {
 		Criteria criteria = new Criteria("${domainClassIdAttributeName}").is(id);
 		Query query = new Query(criteria);
 		return mongoTemplate.findOne(query, ${domainClassName}.class);
-		#elseif(${prepForOracle} == true)
+		#elseif(${prepForOracle} == true || ${prepForHSQL} == true)
 		return ${domainVar}Mapper.get${domainClassName}(id);
 		#else
 		return allData.get(id);
@@ -90,7 +90,7 @@ public class ${domainClassName}DAO {
 	public void saveNew$domainClassName($domainClassName $domainClassName.substring(0,1).toLowerCase()$domainClassName.substring(1)){
 		#if(${useMongo} == true)		
 		mongoTemplate.save($domainClassName.substring(0,1).toLowerCase()$domainClassName.substring(1));
-		#elseif(${prepForOracle} == true)
+		#elseif(${prepForOracle} == true || ${prepForHSQL} == true)
 		${domainVar}Mapper.saveNew${domainClassName}($domainVar);
 		#end
 	}
@@ -109,7 +109,7 @@ public class ${domainClassName}DAO {
 		#end
 		
 		mongoTemplate.updateFirst(query, update, ${domainClassName}.class);
-		#elseif(${prepForOracle} == true)
+		#elseif(${prepForOracle} == true || ${prepForHSQL} == true)
 		${domainVar}Mapper.update${domainClassName}($domainVar);
 		#end
 	}
@@ -124,7 +124,7 @@ public class ${domainClassName}DAO {
 		List<${domainClassName}> partialPage  = mongoTemplate.find(query, ${domainClassName}.class);
 		int totalPages = roundUp(totalRows.intValue(), pageSize);
 		#else		
-		#if(${prepForOracle} == true)			
+		#if(${prepForOracle} == true || ${prepForHSQL} == true)			
 		List<${domainClassName}> allDataList = ${domainVar}Mapper.getAll${domainClassName}s();
 		#else
 		List<${domainClassName}> allDataList = new ArrayList<${domainClassName}>(allData.values());

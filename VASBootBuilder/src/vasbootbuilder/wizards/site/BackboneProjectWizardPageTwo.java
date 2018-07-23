@@ -25,6 +25,7 @@ public class BackboneProjectWizardPageTwo extends WizardPage {
 	private Button btnUseMongodb;
 	private Button btnPrepForOracle;
 	private Button btnPrepForMysql;
+	private Button btnPrepForHSQL;
 	private Combo cmbSpringVersion;
 	private Label lblSpringVersion;
 	private Text textOracleHost;
@@ -104,6 +105,7 @@ public class BackboneProjectWizardPageTwo extends WizardPage {
 				if(btnUseMongodb.getSelection()){
 					btnPrepForOracle.setSelection(false);
 					btnPrepForMysql.setSelection(false);
+					btnPrepForHSQL.setSelection(false);
 					textMongoHost.setEnabled(true);
 					textMongoPort.setEnabled(true);
 					textMongoDBName.setEnabled(true);
@@ -129,6 +131,7 @@ public class BackboneProjectWizardPageTwo extends WizardPage {
 				if(btnPrepForOracle.getSelection()){
 					btnUseMongodb.setSelection(false);
 					btnPrepForMysql.setSelection(false);
+					btnPrepForHSQL.setSelection(false);
 					textOracleHost.setEnabled(true);
 					textOraclePort.setEnabled(true);
 					textOracleInstance.setEnabled(true);
@@ -147,6 +150,7 @@ public class BackboneProjectWizardPageTwo extends WizardPage {
 				}
 			}
 		});
+		
 		GridData gd_btnPrepForOracle = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_btnPrepForOracle.heightHint = 33;
 		btnPrepForOracle.setLayoutData(gd_btnPrepForOracle);
@@ -245,6 +249,48 @@ public class BackboneProjectWizardPageTwo extends WizardPage {
 		
 		btnPrepForMysql = new Button(container, SWT.CHECK);
 		btnPrepForMysql.setText("Prep For MySQL");
+		
+		btnPrepForHSQL = new Button(container, SWT.CHECK);
+		btnPrepForHSQL.setText("Use HSQL");
+		
+		btnPrepForMysql.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				if(btnPrepForMysql.getSelection()) {
+					btnUseMongodb.setSelection(false);
+					btnPrepForOracle.setSelection(false);
+					btnPrepForHSQL.setSelection(false);
+					textMongoHost.setEnabled(false);
+					textMongoPort.setEnabled(false);
+					textMongoDBName.setEnabled(false);
+					textOracleHost.setEnabled(false);
+					textOraclePort.setEnabled(false);
+					textOracleInstance.setEnabled(false);
+					textOracleUser.setEnabled(false);
+					textOraclePass.setEnabled(false);
+				}
+			}
+		});
+		
+		
+		btnPrepForHSQL.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				if(btnPrepForHSQL.getSelection()) {
+					btnUseMongodb.setSelection(false);
+					btnPrepForOracle.setSelection(false);
+					btnPrepForMysql.setSelection(false);
+					textMongoHost.setEnabled(false);
+					textMongoPort.setEnabled(false);
+					textMongoDBName.setEnabled(false);
+					textOracleHost.setEnabled(false);
+					textOraclePort.setEnabled(false);
+					textOracleInstance.setEnabled(false);
+					textOracleUser.setEnabled(false);
+					textOraclePass.setEnabled(false);
+				}
+			}
+		});
 		new Label(container, SWT.NONE);
 		new Label(container, SWT.NONE);
 		new Label(container, SWT.NONE);
@@ -322,6 +368,10 @@ public class BackboneProjectWizardPageTwo extends WizardPage {
 	public boolean prepForMySql(){
 		return btnPrepForMysql.getSelection();
 	}
+	public boolean prepForHSQL() {
+		return btnPrepForHSQL.getSelection();
+	}
+	
 	
 	public String getSpringVersion(){
 		return cmbSpringVersion.getText();

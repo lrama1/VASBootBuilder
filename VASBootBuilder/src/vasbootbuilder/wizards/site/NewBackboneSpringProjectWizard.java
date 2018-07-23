@@ -162,6 +162,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			mapOfValues.put("mongoDBName", pageTwo.getMongoDBName());
 			mapOfValues.put("prepForOracle", pageTwo.prepForOracle());
 			mapOfValues.put("prepForMySQL", pageTwo.prepForMySql());
+			mapOfValues.put("prepForHSQL", pageTwo.prepForHSQL());
 			mapOfValues.put("oracleHost", pageTwo.getOracleHost());
 			mapOfValues.put("oraclePort", pageTwo.getOraclePort());
 			mapOfValues.put("oracleInstance", pageTwo.getOracleInstance());
@@ -1134,7 +1135,8 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getDaoPackageName(),
 					params.getDomainClassName() + "DAO", params.getDaoSourceCode(), monitor);
 
-			if ((Boolean) mapOfValues.get("prepForOracle") || (Boolean) mapOfValues.get("prepForMySQL")) {
+			if ((Boolean) mapOfValues.get("prepForOracle") || (Boolean) mapOfValues.get("prepForMySQL") || 
+					(Boolean) mapOfValues.get("prepForHSQL")  ) {
 				CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getDaoPackageName() + ".mapper",
 						params.getDomainClassName() + "Mapper", params.getMapperSourceCode(), monitor);
 
@@ -1220,6 +1222,25 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 				CommonUtils.createPackageAndClass(folders.get("src/main/resources/scripts"), "sampledata",
 						mapOfValues.get("domainClassName").toString() + "s.txt",
 						CommonUtils.cleanSampleData(sampleMongoDataStringWriter.toString()), monitor);
+			}
+			
+			/* Add test data for HSQL*/
+			if ((Boolean) mapOfValues.get("prepForHSQL")) {
+				StringWriter sampleHSQLDataStringWriter = new StringWriter();
+				IOUtils.copy(
+						TemplateMerger.merge("/vasbootbuilder/resources/other/data-template.sql", mapOfValues),
+						sampleHSQLDataStringWriter);
+				CommonUtils.createPackageAndClass(folders.get("src/main/resources"), "",
+						"data.sql",
+						CommonUtils.cleanSampleData(sampleHSQLDataStringWriter.toString()), monitor);
+				
+				StringWriter sampleHSQLSchemaStringWriter = new StringWriter();
+				IOUtils.copy(
+						TemplateMerger.merge("/vasbootbuilder/resources/other/schema-template.sql", mapOfValues),
+						sampleHSQLSchemaStringWriter);
+				CommonUtils.createPackageAndClass(folders.get("src/main/resources"), "",
+						"schema.sql",
+						CommonUtils.cleanSampleData(sampleHSQLSchemaStringWriter.toString()), monitor);
 			}
 
 			// add junit for Controllers
