@@ -174,7 +174,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 
 			final String domainClassSourceCode = pageThree.getClassSource(mapOfValues);
 			mapOfValues.put("attrs", pageThree.getModelAttributes());
-			mapOfValues.put("oracleNames", pageThree.getOracleDerivedNamesForTableAndAttrs());
+			mapOfValues.put("oracleNames", pageThree.getOracleDerivedNamesForTableAndAttrs((Boolean) mapOfValues.get("prepForOracle") ));
 			mapOfValues.put("fieldTypes", pageThree.getFieldTypes());
 			mapOfValues.put("vueComponentTagName", createComponentTag(domainClassName));
 			mapOfValues.put("uiType", pageFive.getUIType());
@@ -1255,10 +1255,12 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 					folders.get("src/main/java"), folders.get("src/test/java"), folders.get("src/main/resources"),
 					folders.get("src/test/resources"), javaProject);
 
-			// add vasbootbuilder-specific settings
+			// add vasbootbuilder-specific settings  
 			addVASBootBuilderSettings(folders.get(".settings"), project, params.getBasePackageName(),
 					params.isGenerateSecurityCode(), (Boolean) mapOfValues.get("useMongo"),
-					(Boolean) mapOfValues.get("prepForOracle"), params.getUiType(), monitor);
+					(Boolean) mapOfValues.get("prepForOracle"), 
+					(Boolean) mapOfValues.get("prepForHSQL"),
+					params.getUiType(), monitor);
 
 		} catch (Throwable ioe) {
 			IStatus status = new Status(IStatus.ERROR, "NewFileWizard", IStatus.OK, ioe.getLocalizedMessage(), null);
@@ -1621,7 +1623,8 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 	}
 
 	private void addVASBootBuilderSettings(IFolder settingsFolder, IProject project, String basePackageName,
-			boolean secureEnabled, boolean useMongo, boolean prepForOracle, String uiType, IProgressMonitor monitor)
+			boolean secureEnabled, boolean useMongo, boolean prepForOracle, 
+			boolean prepForHSQL, String uiType, IProgressMonitor monitor)
 			throws Exception {
 		// String props = "basePackage=" + basePackageName;
 		StringWriter properties = new StringWriter();
@@ -1630,6 +1633,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 		properties.append("\nuseMongo=" + useMongo);
 		properties.append("\nuiType=" + uiType);
 		properties.append("\nprepForOracle=" + prepForOracle);
+		properties.append("\nprepForHSQL=" + prepForHSQL);
 
 		InputStream stream = new ByteArrayInputStream(properties.toString().getBytes());
 		CommonUtils.addFileToProject(settingsFolder, new Path("org.bsbuilder.settings"), stream, monitor);

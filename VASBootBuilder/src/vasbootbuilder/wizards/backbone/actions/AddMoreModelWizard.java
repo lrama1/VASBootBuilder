@@ -95,6 +95,8 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 				String basePackageName = vasBootBuilderProperties.getProperty("basePackage");
 				String useMongo = vasBootBuilderProperties.getProperty("useMongo");
 				String uiType = vasBootBuilderProperties.getProperty("uiType");
+				String prepForHSQL = vasBootBuilderProperties.getProperty("prepForHSQL");
+				
 				Map<String, Object> modelAttributes = pageThree.getModelAttributes();
 
 				// create Domain Class
@@ -102,6 +104,11 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 
 				// create SampleData
 				createSampleData(projectContainer, pageThree.getDomainClassName(), modelAttributes);
+				
+				//add data for HSQL
+				if(StringUtils.equals(prepForHSQL, "true")) {
+					createSampleDataForHSQL(projectContainer, pageThree.getDomainClassName(), modelAttributes);;
+				}
 
 				// create SampleDate for Mongo
 				if (StringUtils.equals(useMongo, "true")) {
@@ -239,7 +246,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		Pattern linkPattern = Pattern.compile(linkRegex, Pattern.DOTALL);
 		Matcher linkmatcher = linkPattern.matcher(fileContents);
 		String linkStringToAdd = "<li><Link to=\"/" + domainClassName.toLowerCase() + "s\">" + domainClassName
-				+ "</Link></1i>";
+				+ "</Link></li>";
 		if (linkmatcher.find()) {
 			String currentRoutes = linkmatcher.group();
 			fileContents = linkmatcher.replaceAll(currentRoutes + "\n" + linkStringToAdd);
@@ -638,6 +645,28 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 				CommonUtils.cleanSampleData(sampleDataStringWriter.toString()), new NullProgressMonitor());
 	}
 
+	private void createSampleDataForHSQL(IContainer projectContainer, String domainClassName,
+			Map<String, Object> modelAttributes) throws Exception {
+		IFolder hsqlDDLAndDMLFolder = projectContainer.getFolder(new Path("src/main/resources"));	
+		Map<String, Object> mapOfValues = new HashMap<String, Object>();
+		mapOfValues.put("domainClassName", domainClassName);
+		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
+		mapOfValues.put("attrs", modelAttributes);
+		
+		StringWriter sampleHSQLDataStringWriter = new StringWriter();
+		sampleHSQLDataStringWriter.append("\n\n");
+		IOUtils.copy(TemplateMerger.merge("/vasbootbuilder/resources/other/data-template.sql", mapOfValues), 
+				sampleHSQLDataStringWriter);
+		CommonUtils.createPackageAndClass(hsqlDDLAndDMLFolder, "", "data.sql", CommonUtils.cleanSampleData(sampleHSQLDataStringWriter.toString()), 
+					new NullProgressMonitor());
+		
+		StringWriter sampleHSQLSchemaStringWriter = new StringWriter();
+		sampleHSQLSchemaStringWriter.append("\n\n");
+		IOUtils.copy(TemplateMerger.merge("/vasbootbuilder/resources/other/schema-template.sql", mapOfValues), sampleHSQLSchemaStringWriter);
+		CommonUtils.createPackageAndClass(hsqlDDLAndDMLFolder, "", "schema.sql", 
+				CommonUtils.cleanSampleData(sampleHSQLSchemaStringWriter.toString()), new NullProgressMonitor());
+	}
+	
 	private void createSampleDataForMongo(IContainer projectContainer, String domainClassName,
 			Map<String, Object> modelAttributes) throws Exception {
 		Map<String, Object> mapOfValues = new HashMap<String, Object>();
@@ -651,15 +680,6 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		CommonUtils.createPackageAndClass(sampleMongoDataFolder, "sampledata",
 				mapOfValues.get("domainClassName").toString() + "s.txt",
 				CommonUtils.cleanSampleData(sampleMongoDataStringWriter.toString()), new NullProgressMonitor());
-	}
-
-	// NOT NEEDED
-	// TODO - Determine if we really need to do this again
-	private void createJSPFile(IContainer projectContainer) {
-		// CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF"), new
-		// Path("index.jsp"),
-		// TemplateMerger.merge("/vasbootbuilder/resources/web/jsps/index.jsp-template",
-		// proj.getName(),"",""), monitor);
 	}
 
 	private void createEditAndListTemplateFiles(IContainer projectContainer, String domainClassName,
@@ -744,9 +764,11 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		String domainPackageName = basePackageName + ".web.domain";
 		mapOfValues.put("domainPackageName", domainPackageName);
 		mapOfValues.put("attrs", modelAttributes);
-		mapOfValues.put("oracleNames", pageThree.getOracleDerivedNamesForTableAndAttrs());
 		mapOfValues.put("useMongo", vasBootBuilderProperties.getProperty("useMongo"));
 		mapOfValues.put("prepForOracle", vasBootBuilderProperties.getProperty("prepForOracle"));
+		mapOfValues.put("oracleNames", pageThree.getOracleDerivedNamesForTableAndAttrs("true".equals(vasBootBuilderProperties.getProperty("prepForOracle"))));
+		mapOfValues.put("prepForHSQL", vasBootBuilderProperties.getProperty("prepForHSQL"));
+		
 		final String daoSourceCode = pageThree.buildSourceCode(mapOfValues, "dao.java-template");
 
 		IFolder javaFolder = projectContainer.getFolder(new Path("src/main/java"));
@@ -754,7 +776,8 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 				new NullProgressMonitor());
 
 		// create mapper files
-		if ("true".equals(vasBootBuilderProperties.getProperty("prepForOracle"))) {
+		if ("true".equals(vasBootBuilderProperties.getProperty("prepForOracle")) || 
+				"true".equals(vasBootBuilderProperties.getProperty("prepForHSQL"))) {
 			final String mapperSourceCode = pageThree.buildSourceCode(mapOfValues, "mapper.java-template");
 			CommonUtils.createPackageAndClass(javaFolder, daoPackageName + ".mapper",
 					pageThree.getDomainClassName() + "Mapper", mapperSourceCode, new NullProgressMonitor());

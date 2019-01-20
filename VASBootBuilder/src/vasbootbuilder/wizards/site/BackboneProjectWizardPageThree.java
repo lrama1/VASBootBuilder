@@ -606,12 +606,18 @@ public class BackboneProjectWizardPageThree extends WizardPage {
 		return attrs;
 	}
 	
-	public Map<String, String> getOracleDerivedNamesForTableAndAttrs(){
+	public Map<String, String> getOracleDerivedNamesForTableAndAttrs(boolean isDBOracle){
 		Map<String, String> derivedNames = new LinkedHashMap<String, String>();
 		String domainName = convertToCamelCase(textSampleDomainClass.getText());
-		derivedNames.put(textSampleDomainClass.getText(), convertToOracleFriendlyName(domainName));
+		if(isDBOracle)
+			derivedNames.put(textSampleDomainClass.getText(), convertToOracleFriendlyName(domainName));
+		else
+			derivedNames.put(textSampleDomainClass.getText(), domainName);
 		for(String key : attrs.keySet()){
-			derivedNames.put(key, convertToOracleFriendlyName(key));
+			if(isDBOracle)
+				derivedNames.put(key, convertToOracleFriendlyName(key));
+			else
+				derivedNames.put(key, key);
 		}
 		
 		return derivedNames;

@@ -71,7 +71,8 @@ public class CommonUtils {
 		}
 		
 		if (file.exists()) {
-			file.setContents(contentStream, true, true, monitor);
+			//file.setContents(contentStream, true, true, monitor);
+			file.appendContents(contentStream, true, true, monitor);
 		} else {
 			file.create(contentStream, true, monitor);
 		}
