@@ -1,89 +1,62 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
-import React, { Component } from 'react';
-import axios from 'axios';
+import React from 'react'
+import {connect, dispatch} from 'react-redux'
 
-class ${domainClassName}List extends Component{
-state = {
-headers : [
-#set($index = 0)
-#foreach($key in $attrs.keySet() )
-#if($index == 0) '${key}' #else , '${key}'#end
-#set($index = $index + 1)
-#end
-],
-${domainObjectName}s : []
+import { fetch${domainClassName} } from '../actions';
+
+function ${domainClassName}List(props){
+
+    function select${domainClassName}(${domainObjectName}){
+        //dispatch an action to fetch the selected ${domainObjectName}
+        props.fetch${domainClassName}('/${domainObjectName}/' + ${domainObjectName}.${domainClassIdAttributeName})
+        //tell route to display the Edit screen
+        props.history.push({pathname: '/${domainObjectName}'});
+    }
+
+
+    /*
+    Iterate thru rows of ${domainObjectName}s and create a tr component for each
+    NOTE: look up examples of the 'map' function on the web if you're unfamiliar with it
+     */
+    const rows = props.${domainObjectName}s.map((${domainObjectName}) => {
+        return (
+            <tr key={${domainObjectName}.${domainClassIdAttributeName}}>
+                #foreach($key in $attrs.keySet() )
+   			    <td>{$domainObjectName.$key}</td>
+   			    #end
+                <td>
+                    <button className="btn btn-primary" onClick={() => select${domainClassName}(${domainObjectName})}>Select</button>
+                </td>
+            </tr>
+        );
+    });
+
+    /*
+    render a table component
+     */
+    return (
+        <div>
+            <table className="table">                
+                <tbody>
+                {rows}
+                </tbody>
+            </table>
+        </div>
+    )
 };
 
-constructor(props) {
-	super(props);
-	console.log(props);
-	console.log(process.env);
+const mapStateToProps = (state) => {
+    console.log(state);
+    return {
+        ${domainObjectName}s: state.${domainObjectName}sReducer
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        onSelect${domainClassName}: (${domainObjectName}) => dispatch(fetch${domainClassName}(${domainObjectName})),
+        fetch${domainClassName}: (url) => dispatch(fetch${domainClassName}(url))
+    }
 }
 
-componentDidMount() {
-	axios.get("/${domainObjectName}s?page=1&per_page=10").
-	then(response => {
-		console.log(response);
-		this.setState({${domainObjectName}s: response.data.rows});
-	});
-}
-
-summaryClickedHandler = (id) => {
-	this.props.history.push({pathname: '/${domainObjectName}/' + id});
-}
-
-render() {
-	const listOfHeaders = this.state.headers.map((header, index) => {
-		return (
-			{
-				key: header,
-				label: header
-			}
-		)
-	});
-		
-    //add an edit button for each row
-    listOfHeaders.push(
-		{
-			key: 'action',
-			label: 'Actions',
-			emptyValue: (item) => (
-			<div>
-				<button
-				onClick={() => this.summaryClickedHandler(item.${domainClassIdAttributeName})}	>
-				Edit Row
-				</button>
-			</div>
-		  )
-        }
-    );
-    
-    const dataRows = this.state.${domainObjectName}s.map(($domainObjectName, index)=> {
- 	   return (
- 	     <tr key= {$domainObjectName.${domainClassIdAttributeName}}>
- 			 <td><button onClick={() => this.summaryClickedHandler($domainObjectName.${domainClassIdAttributeName})}>Edit</button></td>
- 			#foreach($key in $attrs.keySet() )
- 			  <td>{$domainObjectName.$key}</td>
- 			#end
- 		 </tr>
- 		)
- 		}
- 	);
-			
-	
-			
-return(
-	<div>
-	<table className="table">
-	  <thead>
-	    
-	  </thead>
-	  <tbody>
-	  {dataRows}
-	  </tbody>
-	</table>
-	</div>
-	);
-  }
-}
-export default ${domainClassName}List;
+export default connect(mapStateToProps, mapDispatchToProps)(${domainClassName}List);

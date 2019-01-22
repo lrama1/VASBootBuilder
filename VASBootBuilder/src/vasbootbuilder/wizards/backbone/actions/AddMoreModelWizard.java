@@ -215,19 +215,35 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 
 						mapOfValues),
 				new NullProgressMonitor());
-		mapOfValues.put("CcomponentName", domainClassName + "List");
+		//mapOfValues.put("CcomponentName", domainClassName + "List");
 
 		// Domain Details (Editing Form)
-		CommonUtils.addFileToProject(componentsFolder, new Path(domainClassName + "Detail.js"), TemplateMerger
+		CommonUtils.addFileToProject(componentsFolder, new Path(domainClassName + "Edit.js"), TemplateMerger
 				.merge("/vasbootbuilder/resources/web/js/react/component/domain/DomainDetail-template.js", mapOfValues),
 				new NullProgressMonitor());
-		mapOfValues.put("ComponentName", domainClassName + "Detail");
+		//mapOfValues.put("ComponentName", domainClassName + "Detail");
+		
+		// actions
+		IFolder actionsContainerFolder = projectContainer.getFolder(new Path("src/ui/src/actions"));
+		CommonUtils.addFileToProject(actionsContainerFolder, new Path("index.js"),
+				TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/actions/index-template.js",	mapOfValues),
+				new NullProgressMonitor());
+		
+		// reducers
+		IFolder reducersContainerFolder = projectContainer.getFolder(new Path("src/ui/src/reducers"));
+		CommonUtils.addFileToProject(reducersContainerFolder, new Path("index.js"),
+				TemplateMerger.merge(
+						"/vasbootbuilder/resources/web/js/react/reducers/index-template.js",
+						mapOfValues),
+				new NullProgressMonitor());
+		
 		addNewRoutesToReact(projectContainer, domainClassName);
 	}
 
 	private void addNewRoutesToReact(IContainer projectContainer, String domainClassName) throws Exception {
-		IFolder jsFolder = projectContainer.getFolder(new Path("src/ui/src/AppContainer"));
-		IFile appModuleFile = jsFolder.getFile("AppContainer.js");
+		String domainObjectName = domainClassName.substring(0,1).toLowerCase() + domainClassName.substring(1);
+		IFolder jsFolder = projectContainer.getFolder(new Path("src/ui/src/components"));
+		IFile appModuleFile = jsFolder.getFile("App.js");
 		File file = appModuleFile.getRawLocation().toFile();
 
 		String fileContents = FileUtils.readFileToString(file);
@@ -235,17 +251,19 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		Pattern importPattern = Pattern.compile(importRegex, Pattern.DOTALL);
 		Matcher importmatcher = importPattern.matcher(fileContents);
 		String importStringToAdd = "import " + domainClassName + "List from '../components/" + domainClassName
-				+ "List';\n" + "import " + domainClassName + "Detail from '../components/" + domainClassName
-				+ "Detail';\n";
+				+ "List';\n" + "import " + domainClassName + "Edit from '../components/" + domainClassName
+				+ "Edit';\n"
+				+ "import {fetchAll" + domainClassName + "s} from '../actions'; \n" ;
 		if (importmatcher.find()) {
 			String currentRoutes = importmatcher.group();
 			fileContents = importmatcher.replaceAll(currentRoutes + "\n" + importStringToAdd);
 		}
 
-		String linkRegex = "<li><Link.*>.*</Link></li>";
-		Pattern linkPattern = Pattern.compile(linkRegex, Pattern.DOTALL);
+		String linkRegex = "<li.*>.*<Link.*>.*</Link>.*</li>";
+		Pattern linkPattern = Pattern.compile(linkRegex, Pattern.DOTALL | Pattern.MULTILINE);
 		Matcher linkmatcher = linkPattern.matcher(fileContents);
-		String linkStringToAdd = "<li><Link to=\"/" + domainClassName.toLowerCase() + "s\">" + domainClassName
+		String linkStringToAdd = "<li><Link  className=\"nav-link\" to=\"/" + domainClassName.toLowerCase() + "s\" "
+				+ " onClick={() => props.fetchAll" + domainClassName + "s('/" + domainObjectName + "s?page=1&per_page=10')} >" + domainClassName
 				+ "</Link></li>";
 		if (linkmatcher.find()) {
 			String currentRoutes = linkmatcher.group();
@@ -257,15 +275,40 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		String routeStringToAdd = "<Route path=\"/" + domainClassName.toLowerCase() + "s\" exact component={"
 				+ domainClassName + "List}/>\n"
 
-				+ "<Route path=\"/" + domainClassName.toLowerCase() + "/:id\" exact component={" + domainClassName
-				+ "Detail}/>";
+				+ "<Route path=\"/" + domainClassName.toLowerCase() + "\" exact component={" + domainClassName
+				+ "Edit}/>";
 		if (routeMatcher.find()) {
 			String currentRoutes = routeMatcher.group();
 			fileContents = routeMatcher.replaceAll(currentRoutes + "\n" + routeStringToAdd);
 		}
+		
+		//add dispatcher in mapDispatchToProps
+		fileContents = addDispatcher(fileContents, domainClassName);
+		
 		InputStream modifiedFileContent = new ByteArrayInputStream(CommonUtils.prettifyJS(fileContents).getBytes());
 		appModuleFile.setContents(modifiedFileContent, IFile.FORCE, new NullProgressMonitor());
 		appModuleFile.refreshLocal(IFile.DEPTH_ZERO, new NullProgressMonitor());
+	}
+	
+	private String addDispatcher(String originalFileContent, String domainClassName) {
+		String updatedDispatchConst = "";
+		String mapDispatchToPropsRegex = "mapDispatchToProps.*\\}$";
+		Pattern mapDispatchToPropsPattern = Pattern.compile(mapDispatchToPropsRegex, Pattern.DOTALL | Pattern.MULTILINE );
+		Matcher mapDispatchToPropsMatcher = mapDispatchToPropsPattern.matcher(originalFileContent);
+		if (mapDispatchToPropsMatcher.find()) {
+			String currentRoutes = mapDispatchToPropsMatcher.group();
+			
+			String fetchRegex = "return.*\\)$";
+			Pattern fetchPattern = Pattern.compile(fetchRegex, Pattern.DOTALL | Pattern.MULTILINE );
+			Matcher fetchmatcher = fetchPattern.matcher(currentRoutes);
+			if(fetchmatcher.find()) {					
+				updatedDispatchConst = fetchmatcher.replaceAll(fetchmatcher.group() + ",\n" + "\tfetchAll" + domainClassName + "s: " +
+			           "(url) => dispatch(fetchAll" + domainClassName + "s(url))");
+			}
+			
+			return mapDispatchToPropsMatcher.replaceAll(updatedDispatchConst);
+		}
+		return originalFileContent;
 	}
 
 	private void createAngular4Templates(IContainer projectContainer, String projectName) throws Exception {

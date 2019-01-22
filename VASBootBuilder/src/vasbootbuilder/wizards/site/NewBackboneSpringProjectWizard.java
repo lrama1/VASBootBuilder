@@ -771,42 +771,35 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 						.merge("/vasbootbuilder/resources/web/js/react/app/index-template.js", mapOfValues), monitor);
 				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("index.css"), TemplateMerger
 						.merge("/vasbootbuilder/resources/web/js/react/app/index-template.css", mapOfValues), monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("App.js"),
+				
+				CommonUtils.addFileToProject(folders.get("src/ui/src/components"), new Path("App.js"),
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/App-template.js", mapOfValues),
 						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("App.css"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/app/App-template.css", mapOfValues), monitor);
-
+				
 				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("registerServiceWorker.js"),
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/registerServiceWorker.js" ,mapOfValues),
 						monitor);
+				
 				// Home
-				IFolder homeFolder = folders.get("src/ui/src/Home");
+				IFolder homeFolder = folders.get("src/ui/src/components");
 				CommonUtils.addFileToProject(homeFolder, new Path("Home.js"), TemplateMerger.merge(
 						"/vasbootbuilder/resources/web/js/react/component/Home-template.js", mapOfValues), monitor);
-				mapOfValues.put("componentName", "Home");
 				
-				CommonUtils.addFileToProject(homeFolder, new Path("index.js"),
-						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/react/component/component-index-template.js",
-								mapOfValues),
-						monitor);
 
-				// AppContainer
-				IFolder appContainerFolder = folders.get("src/ui/src/AppContainer");
-				CommonUtils.addFileToProject(appContainerFolder, new Path("AppContainer.js"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/component/AppContainer-template.js",	mapOfValues),
+				// actions
+				IFolder actionsContainerFolder = folders.get("src/ui/src/actions");
+				CommonUtils.addFileToProject(actionsContainerFolder, new Path("index.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/actions/index-template.js",	mapOfValues),
 						monitor);
-				CommonUtils.addFileToProject(appContainerFolder, new Path("AppContainer.css"),
+				
+				// reducers
+				IFolder reducersContainerFolder = folders.get("src/ui/src/reducers");
+				CommonUtils.addFileToProject(reducersContainerFolder, new Path("index.js"),
 						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/react/component/AppContainer-template.css",
-								mapOfValues), monitor);
-				mapOfValues.put("componentName", "AppContainer");
-				CommonUtils.addFileToProject(appContainerFolder, new Path("index.js"),
-						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/react/component/component-index-template.js",
+								"/vasbootbuilder/resources/web/js/react/reducers/index-template.js",
 								mapOfValues),
 						monitor);
+				
 				// Domain Folders
 				String domainClassName = params.getDomainClassName();
 				// Domain List
@@ -819,7 +812,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 				mapOfValues.put("componentName", domainClassName + "List");
 				// Domain Details (Editing Form}
 				CommonUtils.addFileToProject(folders.get("src/ui/src/components"),
-						new Path(domainClassName + "Detail.js"),
+						new Path(domainClassName + "Edit.js"),
 						TemplateMerger.merge(
 								"/vasbootbuilder/resources/web/js/react/component/domain/DomainDetail-template.js",
 								mapOfValues),
@@ -1352,20 +1345,21 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			srcFolder234.create(false, true, new NullProgressMonitor()); 
 			folders.put("src/ui/src", srcFolder234) ;
 
-			//src/ui/src/AppContainer
-			IFolder srcFolder2341 = srcFolder234.getFolder(new Path("AppContainer"));
-			srcFolder2341.create(false, true, new NullProgressMonitor()); 
-			folders.put("src/ui/src/AppContainer", srcFolder2341);
-
-			//src/ui/src/Home
-			IFolder srcFolder2342 = srcFolder234.getFolder (new Path("Home") );
-			srcFolder2342.create(false, true, new NullProgressMonitor()); 
-			folders.put ("src/ui/src/Home", srcFolder2342);
-
-			//src/ui/sre/components
-			IFolder srcFolder2343 = srcFolder234.getFolder(new Path("components"));
+			//src/ui/src/components
+			IFolder srcFolder2341 = srcFolder234.getFolder(new Path("components"));
+			srcFolder2341.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/src/components", srcFolder2341); 
+			
+			//src/ui/src/actions
+			IFolder srcFolder2342 = srcFolder234.getFolder(new Path("actions"));
+			srcFolder2342.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/src/actions", srcFolder2342); 
+			
+			//src/ui/src/reducers
+			IFolder srcFolder2343 = srcFolder234.getFolder(new Path("reducers"));
 			srcFolder2343.create(false, true, new NullProgressMonitor());
-			folders.put("src/ui/src/components", srcFolder2343); 
+			folders.put("src/ui/src/reducers", srcFolder2343); 
+			
 		} else if (uiType.equalsIgnoreCase("Angular4")) {
 			// src/ui
 			IFolder srcFolder23 = srcFolder.getFolder(new Path("ui"));
