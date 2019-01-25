@@ -347,6 +347,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 
 			// call create folders here
 			createFolderStructures(container, monitor, params.getUiType());
+			String domainName = params.getDomainClassName().toLowerCase();
 
 			// add 3rd party JS libs
 			if (params.getUiType().equalsIgnoreCase("BackboneJS")) {
@@ -627,7 +628,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 
 				// create list and edit components
 				// create initial 'seed' domain folder
-				String domainName = params.getDomainClassName().toLowerCase();
+				
 				IFolder domainFolder = folders.get("src/ui/src/app").getFolder(new Path(domainName));
 				domainFolder.create(false, true, new NullProgressMonitor());
 				folders.put("src/ui/src/app/" + domainName, domainFolder);
@@ -794,6 +795,11 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 				
 				// reducers
 				IFolder reducersContainerFolder = folders.get("src/ui/src/reducers");
+				CommonUtils.addFileToProject(reducersContainerFolder, new Path(domainName + "Reducer.js"),
+						TemplateMerger.merge(
+								"/vasbootbuilder/resources/web/js/react/reducers/domain-reducer-template.js",
+								mapOfValues),
+						monitor);
 				CommonUtils.addFileToProject(reducersContainerFolder, new Path("index.js"),
 						TemplateMerger.merge(
 								"/vasbootbuilder/resources/web/js/react/reducers/index-template.js",

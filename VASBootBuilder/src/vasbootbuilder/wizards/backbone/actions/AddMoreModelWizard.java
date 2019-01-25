@@ -205,7 +205,8 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
 		mapOfValues.put("attrs", pageThree.getModelAttributes());
 		mapOfValues.put("fieldTypes", pageThree.getFieldTypes());
-
+		String domainName = domainClassName.toLowerCase();
+		
 		// Domain Folders
 		IFolder componentsFolder = projectContainer.getFolder(new Path("src/ui/src/components/"));
 
@@ -231,13 +232,61 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		
 		// reducers
 		IFolder reducersContainerFolder = projectContainer.getFolder(new Path("src/ui/src/reducers"));
-		CommonUtils.addFileToProject(reducersContainerFolder, new Path("index.js"),
+		CommonUtils.addFileToProject(reducersContainerFolder, new Path(domainName + "Reducer.js"),
 				TemplateMerger.merge(
-						"/vasbootbuilder/resources/web/js/react/reducers/index-template.js",
+						"/vasbootbuilder/resources/web/js/react/reducers/domain-reducer-template.js",
 						mapOfValues),
 				new NullProgressMonitor());
+		addReducerToIndexReducer(projectContainer, domainClassName);
 		
 		addNewRoutesToReact(projectContainer, domainClassName);
+	}
+	
+	private void addReducerToIndexReducer(IContainer projectContainer, String domainClassName)  throws Exception{
+		IFolder jsFolder = projectContainer.getFolder(new Path("src/ui/src/reducers"));
+		IFile appModuleFile = jsFolder.getFile("index.js");
+		File file = appModuleFile.getRawLocation().toFile();
+		String domainObjectName = domainClassName.substring(0,1).toLowerCase() + domainClassName.substring(1);
+
+		String fileContents = FileUtils.readFileToString(file);
+		StringBuffer buffer = new StringBuffer(fileContents);
+		
+		String importSectionRegex = "import.*";
+		Pattern importSectionPatter = Pattern.compile(importSectionRegex );
+		Matcher importSectionMatcher = importSectionPatter.matcher(buffer);
+		int indexToInsertNewImport = 0;
+		while(importSectionMatcher.find()) {
+			indexToInsertNewImport =importSectionMatcher.end();
+		}
+
+		String newImport = "import { " + domainObjectName + "sReducer, " + domainObjectName + "FetchReducer } " +
+				"from './" + domainObjectName + "Reducer';";
+		buffer.insert(indexToInsertNewImport, "\n" + newImport);
+		
+		String combineReducersExport = "";
+		String combineReducerRegex = "export\\s*default\\s* combineReducers.*\\);$";
+		Pattern combineReducersPattern = Pattern.compile(combineReducerRegex, Pattern.DOTALL | Pattern.MULTILINE );
+		Matcher combineReducersMatcher = combineReducersPattern.matcher(buffer);
+		if (combineReducersMatcher.find()) {
+			String currentRoutes = combineReducersMatcher.group();
+			String endOfCombineReducer = "\\n\\}\\s*\\);$";
+			Pattern fetchPattern = Pattern.compile(endOfCombineReducer, Pattern.DOTALL | Pattern.MULTILINE );
+			Matcher fetchmatcher = fetchPattern.matcher(currentRoutes);
+			if(fetchmatcher.find()) {		
+				combineReducersExport = fetchmatcher.replaceAll("," + "\n    " +
+						domainObjectName + "FetchReducer,\n    " + 
+						domainObjectName + "sReducer"
+						+ fetchmatcher.group());
+			}
+			
+			buffer = new StringBuffer(combineReducersMatcher.replaceAll(combineReducersExport));
+		}
+		
+		//System.out.println(updatedDispatchConst);
+		InputStream modifiedFileContent = new ByteArrayInputStream(CommonUtils.prettifyJS(buffer.toString()).getBytes());
+		appModuleFile.setContents(modifiedFileContent, IFile.FORCE, new NullProgressMonitor());
+		appModuleFile.refreshLocal(IFile.DEPTH_ZERO, new NullProgressMonitor());
+
 	}
 
 	private void addNewRoutesToReact(IContainer projectContainer, String domainClassName) throws Exception {
