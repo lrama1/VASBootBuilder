@@ -815,12 +815,27 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 								"/vasbootbuilder/resources/web/js/react/component/domain/DomainList-template.js",
 								mapOfValues),
 						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/containers"),
+						new Path(domainClassName + "ListContainer.js"),
+						TemplateMerger.merge(
+								"/vasbootbuilder/resources/web/js/react/component/domain/DomainListContainer-template.js",
+								mapOfValues),
+						monitor);
+				
+				
 				mapOfValues.put("componentName", domainClassName + "List");
 				// Domain Details (Editing Form}
 				CommonUtils.addFileToProject(folders.get("src/ui/src/components"),
 						new Path(domainClassName + "Edit.js"),
 						TemplateMerger.merge(
 								"/vasbootbuilder/resources/web/js/react/component/domain/DomainDetail-template.js",
+								mapOfValues),
+						monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/ui/src/containers"),
+						new Path(domainClassName + "EditContainer.js"),
+						TemplateMerger.merge(
+								"/vasbootbuilder/resources/web/js/react/component/domain/DomainDetailContainer-template.js",
 								mapOfValues),
 						monitor);
 				mapOfValues.put("componentName", domainClassName + "Detail");
@@ -1365,6 +1380,11 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			IFolder srcFolder2343 = srcFolder234.getFolder(new Path("reducers"));
 			srcFolder2343.create(false, true, new NullProgressMonitor());
 			folders.put("src/ui/src/reducers", srcFolder2343); 
+			
+			//src/ui/src/containers
+			IFolder srcFolder2344 = srcFolder234.getFolder(new Path("containers"));
+			srcFolder2344.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/src/containers", srcFolder2344);
 			
 		} else if (uiType.equalsIgnoreCase("Angular4")) {
 			// src/ui

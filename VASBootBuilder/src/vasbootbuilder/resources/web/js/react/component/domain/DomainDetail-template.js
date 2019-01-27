@@ -2,9 +2,6 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 
 import React from 'react'
-import {connect} from 'react-redux'
-import { dispatch } from 'react-redux'
-import { edit${domainClassName}, save${domainClassName}} from "../actions";
 
 function ${domainClassName}Edit(props){
     const handler = (event) =>{
@@ -35,21 +32,4 @@ function ${domainClassName}Edit(props){
     );
 }
 
-const mapStateToProps = (state) => {
-    console.log(state);
-    return {
-        selected${domainClassName}: state.${domainObjectName}FetchReducer
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return{
-        onEdit${domainClassName}: (${domainObjectName}) => {
-            dispatch(edit${domainClassName}(${domainObjectName}))
-        },
-        onSave${domainClassName}: (url, ${domainObjectName}) => {
-            dispatch(save${domainClassName}(url, ${domainObjectName}))
-        }
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(${domainClassName}Edit);
+export default ${domainClassName}Edit;

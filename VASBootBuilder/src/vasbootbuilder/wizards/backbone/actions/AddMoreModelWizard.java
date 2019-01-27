@@ -209,10 +209,17 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		
 		// Domain Folders
 		IFolder componentsFolder = projectContainer.getFolder(new Path("src/ui/src/components/"));
+		IFolder containersFolder = projectContainer.getFolder(new Path("src/ui/src/containers/"));
 
 		// Domain List
 		CommonUtils.addFileToProject(componentsFolder, new Path(domainClassName + "List.js"),
 				TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/component/domain/DomainList-template.js",
+
+						mapOfValues),
+				new NullProgressMonitor());
+		
+		CommonUtils.addFileToProject(containersFolder, new Path(domainClassName + "ListContainer.js"),
+				TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/component/domain/DomainListContainer-template.js",
 
 						mapOfValues),
 				new NullProgressMonitor());
@@ -221,6 +228,10 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		// Domain Details (Editing Form)
 		CommonUtils.addFileToProject(componentsFolder, new Path(domainClassName + "Edit.js"), TemplateMerger
 				.merge("/vasbootbuilder/resources/web/js/react/component/domain/DomainDetail-template.js", mapOfValues),
+				new NullProgressMonitor());
+		
+		CommonUtils.addFileToProject(containersFolder, new Path(domainClassName + "EditContainer.js"), TemplateMerger
+				.merge("/vasbootbuilder/resources/web/js/react/component/domain/DomainDetailContainer-template.js", mapOfValues),
 				new NullProgressMonitor());
 		//mapOfValues.put("ComponentName", domainClassName + "Detail");
 		
@@ -299,9 +310,8 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		String importRegex = "import.*\\';";
 		Pattern importPattern = Pattern.compile(importRegex, Pattern.DOTALL);
 		Matcher importmatcher = importPattern.matcher(fileContents);
-		String importStringToAdd = "import " + domainClassName + "List from '../components/" + domainClassName
-				+ "List';\n" + "import " + domainClassName + "Edit from '../components/" + domainClassName
-				+ "Edit';\n"
+		String importStringToAdd = "import " + domainClassName + "ListContainer from '../containers/" + domainClassName	+ "ListContainer';\n" 
+				+ "import " + domainClassName + "EditContainer from '../containers/" + domainClassName + "EditContainer';\n"
 				+ "import {fetchAll" + domainClassName + "s} from '../actions'; \n" ;
 		if (importmatcher.find()) {
 			String currentRoutes = importmatcher.group();
@@ -322,10 +332,10 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		Pattern routePattern = Pattern.compile(routeRegex, Pattern.DOTALL);
 		Matcher routeMatcher = routePattern.matcher(fileContents);
 		String routeStringToAdd = "<Route path=\"/" + domainClassName.toLowerCase() + "s\" exact component={"
-				+ domainClassName + "List}/>\n"
+				+ domainClassName + "ListContainer}/>\n"
 
 				+ "<Route path=\"/" + domainClassName.toLowerCase() + "\" exact component={" + domainClassName
-				+ "Edit}/>";
+				+ "EditContainer}/>";
 		if (routeMatcher.find()) {
 			String currentRoutes = routeMatcher.group();
 			fileContents = routeMatcher.replaceAll(currentRoutes + "\n" + routeStringToAdd);
@@ -351,7 +361,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 			Pattern fetchPattern = Pattern.compile(fetchRegex, Pattern.DOTALL | Pattern.MULTILINE );
 			Matcher fetchmatcher = fetchPattern.matcher(currentRoutes);
 			if(fetchmatcher.find()) {					
-				updatedDispatchConst = fetchmatcher.replaceAll(fetchmatcher.group() + ",\n" + "\tfetchAll" + domainClassName + "s: " +
+				updatedDispatchConst = fetchmatcher.replaceAll(fetchmatcher.group() + ",\n" + "\t    fetchAll" + domainClassName + "s: " +
 			           "(url) => dispatch(fetchAll" + domainClassName + "s(url))");
 			}
 			

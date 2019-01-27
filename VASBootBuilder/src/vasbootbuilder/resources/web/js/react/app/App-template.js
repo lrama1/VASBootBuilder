@@ -3,8 +3,8 @@ import React from 'react';
 import {BrowserRouter, Route, Link } from 'react-router-dom';
 import {connect, dispatch} from 'react-redux'
 
-import ${domainClassName}List from './${domainClassName}List';
-import ${domainClassName}Edit from './${domainClassName}Edit';
+import ${domainClassName}ListContainer from '../containers/${domainClassName}ListContainer';
+import ${domainClassName}EditContainer from '../containers/${domainClassName}EditContainer';
 import Home from './Home';
 import {fetchAll${domainClassName}s} from '../actions'
 
@@ -38,8 +38,8 @@ const App  = (props) => {
                 <div className="row">
                     <div className="col-xs-12">
                         <Route path="/" exact component={Home} />
-                        <Route path="/${domainObjectName}s" exact component={${domainClassName}List} />
-                        <Route path="/${domainObjectName}" exact render={(props) => <${domainClassName}Edit {...props} />} />
+                        <Route path="/${domainObjectName}s" exact component={${domainClassName}ListContainer} />
+                        <Route path="/${domainObjectName}" exact render={(props) => <${domainClassName}EditContainer {...props} />} />
                     </div>
                 </div>
             </div>
