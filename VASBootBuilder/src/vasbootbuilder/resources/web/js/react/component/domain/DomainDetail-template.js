@@ -4,9 +4,9 @@
 import React from 'react'
 
 function ${domainClassName}Edit(props){
-    const handler = (event) =>{
+    const changeHandler = (event) =>{
         const {name, value} = event.target;
-        props.onEdit${domainClassName}({...props.selected${domainClassName}, [name] : value});
+        props.onEdit${domainClassName}([name], value);
     }
 
     const buttonEventHandler = (event) => {
@@ -22,7 +22,7 @@ function ${domainClassName}Edit(props){
 		    <div className="form-group">
 		    <label for="${key}">${key}</label>
 		    <input className="form-control" id="${key}" name="${key}" value={props.selected${domainClassName}.${key}}
-		        onChange={handler}/>
+		        onChange={changeHandler}/>
 		    </div>
 		    #end
 		    

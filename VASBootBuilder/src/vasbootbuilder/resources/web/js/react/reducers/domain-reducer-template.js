@@ -1,20 +1,32 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 #set($domainConstantName = ${domainClassName.toUpperCase()})
 
-export const ${domainObjectName}sReducer = (${domainObjectName}s = [], action) => {
+export const ${domainObjectName}sReducer = (state = {${domainObjectName}s: []}, action) => {
     if(action.type === '${domainConstantName}S_FETCH_SUCCESS'){
-        return action.${domainObjectName}s;
+        return {
+        	...state,
+        	${domainObjectName}s: action.${domainObjectName}s
+        }
     }
-     return ${domainObjectName}s;
+    return state;
 }
 
-export const ${domainObjectName}FetchReducer = (${domainObjectName} = {}, action) => {
+export const ${domainObjectName}FetchReducer = (state = {${domainObjectName}:  {}}, action) => {
     if (action.type === '${domainConstantName}_FETCH_SUCCESS'){
-        return action.${domainObjectName};
+        return {
+        	...state,
+        	${domainObjectName}: action.${domainObjectName}
+        }
     }else if(action.type ==='${domainConstantName}_EDIT'){
-        return action.${domainObjectName};
+        return {
+        	...state,
+        	${domainObjectName}: {
+        		...state.${domainObjectName},
+        		[action.name]: action.value
+        	}
+        };
     }else if(action.type ==='${domainConstantName}_SAVE'){
         return action.${domainObjectName};
     }
-    return ${domainObjectName};
+    return state;
 }

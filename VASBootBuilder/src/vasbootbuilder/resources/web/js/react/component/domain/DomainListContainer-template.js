@@ -8,7 +8,7 @@ import {fetch${domainClassName}} from "../actions";
 const mapStateToProps = (state) => {
     console.log(state);
     return {
-        ${domainObjectName}s: state.${domainObjectName}sReducer
+        ${domainObjectName}s: state.${domainObjectName}sReducer.${domainObjectName}s
     };
 };
 

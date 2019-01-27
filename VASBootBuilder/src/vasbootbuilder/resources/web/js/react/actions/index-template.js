@@ -33,11 +33,11 @@ export function fetch${domainClassName}(url){
     }
 }
 
-export function edit${domainClassName}(${domainObjectName}){
-    console.log('Editing SUCCESS', ${domainObjectName} );
+export function edit${domainClassName}(name, value){    
     return {
         type: '${domainConstantName}_EDIT',
-        ${domainObjectName}: ${domainObjectName}
+        name,
+        value
     }
 }
 

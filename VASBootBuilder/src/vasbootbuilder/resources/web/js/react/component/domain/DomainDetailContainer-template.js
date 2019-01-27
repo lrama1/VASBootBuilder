@@ -7,14 +7,14 @@ import ${domainClassName}Edit from "../components/${domainClassName}Edit";
 const mapStateToProps = (state) => {
     console.log(state);
     return {
-        selected${domainClassName}: state.${domainObjectName}FetchReducer
+        selected${domainClassName}: state.${domainObjectName}FetchReducer.$domainObjectName
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onEdit${domainClassName}: (${domainObjectName}) => {
-            dispatch(edit${domainClassName}(${domainObjectName}))
+        onEdit${domainClassName}: (name, value) => {
+            dispatch(edit${domainClassName}(name, value))
         },
         onSave${domainClassName}: (url, ${domainObjectName}) => {
             dispatch(save${domainClassName}(url, ${domainObjectName}))
