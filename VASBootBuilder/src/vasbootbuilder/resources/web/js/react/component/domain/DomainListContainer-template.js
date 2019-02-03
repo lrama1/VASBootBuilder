@@ -2,7 +2,7 @@
 import React from 'react';
 import {connect, dispatch} from 'react-redux';
 import ${domainClassName}List from '../components/${domainClassName}List'
-import {fetch${domainClassName}} from "../actions";
+import {fetch${domainClassName}} from '../actions';
 
 
 const mapStateToProps = (state) => {
