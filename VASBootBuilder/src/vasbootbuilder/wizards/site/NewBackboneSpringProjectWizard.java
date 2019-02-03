@@ -820,15 +820,21 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 						TemplateMerger.merge(
 								"/vasbootbuilder/resources/web/js/react/component/domain/DomainListContainer-template.js",
 								mapOfValues),
-						monitor);
-				
-				
+						monitor);				
 				mapOfValues.put("componentName", domainClassName + "List");
+				
 				// Domain Details (Editing Form}
 				CommonUtils.addFileToProject(folders.get("src/ui/src/components"),
 						new Path(domainClassName + "Edit.js"),
 						TemplateMerger.merge(
 								"/vasbootbuilder/resources/web/js/react/component/domain/DomainDetail-template.js",
+								mapOfValues),
+						monitor);
+				//Test
+				CommonUtils.addFileToProject(folders.get("src/ui/src/components"),
+						new Path(domainClassName + "Edit.test.js"),
+						TemplateMerger.merge(
+								"/vasbootbuilder/resources/web/js/react/component/domain/DomainDetailTest-template.js",
 								mapOfValues),
 						monitor);
 				

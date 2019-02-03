@@ -26,7 +26,7 @@ function ${domainClassName}Edit(props){
 		    </div>
 		    #end
 		    
-            <button onClick={buttonEventHandler}>Save</button>
+            <button id="saveButton" onClick={buttonEventHandler}>Save</button>
           </form>
       </div>
     );
