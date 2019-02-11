@@ -39,7 +39,7 @@ const App  = (props) => {
                     <div className="col-xs-12">
                         <Route path="/" exact component={Home} />
                         <Route path="/${domainObjectName}s" exact component={${domainClassName}ListContainer} />
-                        <Route path="/${domainObjectName}" exact render={(props) => <${domainClassName}EditContainer {...props} />} />
+                        <Route path="/${domainObjectName}" exact component={${domainClassName}EditContainer} />
                     </div>
                 </div>
             </div>

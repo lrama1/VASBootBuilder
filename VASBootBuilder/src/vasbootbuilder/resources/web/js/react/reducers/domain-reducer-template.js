@@ -11,7 +11,17 @@ export const ${domainObjectName}sReducer = (state = {${domainObjectName}s: []}, 
     return state;
 }
 
-export const ${domainObjectName}FetchReducer = (state = {${domainObjectName}:  {}}, action) => {
+const initial${domainClassName} = {
+#foreach($key in $attrs.keySet() )
+    #if($foreach.count == 1)
+    ${key}: ''    
+    #else
+    ,${key}: ''    
+    #end    
+#end
+}
+
+export const ${domainObjectName}FetchReducer = (state = {${domainObjectName}: initial${domainClassName}}, action) => {
     if (action.type === '${domainConstantName}_FETCH_SUCCESS'){
         return {
         	...state,
