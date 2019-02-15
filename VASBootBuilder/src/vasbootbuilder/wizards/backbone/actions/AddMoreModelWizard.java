@@ -95,6 +95,11 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 				String basePackageName = vasBootBuilderProperties.getProperty("basePackage");
 				String useMongo = vasBootBuilderProperties.getProperty("useMongo");
 				String uiType = vasBootBuilderProperties.getProperty("uiType");
+				if(pageFive.getUIType().equalsIgnoreCase("None")) {
+				    //use the selection from wizard only if it was switched to None
+				    uiType = pageFive.getUIType();
+				}			
+				
 				String prepForHSQL = vasBootBuilderProperties.getProperty("prepForHSQL");
 				
 				Map<String, Object> modelAttributes = pageThree.getModelAttributes();
@@ -165,7 +170,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 					addNewTabsToAngular4AppComponentPage(projectContainer, pageThree.getDomainClassName());
 				} else if (uiType.equalsIgnoreCase("React")) {
 					createReactTemplates(projectContainer, projectName);
-				} else {
+				} else if (uiType.equalsIgnoreCase("VueJS")) {
 					/************** VUEJS SPECIFIC ****************************/
 					createVueTemplates(projectContainer, projectName);
 					addNewRoutesToMainJS(projectContainer, pageThree.getDomainClassName());
