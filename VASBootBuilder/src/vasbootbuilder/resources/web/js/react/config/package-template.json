@@ -19,7 +19,7 @@
 	},
     "devDependencies": {
         "body-parser": "^1.18.3",
-        "concurrent": "^0.3.2",
+        "concurrently": "^4.1.0",
         "cors": "^2.8.5"
     },
 	"scripts": {
@@ -27,7 +27,9 @@
 		"build": "react-scripts build",
 		"test": "react-scripts test --env=jsdom",
 		"eject": "react-scripts eject",
-		"coverage": "react-scripts test --env=jsdom --coverage"
+		"coverage": "react-scripts test --env=jsdom --coverage",
+		"startMock" : "node ./mocks/server.js",
+        "standalone": "concurrently \"yarn startMock\" \"yarn start\""
 	},
 	"proxy": "http://localhost:8000/${projectName}",
 	"eslintConfig":{"extends":"react-app"},
