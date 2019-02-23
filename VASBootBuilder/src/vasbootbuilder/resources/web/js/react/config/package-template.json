@@ -17,6 +17,11 @@
 		"enzyme": "^3.8.0",
 		"enzyme-adapter-react-16": "^1.8.0"
 	},
+    "devDependencies": {
+        "body-parser": "^1.18.3",
+        "concurrent": "^0.3.2",
+        "cors": "^2.8.5"
+    },
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",

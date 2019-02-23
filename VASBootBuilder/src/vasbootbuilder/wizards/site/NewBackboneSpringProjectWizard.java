@@ -144,6 +144,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			mapOfValues.put("projectName", projectHandle.getName());
 			mapOfValues.put("domainPackageName", domainPackageName);
 			mapOfValues.put("domainClassName", domainClassName);
+			mapOfValues.put("domainObjectName", domainClassName.substring(0, 1).toLowerCase() + domainClassName.substring(1));
 			mapOfValues.put("domainClassIdAttributeName", domainClassIdAttributeName);
 			mapOfValues.put("basePackageName", basePackageName);
 			mapOfValues.put("utilPackageName", basePackageName + ".util");
@@ -760,6 +761,8 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 						monitor);
 
 			} else if (params.getUiType().equalsIgnoreCase("React")) {
+			    String domainClassName = params.getDomainClassName();
+			    
 				CommonUtils.addFileToProject(container, new Path("npm-build.sh"),
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/other/npm-build.sh", mapOfValues),
 						monitor);
@@ -768,6 +771,13 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 						monitor);
 				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("package.json"), TemplateMerger.merge(
 						"/vasbootbuilder/resources/web/js/react/config/package-template.json", mapOfValues), monitor);
+				//mocks
+				CommonUtils.addFileToProject(folders.get("src/ui/mocks"), new Path("server.js"), TemplateMerger.merge(
+                        "/vasbootbuilder/resources/web/js/react/other/server-template.js", mapOfValues), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/mocks"), new Path(domainClassName +"s.json"), TemplateMerger.merge(
+                        "/vasbootbuilder/resources/web/js/react/other/mockdata-template.json", mapOfValues), monitor);
+				
+				
 				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("index.js"), TemplateMerger
 						.merge("/vasbootbuilder/resources/web/js/react/app/index-template.js", mapOfValues), monitor);
 				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("index.css"), TemplateMerger
@@ -806,8 +816,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 								mapOfValues),
 						monitor);
 				
-				// Domain Folders
-				String domainClassName = params.getDomainClassName();
+				// Domain Folders				
 				// Domain List
 				CommonUtils.addFileToProject(folders.get("src/ui/src/components"),
 						new Path(domainClassName + "List.js"),
@@ -1324,6 +1333,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			IFolder srcFolder23 = srcFolder.getFolder(new Path("ui"));
 			srcFolder23.create(false, true, new NullProgressMonitor());
 			folders.put("src/ui", srcFolder23);
+			
 			// src/ui/build
 			IFolder srcFolder231 = srcFolder23.getFolder(new Path("build"));
 			srcFolder231.create(false, true, new NullProgressMonitor());
@@ -1363,6 +1373,11 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			IFolder srcFolder23 = srcFolder.getFolder (new Path("ui"));
 			srcFolder23.create(false, true, new NullProgressMonitor());
 			folders.put("src/ui", srcFolder23);
+			
+	         // src/ui/mocks
+            IFolder srcFolder230 = srcFolder23.getFolder(new Path("mocks"));
+            srcFolder230.create(false, true, new NullProgressMonitor());
+            folders.put("src/ui/mocks", srcFolder230);
 
 			IFolder srcFolder231 = srcFolder23.getFolder(new Path("public"));
 			srcFolder231.create(false, true, new NullProgressMonitor()); 

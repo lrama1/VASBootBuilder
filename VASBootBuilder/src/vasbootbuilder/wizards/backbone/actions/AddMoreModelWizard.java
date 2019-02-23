@@ -260,6 +260,48 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		addReducerToIndexReducer(projectContainer, domainClassName);
 		
 		addNewRoutesToReact(projectContainer, domainClassName);
+		
+		modifyMockServer(projectContainer, projectName, domainClassName);
+		
+		addMockData(projectContainer, domainClassName);
+	}
+	
+	private void modifyMockServer(IContainer projectContainer, String projectName, String domainClassName) throws Exception{	    
+	    IFolder mockFolder = projectContainer.getFolder(new Path("src/ui/mocks"));
+	    IFile serverJSFile = mockFolder.getFile("server.js");
+	    File fileToAugment = serverJSFile.getRawLocation().toFile();
+	    
+	    String domainObjectName = domainClassName.toLowerCase();
+	    String stringToInsert = 
+                "const " + domainObjectName + "s = require('./" + domainClassName + "s.json')\n" + 
+                "app.get('/" + projectName + "/" + domainObjectName + "s', (req, res) =>{\n" + 
+                "    return res.json(" + domainObjectName + "s)\n" + 
+                "})\n";
+    
+        String fileContentsx = FileUtils.readFileToString(fileToAugment);
+        StringBuffer buffer = new StringBuffer(fileContentsx);
+
+        String appListenRegexString = "app.listen";
+        Pattern appListenPattern = Pattern.compile(appListenRegexString, Pattern.MULTILINE );
+        Matcher appListenMatcher = appListenPattern.matcher(buffer);
+        if (appListenMatcher.find()) {
+            buffer.insert(appListenMatcher.start(), stringToInsert);
+        }
+        
+        InputStream modifiedFileContent = new ByteArrayInputStream(CommonUtils.prettifyJS(buffer.toString()).getBytes());
+        serverJSFile.setContents(modifiedFileContent, IFile.FORCE, new NullProgressMonitor());
+        serverJSFile.refreshLocal(IFile.DEPTH_ZERO, new NullProgressMonitor());
+	}
+	
+	private void addMockData(IContainer projectContainer, String domainClassName) throws Exception {
+	    IFolder mockFolder = projectContainer.getFolder(new Path("src/ui/mocks"));
+	    Map<String, Object> mapOfValues = new HashMap<String, Object>();
+        mapOfValues.put("domainClassName", domainClassName);
+        mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
+        mapOfValues.put("attrs", pageThree.getModelAttributes());
+        mapOfValues.put("fieldTypes", pageThree.getFieldTypes());
+	    CommonUtils.addFileToProject(mockFolder, new Path(domainClassName +"s.json"), TemplateMerger.merge(
+                "/vasbootbuilder/resources/web/js/react/other/mockdata-template.json", mapOfValues), new NullProgressMonitor());
 	}
 	
 	private void addReducerToIndexReducer(IContainer projectContainer, String domainClassName)  throws Exception{
