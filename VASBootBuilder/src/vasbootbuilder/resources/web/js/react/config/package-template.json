@@ -20,7 +20,8 @@
     "devDependencies": {
         "body-parser": "^1.18.3",
         "concurrently": "^4.1.0",
-        "cors": "^2.8.5"
+        "cors": "^2.8.5",
+        "json-query": "^2.2.2"
     },
 	"scripts": {
 		"start": "react-scripts start",
