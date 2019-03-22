@@ -7,7 +7,7 @@ import ${domainClassName}Edit from '../components/${domainClassName}Edit';
 const mapStateToProps = (state) => {
     console.log(state);
     return {
-        selected${domainClassName}: state.${domainObjectName}FetchReducer.$domainObjectName
+        selected${domainClassName}: state.$domainObjectName
     };
 };
 

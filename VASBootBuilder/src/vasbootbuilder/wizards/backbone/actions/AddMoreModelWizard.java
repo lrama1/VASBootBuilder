@@ -321,7 +321,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 			indexToInsertNewImport =importSectionMatcher.end();
 		}
 
-		String newImport = "import { " + domainObjectName + "sReducer, " + domainObjectName + "FetchReducer } " +
+		String newImport = "import { " + domainObjectName + "s, " + domainObjectName + " } " +
 				"from './" + domainObjectName + "Reducer';";
 		buffer.insert(indexToInsertNewImport, "\n" + newImport);
 		
@@ -336,8 +336,8 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 			Matcher fetchmatcher = fetchPattern.matcher(currentRoutes);
 			if(fetchmatcher.find()) {		
 				combineReducersExport = fetchmatcher.replaceAll("," + "\n    " +
-						domainObjectName + "FetchReducer,\n    " + 
-						domainObjectName + "sReducer"
+						domainObjectName + ",\n    " + 
+						domainObjectName + "s"
 						+ fetchmatcher.group());
 			}
 			

@@ -805,7 +805,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 				
 				// reducers
 				IFolder reducersContainerFolder = folders.get("src/ui/src/reducers");
-				CommonUtils.addFileToProject(reducersContainerFolder, new Path(domainName + "Reducer.js"),
+				CommonUtils.addFileToProject(reducersContainerFolder, new Path(domainName + ".js"),
 						TemplateMerger.merge(
 								"/vasbootbuilder/resources/web/js/react/reducers/domain-reducer-template.js",
 								mapOfValues),
