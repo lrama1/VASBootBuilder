@@ -345,6 +345,12 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			/* Add an pom file */
 			CommonUtils.addFileToProject(container, new Path("pom.xml"),
 					TemplateMerger.merge("/vasbootbuilder/resources/maven/pom.xml-template", mapOfValues), monitor);
+			
+			/* Add Gradle scripts*/
+			CommonUtils.addFileToProject(container, new Path("build.gradle"),
+                    TemplateMerger.merge("/vasbootbuilder/resources/gradle/build-template.gradle", mapOfValues), monitor);
+			CommonUtils.addFileToProject(container, new Path("settings.gradle"),
+                    TemplateMerger.merge("/vasbootbuilder/resources/gradle/settings-template.gradle", mapOfValues), monitor);
 
 			// call create folders here
 			createFolderStructures(container, monitor, params.getUiType());
