@@ -13,10 +13,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onEdit${domainClassName}: (name, value) => {
+        onEdit${domainClassName}(name, value){
             dispatch(edit${domainClassName}(name, value))
         },
-        onSave${domainClassName}: (url, ${domainObjectName}) => {
+        onSave${domainClassName}(url, ${domainObjectName}){
             dispatch(save${domainClassName}(url, ${domainObjectName}))
         }
     }

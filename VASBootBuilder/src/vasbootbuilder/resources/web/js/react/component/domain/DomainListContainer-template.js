@@ -14,8 +14,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return{
-        onSelect${domainClassName}: (${domainObjectName}) => dispatch(fetch${domainClassName}(${domainObjectName})),
-        fetch${domainClassName}: (url) => dispatch(fetch${domainClassName}(url))
+        onSelect${domainClassName}(${domainObjectName}){
+            dispatch(fetch${domainClassName}(${domainObjectName}))
+        },
+        fetch${domainClassName}(url){
+            dispatch(fetch${domainClassName}(url))
+        }
     }
 }
 
