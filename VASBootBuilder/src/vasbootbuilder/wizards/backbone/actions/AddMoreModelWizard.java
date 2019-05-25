@@ -252,7 +252,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		
 		// reducers
 		IFolder reducersContainerFolder = projectContainer.getFolder(new Path("src/ui/src/reducers"));
-		CommonUtils.addFileToProject(reducersContainerFolder, new Path(domainName + "Reducer.js"),
+		CommonUtils.addFileToProject(reducersContainerFolder, new Path(domainName + ".js"),
 				TemplateMerger.merge(
 						"/vasbootbuilder/resources/web/js/react/reducers/domain-reducer-template.js",
 						mapOfValues),
@@ -261,21 +261,28 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		
 		addNewRoutesToReact(projectContainer, domainClassName);
 		
-		modifyMockServer(projectContainer, projectName, domainClassName);
+		modifyMockServer(projectContainer, projectName, domainClassName, mapOfValues);
 		
 		addMockData(projectContainer, domainClassName);
 	}
 	
-	private void modifyMockServer(IContainer projectContainer, String projectName, String domainClassName) throws Exception{	    
+	private void modifyMockServer(IContainer projectContainer, String projectName, String domainClassName,
+	        Map<String, Object> mapOfValues) throws Exception{	    
 	    IFolder mockFolder = projectContainer.getFolder(new Path("src/ui/mocks"));
 	    IFile serverJSFile = mockFolder.getFile("server.js");
 	    File fileToAugment = serverJSFile.getRawLocation().toFile();
 	    
 	    String domainObjectName = domainClassName.toLowerCase();
+	    String domainClassIdAttributeName = (String)mapOfValues.get("domainClassIdAttributeName");
 	    String stringToInsert = 
                 "const " + domainObjectName + "s = require('./" + domainClassName + "s.json')\n" + 
                 "app.get('/" + projectName + "/" + domainObjectName + "s', (req, res) =>{\n" + 
                 "    return res.json(" + domainObjectName + "s)\n" + 
+                "})\n" +
+                "" +
+                "app.get('/" + projectName + "/" + domainObjectName + "/:" + domainClassIdAttributeName + "', (req, res) =>{\n" + 
+                "    const returnVal = jsonQuery('rows[" + domainClassIdAttributeName + "=' + req.params." + domainClassIdAttributeName + " + ']',{data: " + domainObjectName + "s})\n" + 
+                "    return res.json(returnVal.value)\n" + 
                 "})\n";
     
         String fileContentsx = FileUtils.readFileToString(fileToAugment);
@@ -322,7 +329,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		}
 
 		String newImport = "import { " + domainObjectName + "s, " + domainObjectName + " } " +
-				"from './" + domainObjectName + "Reducer';";
+				"from './" + domainObjectName + "';";
 		buffer.insert(indexToInsertNewImport, "\n" + newImport);
 		
 		String combineReducersExport = "";
