@@ -6,7 +6,7 @@ import {connect, dispatch} from 'react-redux'
 import ${domainClassName}ListContainer from '../containers/${domainClassName}ListContainer';
 import ${domainClassName}EditContainer from '../containers/${domainClassName}EditContainer';
 import Home from './Home';
-import {fetchAll${domainClassName}s} from '../actions'
+import {fetchAll${domainClassName}s} from '../actions/${domainObjectName}'
 
 const App  = (props) => {
 

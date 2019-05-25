@@ -246,7 +246,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		
 		// actions
 		IFolder actionsContainerFolder = projectContainer.getFolder(new Path("src/ui/src/actions"));
-		CommonUtils.addFileToProject(actionsContainerFolder, new Path("index.js"),
+		CommonUtils.addFileToProject(actionsContainerFolder, new Path(domainName + ".js"),
 				TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/actions/index-template.js",	mapOfValues),
 				new NullProgressMonitor());
 		
@@ -370,7 +370,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		Matcher importmatcher = importPattern.matcher(fileContents);
 		String importStringToAdd = "import " + domainClassName + "ListContainer from '../containers/" + domainClassName	+ "ListContainer';\n" 
 				+ "import " + domainClassName + "EditContainer from '../containers/" + domainClassName + "EditContainer';\n"
-				+ "import {fetchAll" + domainClassName + "s} from '../actions'; \n" ;
+				+ "import {fetchAll" + domainClassName + "s} from '../actions/" + domainObjectName + "'; \n" ;
 		if (importmatcher.find()) {
 			String currentRoutes = importmatcher.group();
 			fileContents = importmatcher.replaceAll(currentRoutes + "\n" + importStringToAdd);
