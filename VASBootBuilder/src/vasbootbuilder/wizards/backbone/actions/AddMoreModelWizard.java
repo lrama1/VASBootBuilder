@@ -260,6 +260,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		addReducerToIndexReducer(projectContainer, domainClassName);
 		
 		addNewRoutesToReact(projectContainer, domainClassName);
+		addActionsToAppContainer(projectContainer, domainClassName);
 		
 		modifyMockServer(projectContainer, projectName, domainClassName, mapOfValues);
 		
@@ -358,6 +359,40 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 
 	}
 
+	private void addActionsToAppContainer(IContainer projectContainer, String domainClassName) throws Exception {
+	    String domainObjectName = domainClassName.substring(0,1).toLowerCase() + domainClassName.substring(1);
+        IFolder jsFolder = projectContainer.getFolder(new Path("src/ui/src/containers"));
+        IFile appContainerModuleFile = jsFolder.getFile("AppContainer.js");
+        File file = appContainerModuleFile.getRawLocation().toFile();
+
+        String fileContents = FileUtils.readFileToString(file);
+        String importRegex = "import.*\\'";
+        Pattern importPattern = Pattern.compile(importRegex, Pattern.DOTALL);
+        Matcher importmatcher = importPattern.matcher(fileContents);
+        
+        
+        String importStringToAdd = 
+                "import {fetchAll" + domainClassName + "s} from '../actions/" + domainObjectName + "'; \n" ;
+        if (importmatcher.find()) {
+            String currentRoutes = importmatcher.group();
+            fileContents = importmatcher.replaceAll(currentRoutes + "\n" + importStringToAdd);
+        }else{
+            importRegex = "import.*\\';";
+            importPattern = Pattern.compile(importRegex, Pattern.DOTALL);
+            importmatcher = importPattern.matcher(fileContents);
+            
+            String currentRoutes = importmatcher.group();
+            fileContents = importmatcher.replaceAll(currentRoutes + "\n" + importStringToAdd);
+        }
+        
+        //add dispatcher in mapDispatchToProps
+        fileContents = addDispatcher(fileContents, domainClassName);
+        
+        InputStream modifiedFileContent = new ByteArrayInputStream(CommonUtils.prettifyJS(fileContents).getBytes());
+        appContainerModuleFile.setContents(modifiedFileContent, IFile.FORCE, new NullProgressMonitor());
+        appContainerModuleFile.refreshLocal(IFile.DEPTH_ZERO, new NullProgressMonitor());
+	}
+	
 	private void addNewRoutesToReact(IContainer projectContainer, String domainClassName) throws Exception {
 		String domainObjectName = domainClassName.substring(0,1).toLowerCase() + domainClassName.substring(1);
 		IFolder jsFolder = projectContainer.getFolder(new Path("src/ui/src/components"));
@@ -369,8 +404,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		Pattern importPattern = Pattern.compile(importRegex, Pattern.DOTALL);
 		Matcher importmatcher = importPattern.matcher(fileContents);
 		String importStringToAdd = "import " + domainClassName + "ListContainer from '../containers/" + domainClassName	+ "ListContainer';\n" 
-				+ "import " + domainClassName + "EditContainer from '../containers/" + domainClassName + "EditContainer';\n"
-				+ "import {fetchAll" + domainClassName + "s} from '../actions/" + domainObjectName + "'; \n" ;
+				+ "import " + domainClassName + "EditContainer from '../containers/" + domainClassName + "EditContainer';\n";
 		if (importmatcher.find()) {
 			String currentRoutes = importmatcher.group();
 			fileContents = importmatcher.replaceAll(currentRoutes + "\n" + importStringToAdd);
@@ -400,7 +434,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		}
 		
 		//add dispatcher in mapDispatchToProps
-		fileContents = addDispatcher(fileContents, domainClassName);
+		//fileContents = addDispatcher(fileContents, domainClassName);
 		
 		InputStream modifiedFileContent = new ByteArrayInputStream(CommonUtils.prettifyJS(fileContents).getBytes());
 		appModuleFile.setContents(modifiedFileContent, IFile.FORCE, new NullProgressMonitor());

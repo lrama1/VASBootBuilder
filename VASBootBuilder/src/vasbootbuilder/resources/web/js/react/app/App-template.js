@@ -6,9 +6,8 @@ import {connect, dispatch} from 'react-redux'
 import ${domainClassName}ListContainer from '../containers/${domainClassName}ListContainer';
 import ${domainClassName}EditContainer from '../containers/${domainClassName}EditContainer';
 import Home from './Home';
-import {fetchAll${domainClassName}s} from '../actions/${domainObjectName}'
 
-const App  = (props) => {
+function App(props){
 
     return(
     	<BrowserRouter>
@@ -47,15 +46,4 @@ const App  = (props) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    console.log(state);
-    return {
-        ${domainObjectName}s: state.${domainObjectName}sReducer
-    };
-};
-const mapDispatchToProps = (dispatch) => {
-    return{
-        fetchAll${domainClassName}s: (url) => dispatch(fetchAll${domainClassName}s(url))
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default App;

@@ -792,6 +792,9 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 				CommonUtils.addFileToProject(folders.get("src/ui/src/components"), new Path("App.js"),
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/App-template.js", mapOfValues),
 						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/containers"), new Path("AppContainer.js"),
+                        TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppContainer-template.js", mapOfValues),
+                        monitor);
 				
 				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("registerServiceWorker.js"),
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/registerServiceWorker.js" ,mapOfValues),
