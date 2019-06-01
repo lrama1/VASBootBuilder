@@ -1,7 +1,6 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 import React from 'react';
 import {BrowserRouter, Route, Link } from 'react-router-dom';
-import {connect, dispatch} from 'react-redux'
 
 import ${domainClassName}ListContainer from '../containers/${domainClassName}ListContainer';
 import ${domainClassName}EditContainer from '../containers/${domainClassName}EditContainer';

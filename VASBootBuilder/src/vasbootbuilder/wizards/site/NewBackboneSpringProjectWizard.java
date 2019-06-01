@@ -139,10 +139,18 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 
 			final String domainClassName = pageThree.getDomainClassName();
 			final String domainClassIdAttributeName = pageThree.getDomainClassAttributeName();
+			final String servicePackageName = pageTwo.getBasePackageName() + ".service";
+            final String webServicePackageName = pageTwo.getBasePackageName() + ".webservice";
+            final String daoPackageName = pageTwo.getBasePackageName() + ".dao";
+            final String commonPackageName = pageTwo.getBasePackageName() + ".common";
+            final String securityPackageName = pageTwo.getBasePackageName() + ".security";
 
 			final Map<String, Object> mapOfValues = new HashMap<String, Object>();
 			mapOfValues.put("projectName", projectHandle.getName());
 			mapOfValues.put("domainPackageName", domainPackageName);
+			mapOfValues.put("commonPackageName", commonPackageName);
+            
+			
 			mapOfValues.put("domainClassName", domainClassName);
 			mapOfValues.put("domainObjectName", domainClassName.substring(0, 1).toLowerCase() + domainClassName.substring(1));
 			mapOfValues.put("domainClassIdAttributeName", domainClassIdAttributeName);
@@ -188,11 +196,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			// domainClassName, domainClassIdAttributeName);
 			final String controllerTestSourceCode = pageThree.getControllerTestSource(basePackageName,
 					controllerPackageName, domainClassName);
-			final String servicePackageName = pageTwo.getBasePackageName() + ".service";
-			final String webServicePackageName = pageTwo.getBasePackageName() + ".webservice";
-			final String daoPackageName = pageTwo.getBasePackageName() + ".dao";
-			final String commonPackageName = pageTwo.getBasePackageName() + ".common";
-			final String securityPackageName = pageTwo.getBasePackageName() + ".security";
+			
 
 			final SourceCodeGeneratorParameters params = new SourceCodeGeneratorParameters();
 			params.setBasePackageName(basePackageName);
@@ -1205,6 +1209,10 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			/* Add ListWrapper */
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getCommonPackageName(),
 					"ListWrapper", params.getListWrapperSourceCode(), monitor);
+			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getCommonPackageName(),
+                    "SortedIndicator", IOUtils.toString(TemplateMerger
+                            .merge("/vasbootbuilder/resources/java/sortedIndicator.java-template", mapOfValues)), monitor);
+			
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getCommonPackageName(),
 					"NameValuePair", params.getNameValuePairSourceCode(), monitor);
 

@@ -1,5 +1,5 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
-import React from 'react';
+
 import {connect, dispatch} from 'react-redux';
 import ${domainClassName}List from '../components/${domainClassName}List'
 import {fetch${domainClassName}} from '../actions/${domainObjectName}';
