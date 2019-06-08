@@ -1,6 +1,9 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 import React from 'react';
 import {BrowserRouter, Route, Link } from 'react-router-dom';
+import 'primereact/resources/themes/nova-light/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 
 import ${domainClassName}ListContainer from '../containers/${domainClassName}ListContainer';
 import ${domainClassName}EditContainer from '../containers/${domainClassName}EditContainer';

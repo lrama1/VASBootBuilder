@@ -74,11 +74,14 @@ export function save${domainClassName}(url, ${domainObjectName}){
 }
 
 /*---------------------------------------------------------*/
-export function ${domainObjectName}sFetchSuccess(${domainObjectName}s){
+export function ${domainObjectName}sFetchSuccess(${domainObjectName}s, totalRecords, lastPage, first){
     console.log('DISPATCHING SUCCESS', ${domainObjectName}s );
     return {
         type: '${domainConstantName}S_FETCH_SUCCESS',
-        ${domainObjectName}s: ${domainObjectName}s
+        ${domainObjectName}s: ${domainObjectName}s,
+        totalRecords,
+        lastPage,
+        first
     }
 }
 
@@ -89,13 +92,13 @@ export function ${domainObjectName}sFetchError(error){
     }
 }
 
-export function fetchAll${domainClassName}s(url){
+export function fetchAll${domainClassName}s(url, first){
     console.log('Fetch Invoked');
     return dispatch => {
         fetch(url)
         .then(response => response.json())
         .then(data => {            
-            dispatch(${domainObjectName}sFetchSuccess(data.rows))
+            dispatch(${domainObjectName}sFetchSuccess(data.rows, data.totalRecords, data.lastPage, first))
         })
         .catch(() => dispatch(${domainObjectName}sFetchError(true)))
     }

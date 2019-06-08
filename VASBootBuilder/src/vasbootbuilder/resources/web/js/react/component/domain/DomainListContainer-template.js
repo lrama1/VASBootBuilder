@@ -2,13 +2,15 @@
 
 import {connect, dispatch} from 'react-redux';
 import ${domainClassName}List from '../components/${domainClassName}List'
-import {fetch${domainClassName}} from '../actions/${domainObjectName}';
+import {fetch${domainClassName}, fetchAll${domainClassName}s} from '../actions/${domainObjectName}';
 
 
 const mapStateToProps = (state) => {
     console.log(state);
     return {
-        ${domainObjectName}s: state.${domainObjectName}s
+        ${domainObjectName}s: state.${domainObjectName}s.records,
+        totalRecords: state.${domainObjectName}s.totalRecords,
+        first: state.${domainObjectName}s.first
     };
 };
 
@@ -19,6 +21,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         fetch${domainClassName}(url){
             dispatch(fetch${domainClassName}(url))
+        },
+        fetchAll${domainClassName}s(url, first){
+            dispatch(fetchAll${domainClassName}s(url, first))
         }
     }
 }

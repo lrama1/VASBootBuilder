@@ -1,9 +1,20 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 #set($domainConstantName = ${domainClassName.toUpperCase()})
 
-export const ${domainObjectName}s = (state = [], action) => {
+const initial${domainClassName}s = {
+     records: [],
+     totalRecords: 0,
+     first: 0        
+} 
+
+export const ${domainObjectName}s = (state = initial${domainClassName}s, action) => {
     if(action.type === '${domainConstantName}S_FETCH_SUCCESS'){
-        return action.${domainObjectName}s        
+        return {
+            ...state,
+            records: action.${domainObjectName}s,
+            totalRecords: action.totalRecords,
+            first: action.first
+        }
     }
     return state;
 }

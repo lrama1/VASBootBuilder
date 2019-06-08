@@ -3,25 +3,26 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
-		"bootstrap": "^4.2.1",
+	     "classnames": "^2.2.6",
 		"react": "^16.8.1",
-		"react-bootstrap": "^1.0.0-beta.4",
 		"react-dom": "^16.8.1",
 		"react-redux": "^6.0.0",
 		"react-router": "^4.3.1",
 		"react-router-dom": "^4.3.1",
 		"react-scripts": "2.1.4",
+		"primeicons": "^1.0.0",
+        "primereact": "^3.1.4",
 		"redux": "^4.0.1",
-		"redux-thunk": "^2.3.0",
-		"react-test-renderer": "^16.8.1",
-		"enzyme": "^3.8.0",
-		"enzyme-adapter-react-16": "^1.8.0"
+		"redux-thunk": "^2.3.0"		
 	},
     "devDependencies": {
         "body-parser": "^1.18.3",
         "concurrently": "^4.1.0",
         "cors": "^2.8.5",
-        "json-query": "^2.2.2"
+        "json-query": "^2.2.2",
+        "react-test-renderer": "^16.8.1",
+        "enzyme": "^3.8.0",
+        "enzyme-adapter-react-16": "^1.8.0"
     },
 	"scripts": {
 		"start": "react-scripts start",

@@ -1,43 +1,39 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 import React from 'react'
+import {DataTable} from 'primereact/components/datatable/DataTable'
+import {Column} from 'primereact/components/column/Column'
 
-function ${domainClassName}List({history, fetch${domainClassName}, ${domainObjectName}s}){
+function ${domainClassName}List({history, fetch${domainClassName}, fetchAll${domainClassName}s, ${domainObjectName}s, first, totalRecords}){
 
-    function select${domainClassName}(${domainObjectName}){
-        //dispatch an action to fetch the selected ${domainObjectName}
-        fetch${domainClassName}('/${domainObjectName}/' + ${domainObjectName}.${domainClassIdAttributeName})
+    function pageAction({first,rows, page}){
+        console.log(first)
+        fetchAll${domainClassName}s('${domainObjectName}s?per_page=' + rows + '&page=' + (page+1), first )
+    }
+    
+    function buttonClicked(data){
+        fetch${domainClassName}('/${domainObjectName}/' + data.${domainClassIdAttributeName})
         //tell route to display the Edit screen
         history.push({pathname: '/${domainObjectName}'});
     }
 
-
-    /*
-    Iterate thru rows of ${domainObjectName}s and create a tr component for each
-    NOTE: look up examples of the 'map' function on the web if you're unfamiliar with it
-     */
-    const rows = ${domainObjectName}s.map((${domainObjectName}) => {
+    function actionTemplate(rowData, column){
         return (
-            <tr key={${domainObjectName}.${domainClassIdAttributeName}}>
-                #foreach($key in $attrs.keySet() )
-   			    <td>{$domainObjectName.$key}</td>
-   			    #end
-                <td>
-                    <button className="btn btn-primary" onClick={() => select${domainClassName}(${domainObjectName})}>Select</button>
-                </td>
-            </tr>
-        );
-    });
-
+            <button onClick={()=> buttonClicked(rowData)}>Edit</button>
+        )
+    }
+       
     /*
     render a table component
      */
     return (
         <div>
-            <table className="table">                
-                <tbody>
-                {rows}
-                </tbody>
-            </table>
+        <DataTable first={first} paginator={true} value={${domainObjectName}s} lazy={true} rows={10} totalRecords={totalRecords}
+            onPage={pageAction} selectionMode="single">
+        #foreach($key in $attrs.keySet() )
+        <Column field="$key" header="${key.toUpperCase()}"/>
+        #end
+        <Column body={actionTemplate}/>
+        </DataTable>
         </div>
     )
 };
