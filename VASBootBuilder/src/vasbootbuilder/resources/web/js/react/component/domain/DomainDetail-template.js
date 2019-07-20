@@ -3,10 +3,6 @@
 import React from 'react'
 
 function ${domainClassName}Edit({selected${domainClassName}, onEdit${domainClassName}, onSave${domainClassName}}){
-    function changeHandler(event){
-        const {name, value} = event.target;
-        onEdit${domainClassName}([name], value);
-    }
 
     function buttonEventHandler(event){
         onSave${domainClassName}('/${domainObjectName}/' + selected${domainClassName}.${domainClassIdAttributeName},
@@ -21,7 +17,7 @@ function ${domainClassName}Edit({selected${domainClassName}, onEdit${domainClass
             <div className="form-group">
 		      <label htmlFor="${key}">${key}</label>
 		      <input className="form-control" id="${key}" name="${key}" value={selected${domainClassName}.${key}}
-		          onChange={changeHandler}/>
+		          onChange={onEdit${domainClassName}}/>
 		    </div>
 		    #end
 		    
