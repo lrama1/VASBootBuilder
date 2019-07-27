@@ -853,6 +853,13 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 								mapOfValues),
 						monitor);
 				//Test
+                CommonUtils.addFileToProject(folders.get("src/ui/src/utils"),
+                        new Path("TestUtils.js"),
+                        TemplateMerger.merge(
+                                "/vasbootbuilder/resources/web/js/react/component/domain/TestUtils.js",
+                                mapOfValues),
+                        monitor);
+				
 				CommonUtils.addFileToProject(folders.get("src/ui/src/components"),
 						new Path(domainClassName + "Edit.test.js"),
 						TemplateMerger.merge(
@@ -1423,6 +1430,11 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			IFolder srcFolder2344 = srcFolder234.getFolder(new Path("containers"));
 			srcFolder2344.create(false, true, new NullProgressMonitor());
 			folders.put("src/ui/src/containers", srcFolder2344);
+			
+			//src/ui/src/containers
+            IFolder srcFolder2345 = srcFolder234.getFolder(new Path("utils"));
+            srcFolder2345.create(false, true, new NullProgressMonitor());
+            folders.put("src/ui/src/utils", srcFolder2345);
 			
 		} else if (uiType.equalsIgnoreCase("Angular4")) {
 			// src/ui
