@@ -18,7 +18,7 @@ function ${domainClassName}List({history, fetch${domainClassName}, fetchAll${dom
 
     function actionTemplate(rowData, column){
         return (
-            <button onClick={()=> buttonClicked(rowData)}>Edit</button>
+            <button id={rowData.${domainClassIdAttributeName}} onClick={()=> buttonClicked(rowData)}>Edit</button>
         )
     }
        
