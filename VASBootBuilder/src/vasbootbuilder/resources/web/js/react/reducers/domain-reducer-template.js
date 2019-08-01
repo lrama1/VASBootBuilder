@@ -1,6 +1,8 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 #set($domainConstantName = ${domainClassName.toUpperCase()})
 
+import {${domainConstantName}_FETCH_SUCCESS , ${domainConstantName}_EDIT, ${domainConstantName}_SAVE_SUCCESS} from '../actions/${domainObjectName}'
+
 const initial${domainClassName}s = {
      records: [],
      totalRecords: 0,
@@ -30,15 +32,15 @@ const initial${domainClassName} = {
 }
 
 export const ${domainObjectName} = (state = initial${domainClassName}, action) => {
-    if (action.type === '${domainConstantName}_FETCH_SUCCESS'){
+    if (action.type === ${domainConstantName}_FETCH_SUCCESS){
         return action.${domainObjectName}
         
-    }else if(action.type ==='${domainConstantName}_EDIT'){
+    }else if(action.type === ${domainConstantName}_EDIT){
         return {
         	...state,
         	[action.name]: action.value
         	}
-    }else if(action.type ==='${domainConstantName}_SAVE'){
+    }else if(action.type === ${domainConstantName}_SAVE_SUCCESS){
         return action.${domainObjectName};
     }
     return state;

@@ -6,17 +6,19 @@ Refactor opportunities
 2.  combine the separate action creator files here an export them
  */
 
+export const ${domainConstantName}_FETCH_SUCCESS = '${domainConstantName}_FETCH_SUCCESS';
 export function ${domainObjectName}FetchSuccess(${domainObjectName}){
     console.log('DISPATCHING SUCCESS', ${domainObjectName} );
     return {
-        type: '${domainConstantName}_FETCH_SUCCESS',
+        type: ${domainConstantName}_FETCH_SUCCESS,
         ${domainObjectName}: ${domainObjectName}
     }
 }
 
+export const ${domainConstantName}_FETCH_ERROR = '${domainConstantName}_FETCH_ERROR';
 export function ${domainObjectName}FetchError(error){
     return {
-        type: '${domainConstantName}_FETCH_ERROR',
+        type: ${domainConstantName}_FETCH_ERROR,
         error: error
     }
 }
@@ -33,24 +35,27 @@ export function fetch${domainClassName}(url){
     }
 }
 
+export const ${domainConstantName}_EDIT = '${domainConstantName}_EDIT';
 export function edit${domainClassName}(name, value){    
     return {
-        type: '${domainConstantName}_EDIT',
+        type: ${domainConstantName}_EDIT,
         name,
         value
     }
 }
 
+export const ${domainConstantName}_SAVE_SUCCESS = '${domainConstantName}_SAVE_SUCCESS';
 export function save${domainClassName}Success(${domainObjectName}){
     return {
-        type: '${domainConstantName}_SAVE_SUCCESS',
+        type: ${domainConstantName}_SAVE_SUCCESS,
         ${domainObjectName}: ${domainObjectName}
     }
 }
 
+export const ${domainConstantName}_SAVE_ERROR = '${domainConstantName}_SAVE_ERROR';
 export function save${domainClassName}Error(${domainObjectName}){
     return {
-        type: '${domainConstantName}_SAVE_ERROR',
+        type: ${domainConstantName}_SAVE_ERROR,
         ${domainObjectName}: ${domainObjectName}
     }
 }
@@ -74,10 +79,12 @@ export function save${domainClassName}(url, ${domainObjectName}){
 }
 
 /*---------------------------------------------------------*/
+
+export const ${domainConstantName}S_FETCH_SUCCESS = '${domainConstantName}S_FETCH_SUCCESS';
 export function ${domainObjectName}sFetchSuccess(${domainObjectName}s, totalRecords, lastPage, first){
     console.log('DISPATCHING SUCCESS', ${domainObjectName}s );
     return {
-        type: '${domainConstantName}S_FETCH_SUCCESS',
+        type: ${domainConstantName}S_FETCH_SUCCESS,
         ${domainObjectName}s: ${domainObjectName}s,
         totalRecords,
         lastPage,
@@ -85,9 +92,10 @@ export function ${domainObjectName}sFetchSuccess(${domainObjectName}s, totalReco
     }
 }
 
+export const ${domainConstantName}S_FETCH_ERROR = '${domainConstantName}S_FETCH_ERROR';
 export function ${domainObjectName}sFetchError(error){
     return {
-        type: '${domainConstantName}S_FETCH_ERROR',
+        type: ${domainConstantName}S_FETCH_ERROR,
         error: error
     }
 }
