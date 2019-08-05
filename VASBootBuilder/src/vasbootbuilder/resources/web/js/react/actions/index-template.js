@@ -53,10 +53,10 @@ export function save${domainClassName}Success(${domainObjectName}){
 }
 
 export const ${domainConstantName}_SAVE_ERROR = '${domainConstantName}_SAVE_ERROR';
-export function save${domainClassName}Error(${domainObjectName}){
+export function save${domainClassName}Error(error){
     return {
         type: ${domainConstantName}_SAVE_ERROR,
-        ${domainObjectName}: ${domainObjectName}
+        error
     }
 }
 
@@ -70,11 +70,25 @@ export function save${domainClassName}(url, ${domainObjectName}){
               'Content-Type': 'application/json'
           }
         })
-            .then(response => response.json())
-            .then(data => {
-                dispatch(save${domainClassName}Success(data))
-            })
-            .catch(() => dispatch(save${domainClassName}Error(true)))
+            .then(
+                function(response){
+                    if (!response.ok) { throw response }
+                    return response.json()
+                }
+               )
+            .then(
+                function(data){
+                    console.log('Saved Data:', data)
+                    dispatch(save${domainClassName}Success(data))
+                }
+               )
+            .catch(
+                function(error){
+                    error.text().then(function (errorMessage){
+                        dispatch(save${domainClassName}Error(errorMessage))
+                    })
+                })
+
     }
 }
 

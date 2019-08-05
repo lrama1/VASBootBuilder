@@ -1,4 +1,5 @@
 package $domainPackageName;
+import org.hibernate.validator.constraints.NotBlank;
 #if(${useMongo} == true)
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,6 +18,7 @@ public class $className
 			#if(${useMongo} == true && ${domainClassIdAttributeName} == ${key})
 			@Id
 			#end
+			@NotBlank(message = "${key} is mandatory")
 			private $attrs.get($key) $key;
 		#end	
 	#end
