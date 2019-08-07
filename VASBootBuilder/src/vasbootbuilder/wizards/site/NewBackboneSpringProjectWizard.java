@@ -211,6 +211,8 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 					pageThree.buildSourceCode(mapOfValues, "spring-boot-starter.java-template"));
 			params.setMainControllerSourceCode(
 					pageThree.buildSourceCode(mapOfValues, "common-controller.java-template"));
+			params.setBaseControllerSourceCode(
+                    pageThree.buildSourceCode(mapOfValues, "basecontroller.java-template"));
 			params.setDomainControllerSourceCode(pageThree.buildSourceCode(mapOfValues, "controller.java-template"));
 			params.setControllerTestSourceCode(controllerTestSourceCode);
 			params.setServicePackageName(servicePackageName);
@@ -227,6 +229,8 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			params.setCommonPackageName(commonPackageName);
 			params.setListWrapperSourceCode(
 					pageThree.getListWrapperSourceCode(basePackageName, commonPackageName, domainClassName));
+			params.setMainConfigSourceCode(pageThree.buildSourceCode(mapOfValues, "mainconfig.java-template"));
+			
 			params.setNameValuePairSourceCode(
 					pageThree.getNameValueSourceCode(basePackageName, commonPackageName, domainClassName));
 			params.setSecurityPackageName(securityPackageName);
@@ -1173,6 +1177,8 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getControllerPackageName(),
 					"MainController", params.getMainControllerSourceCode(), monitor);
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getControllerPackageName(),
+                    "BaseController", params.getBaseControllerSourceCode(), monitor);
+			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getControllerPackageName(),
 					params.getControllerClassName(), params.getDomainControllerSourceCode(), monitor);
 
 			/* Add Service */
@@ -1222,6 +1228,8 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			/* Add ListWrapper */
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getCommonPackageName(),
 					"ListWrapper", params.getListWrapperSourceCode(), monitor);
+			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getCommonPackageName(),
+                    "MainConfig", params.getMainConfigSourceCode(), monitor);
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getCommonPackageName(),
                     "SortedIndicator", IOUtils.toString(TemplateMerger
                             .merge("/vasbootbuilder/resources/java/sortedIndicator.java-template", mapOfValues)), monitor);
@@ -1759,9 +1767,19 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 	}
 
 	public class SourceCodeGeneratorParameters {
-		private String basePackageName;
+		public String getBaseControllerSourceCode() {
+            return baseControllerSourceCode;
+        }
+
+        public void setBaseControllerSourceCode(String baseControllerSourceCode) {
+            this.baseControllerSourceCode = baseControllerSourceCode;
+        }
+
+        private String basePackageName;
 		private String controllerPackageName;
 		private String mainControllerSourceCode;
+		private String baseControllerSourceCode;
+		private String mainConfigSourceCode;
 		private String springBootStarterClassName;
 		private String springBootStarterSourceCode;
 		private String controllerClassName;
@@ -1806,7 +1824,16 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 		private boolean injectLocalizedMessages;
 		private String uiType;
 
-		public String getUiType() {
+		
+		public String getMainConfigSourceCode() {
+            return mainConfigSourceCode;
+        }
+
+        public void setMainConfigSourceCode(String mainConfigSourceCode) {
+            this.mainConfigSourceCode = mainConfigSourceCode;
+        }
+
+        public String getUiType() {
 			return uiType;
 		}
 

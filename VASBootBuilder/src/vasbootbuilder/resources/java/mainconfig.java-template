@@ -1,0 +1,29 @@
+package ${commonPackageName};
+
+import java.util.Locale;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+
+import ${basePackageName}.util.ExposedResourceBundleMessageSource;
+
+@Configuration
+public class MainConfig {
+
+    @Bean
+    public ExposedResourceBundleMessageSource messageSource() {
+        ExposedResourceBundleMessageSource messageSource = new ExposedResourceBundleMessageSource();
+        Locale.setDefault(Locale.ENGLISH);
+        messageSource.setBasename("classpath:locales/messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
+    }
+    
+    @Bean
+    public LocalValidatorFactoryBean getValidator() {
+        LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+        bean.setValidationMessageSource(messageSource());
+        return bean;
+    }
+}

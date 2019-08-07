@@ -9,12 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.validation.FieldError;
 import javax.validation.Valid;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 //import the domain
 import ${basePackageName}.web.domain.$domainClassName;
@@ -27,11 +22,9 @@ import org.springframework.context.MessageSource;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 
 @RestController
-public class ${domainClassName}Controller {	
+public class ${domainClassName}Controller extends BaseController {	
 
 	#set($serviceObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)} + "Service")
 	#set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
@@ -76,19 +69,6 @@ public class ${domainClassName}Controller {
 		return ${domainObjectName}Service.get${domainClassName}s(pageNumber, pageSize, sortByAttributeName, sortDirection);
 		
 	}	
-	
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(
-      MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return errors;
-    }
 	
 	//=============
 	#foreach($key in $attrs.keySet() )		
