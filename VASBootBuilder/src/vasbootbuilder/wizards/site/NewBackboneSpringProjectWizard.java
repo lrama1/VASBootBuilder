@@ -238,6 +238,8 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 					pageThree.getSecurityUserDetailsServiceSourceCode(securityPackageName, domainClassName));
 			params.setSecurityUserDetailsSourceCode(
 					pageThree.getSecurityUserDetailsSourceCode(securityPackageName, domainClassName));
+			params.setCustomLogoutSuccessHandlerSourceCode(pageThree.getCustomLogoutSuccessHandlerSourceCode(securityPackageName, domainClassName));
+			
 			params.setSpringSecurityConfigSourceCode(
 					pageThree.getSpringSecurityConfigSourceCode(securityPackageName, domainClassName));
 			params.setSpringSecurityAuhenticationProvider(
@@ -1214,10 +1216,15 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			 * CommonUtils.createPackageAndClass(folders.get("src/main/java"),
 			 * params.getSecurityPackageName(), "SampleUserDetailsService",
 			 * params.getSecurityUserDetailsServiceSourceCode() , monitor);
-			 * CommonUtils.createPackageAndClass(folders.get("src/main/java"),
-			 * params.getSecurityPackageName(), "SampleUserDetails",
-			 * params.getSecurityUserDetailsSourceCode() , monitor);
-			 */
+			*/
+			CommonUtils.createPackageAndClass(folders.get("src/main/java"),
+			 params.getSecurityPackageName(), "SampleUserDetails",
+			 params.getSecurityUserDetailsSourceCode() , monitor);
+			
+			CommonUtils.createPackageAndClass(folders.get("src/main/java"),
+		             params.getSecurityPackageName(), "CustomLogoutSuccessHandler",
+		             params.getCustomLogoutSuccessHandlerSourceCode() , monitor);
+			
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getSecurityPackageName(),
 					"ClearSessionOnSMHeaderChange", params.getSmHeaderChangeSourceCode(), monitor);
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getSecurityPackageName(),
@@ -1808,6 +1815,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 		private String securityUserDetailsSourceCode;
 		private String springSecurityConfigSourceCode;
 		private String springSecurityAuhenticationProvider;
+		private String customLogoutSuccessHandlerSourceCode;
 		private String smHeaderChangeSourceCode;
 		private boolean generateSecurityCode;
 		private String securityAspectCode;
@@ -1825,7 +1833,15 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 		private String uiType;
 
 		
-		public String getMainConfigSourceCode() {
+		public String getCustomLogoutSuccessHandlerSourceCode() {
+            return customLogoutSuccessHandlerSourceCode;
+        }
+
+        public void setCustomLogoutSuccessHandlerSourceCode(String customLogoutSuccessHandlerSourceCode) {
+            this.customLogoutSuccessHandlerSourceCode = customLogoutSuccessHandlerSourceCode;
+        }
+
+        public String getMainConfigSourceCode() {
             return mainConfigSourceCode;
         }
 

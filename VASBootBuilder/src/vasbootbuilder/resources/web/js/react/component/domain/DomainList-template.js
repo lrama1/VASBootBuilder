@@ -10,15 +10,15 @@ function ${domainClassName}List({history, fetch${domainClassName}, fetchAll${dom
         fetchAll${domainClassName}s('${domainObjectName}s?per_page=' + rows + '&page=' + (page+1), first )
     }
     
-    function buttonClicked(data){
-        fetch${domainClassName}('/${domainObjectName}/' + data.${domainClassIdAttributeName})
+    function buttonClicked(event){
+        fetch${domainClassName}('/${domainObjectName}/' + event.target.value)
         //tell route to display the Edit screen
         history.push({pathname: '/${domainObjectName}'});
     }
 
     function actionTemplate(rowData, column){
         return (
-            <button id={rowData.${domainClassIdAttributeName}} onClick={()=> buttonClicked(rowData)}>Edit</button>
+            <button id={rowData.${domainClassIdAttributeName}} value={rowData.${domainClassIdAttributeName}} onClick={buttonClicked}>Edit</button>
         )
     }
        

@@ -454,6 +454,12 @@ public class BackboneProjectWizardPageThree extends WizardPage {
 				securityPackageName, domainClassName);
 	}
 	
+	public String getCustomLogoutSuccessHandlerSourceCode(String securityPackageName, String domainClassName)
+	        throws Exception{
+	    return generateSecurityCode("/vasbootbuilder/resources/java/customlogoutsuccesshandler.java-template", 
+                securityPackageName, domainClassName);
+	}
+	
 	public String getSpringSecurityConfigSourceCode(String securityPackageName, String domainClassName) throws Exception{
 		return generateSecurityCode("/vasbootbuilder/resources/java/spring-security-config.java-template", 
 				securityPackageName, domainClassName);

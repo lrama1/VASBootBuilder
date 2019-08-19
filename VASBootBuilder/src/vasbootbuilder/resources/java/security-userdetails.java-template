@@ -1,57 +1,68 @@
 package $securityPackageName;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class SampleUserDetails implements UserDetails {
 
-	private String userId;
-	private String password;
-	private Collection<GrantedAuthority> authorities;
-	private String seedToken;		
-	
-	public SampleUserDetails(String userId, String password, String seedToken, Collection<GrantedAuthority> authorities){
-		this.userId = userId;
-		this.password = password;
-		this.authorities = authorities;
-		this.seedToken = seedToken;
-	}
-	
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return this.authorities;
-	}
+    private static final long serialVersionUID = -8550494461053843289L;
+    private final Map<String, String> siteMinderAttributes;
+    private final String userName;
 
-	public String getPassword() {
-		// TODO Auto-generated method stub
-		return this.password;
-	}
+    public SampleUserDetails(String userName, Map<String, String> siteMinderAttributes) {
+ this.userName = userName;
+ this.siteMinderAttributes = siteMinderAttributes;
+ }
 
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return this.userId;
-	}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        final List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        return authorities;
+    }
 
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    @Override
+    public String getPassword() {
+        return "pass";
+    }
 
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    public Map<String, String> getSiteMinderAttributes() {
+        return siteMinderAttributes;
+    }
 
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    @Override
+    public String getUsername() {
+        return this.userName;
+    }
 
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    @Override
+    public boolean isAccountNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+
+    public boolean isEnabled() {
+        return true;
+
+    }
 
 }
