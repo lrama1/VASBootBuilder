@@ -858,6 +858,14 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 								"/vasbootbuilder/resources/web/js/react/component/domain/DomainDetail-template.js",
 								mapOfValues),
 						monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/ui/src/utils"),
+                        new Path("authority.js"),
+                        TemplateMerger.merge(
+                                "/vasbootbuilder/resources/web/js/react/component/domain/authority-template.js",
+                                mapOfValues),
+                        monitor);
+				
 				//Test
                 CommonUtils.addFileToProject(folders.get("src/ui/src/utils"),
                         new Path("TestUtils.js"),

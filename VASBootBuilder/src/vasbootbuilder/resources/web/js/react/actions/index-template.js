@@ -5,6 +5,7 @@ Refactor opportunities
 1.  create separate files for each logical group of action creators
 2.  combine the separate action creator files here an export them
  */
+import {getRequest, putRequest} from "../utils/authority";
 
 export const ${domainConstantName}_FETCH_SUCCESS = '${domainConstantName}_FETCH_SUCCESS';
 export function ${domainObjectName}FetchSuccess(${domainObjectName}){
@@ -25,13 +26,21 @@ export function ${domainObjectName}FetchError(error){
 
 export function fetch${domainClassName}(url){
     console.log('Fetch of single ${domainObjectName} Invoked');
-    return dispatch => {
+    return async dispatch => {
+        try{
+            const data = await getRequest(url);
+            dispatch(${domainObjectName}FetchSuccess(data))
+        }catch (e) {
+            dispatch(${domainObjectName}FetchError(true))
+        }
+        /*
         fetch(url)
             .then(response => response.json())
             .then(data => {
                 dispatch(${domainObjectName}FetchSuccess(data))
             })
             .catch(() => dispatch(${domainObjectName}FetchError(true)))
+       */     
     }
 }
 
@@ -61,8 +70,14 @@ export function save${domainClassName}Error(error){
 }
 
 export function save${domainClassName}(url, ${domainObjectName}){
-    return dispatch => {
-        fetch(url,{
+    return async dispatch => {
+        try {
+            const data = await putRequest(url, ${domainObjectName})
+            dispatch(save${domainClassName}Success(data))
+        }catch (e){
+            alert(JSON.stringify(e))
+        }
+        /*fetch(url,{
           method: 'put',
           body: JSON.stringify(${domainObjectName}),
           headers: {
@@ -87,7 +102,7 @@ export function save${domainClassName}(url, ${domainObjectName}){
                     error.text().then(function (errorMessage){
                         dispatch(save${domainClassName}Error(errorMessage))
                     })
-                })
+                })*/
 
     }
 }
@@ -116,12 +131,18 @@ export function ${domainObjectName}sFetchError(error){
 
 export function fetchAll${domainClassName}s(url, first){
     console.log('Fetch Invoked');
-    return dispatch => {
-        fetch(url)
+    return async dispatch => {
+        try {
+            const data = await getRequest(url);
+            dispatch(${domainObjectName}sFetchSuccess(data.rows, data.totalRecords, data.lastPage, first))
+        }catch (e) {
+            dispatch(${domainObjectName}sFetchError(true))
+        }
+        /*fetch(url)
         .then(response => response.json())
         .then(data => {            
             dispatch(${domainObjectName}sFetchSuccess(data.rows, data.totalRecords, data.lastPage, first))
         })
-        .catch(() => dispatch(${domainObjectName}sFetchError(true)))
+        .catch(() => dispatch(${domainObjectName}sFetchError(true)))*/
     }
 }
