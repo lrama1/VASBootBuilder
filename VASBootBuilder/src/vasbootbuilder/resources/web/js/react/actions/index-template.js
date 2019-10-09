@@ -32,15 +32,7 @@ export function fetch${domainClassName}(url){
             dispatch(${domainObjectName}FetchSuccess(data))
         }catch (e) {
             dispatch(${domainObjectName}FetchError(true))
-        }
-        /*
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                dispatch(${domainObjectName}FetchSuccess(data))
-            })
-            .catch(() => dispatch(${domainObjectName}FetchError(true)))
-       */     
+        }   
     }
 }
 
@@ -77,33 +69,6 @@ export function save${domainClassName}(url, ${domainObjectName}){
         }catch (e){
             alert(JSON.stringify(e))
         }
-        /*fetch(url,{
-          method: 'put',
-          body: JSON.stringify(${domainObjectName}),
-          headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-          }
-        })
-            .then(
-                function(response){
-                    if (!response.ok) { throw response }
-                    return response.json()
-                }
-               )
-            .then(
-                function(data){
-                    console.log('Saved Data:', data)
-                    dispatch(save${domainClassName}Success(data))
-                }
-               )
-            .catch(
-                function(error){
-                    error.text().then(function (errorMessage){
-                        dispatch(save${domainClassName}Error(errorMessage))
-                    })
-                })*/
-
     }
 }
 
@@ -138,11 +103,5 @@ export function fetchAll${domainClassName}s(url, first){
         }catch (e) {
             dispatch(${domainObjectName}sFetchError(true))
         }
-        /*fetch(url)
-        .then(response => response.json())
-        .then(data => {            
-            dispatch(${domainObjectName}sFetchSuccess(data.rows, data.totalRecords, data.lastPage, first))
-        })
-        .catch(() => dispatch(${domainObjectName}sFetchError(true)))*/
     }
 }

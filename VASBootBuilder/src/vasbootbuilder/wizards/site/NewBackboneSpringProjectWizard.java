@@ -822,6 +822,10 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/actions/index-template.js", mapOfValues),
 						monitor);
 				
+				CommonUtils.addFileToProject(actionsContainerFolder, new Path(domainName + ".test.js"),
+                        TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/actions/actionTest-template.js", mapOfValues),
+                        monitor);
+				
 				// reducers
 				IFolder reducersContainerFolder = folders.get("src/ui/src/reducers");
 				CommonUtils.addFileToProject(reducersContainerFolder, new Path(domainName + ".js"),
