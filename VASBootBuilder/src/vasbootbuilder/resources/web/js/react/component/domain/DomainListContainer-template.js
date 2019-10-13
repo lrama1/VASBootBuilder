@@ -5,7 +5,7 @@ import ${domainClassName}List from '../components/${domainClassName}List'
 import {fetch${domainClassName}, fetchAll${domainClassName}s} from '../actions/${domainObjectName}';
 
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
     console.log(state);
     return {
         ${domainObjectName}s: state.${domainObjectName}s.records,
@@ -14,7 +14,7 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
     return{
         onSelect${domainClassName}(${domainObjectName}){
             dispatch(fetch${domainClassName}(${domainObjectName}))
