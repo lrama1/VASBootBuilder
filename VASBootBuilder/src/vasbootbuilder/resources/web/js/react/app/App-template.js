@@ -1,6 +1,6 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 import React from 'react';
-import {BrowserRouter, Route, Link } from 'react-router-dom';
+import {HashRouter, Route, Link } from 'react-router-dom';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -12,7 +12,7 @@ import Home from './Home';
 function App(props){
 
     return(
-    	<BrowserRouter>
+    	<HashRouter>
             <div className="container">
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
                     <a className="navbar-brand" href="#">Navbar</a>
@@ -26,7 +26,7 @@ function App(props){
                                 <Link className="nav-link" to="/">Home</Link> <span className="sr-only">(current)</span>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/${domainObjectName}s" onClick={() => props.fetchAll${domainClassName}s('/${domainObjectName}s?page=1&per_page=10')}>${domainClassName}s</Link>
+                                <Link className="nav-link" to="/${domainObjectName}s" onClick={() => props.fetchAll${domainClassName}s('${domainObjectName}s?page=1&per_page=10')}>${domainClassName}s</Link>
                             </li>                            
                         </ul>
                         <form className="form-inline my-2 my-lg-0">
@@ -44,7 +44,7 @@ function App(props){
                     </div>
                 </div>
             </div>
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 

@@ -787,6 +787,12 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 						monitor);
 				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("package.json"), TemplateMerger.merge(
 						"/vasbootbuilder/resources/web/js/react/config/package-template.json", mapOfValues), monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/ui"), new Path(".env.local"), TemplateMerger.merge(
+                        "/vasbootbuilder/resources/web/js/react/config/env.local", mapOfValues), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui"), new Path(".env.production"), TemplateMerger.merge(
+                        "/vasbootbuilder/resources/web/js/react/config/env.production", mapOfValues), monitor);
+				
 				//mocks
 				CommonUtils.addFileToProject(folders.get("src/ui/mocks"), new Path("server.js"), TemplateMerger.merge(
                         "/vasbootbuilder/resources/web/js/react/other/server-template.js", mapOfValues), monitor);

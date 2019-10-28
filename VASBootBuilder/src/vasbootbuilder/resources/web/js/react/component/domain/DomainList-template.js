@@ -11,7 +11,7 @@ function ${domainClassName}List({history, fetch${domainClassName}, fetchAll${dom
     }
     
     function buttonClicked(event){
-        fetch${domainClassName}('/${domainObjectName}/' + event.target.value)
+        fetch${domainClassName}('${domainObjectName}/' + event.target.value)
         //tell route to display the Edit screen
         history.push({pathname: '/${domainObjectName}'});
     }
