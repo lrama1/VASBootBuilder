@@ -9,6 +9,7 @@ import ${domainClassName}ListContainer from '../containers/${domainClassName}Lis
 import ${domainClassName}EditContainer from '../containers/${domainClassName}EditContainer';
 import Home from './Home';
 
+
 function App(props){
 
     return(
