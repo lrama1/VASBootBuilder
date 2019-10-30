@@ -32,6 +32,10 @@
   	</pluginRepository>
   </pluginRepositories>
   
+  <properties>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+  </properties>
   
   <dependencies>
 	#if(${prepForOracle} == true)
@@ -162,30 +166,33 @@
 						<artifactId>maven-war-plugin</artifactId>
 					</plugin>
 
-                    <plugin>    
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <source>1.8</source>
-                            <target>1.8</target>
-                        </configuration>
-                    </plugin>
-
 					<plugin>
-						<artifactId>exec-maven-plugin</artifactId>
-						<groupId>org.codehaus.mojo</groupId>
-						<executions>
-							<execution>
-								<id>test1</id>
-								<phase>generate-resources</phase>
-								<goals>
-									<goal>exec</goal>
-								</goals>
-								<configuration>
-									<executable>${basedir}/npm-build.sh</executable>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <tasks>     
+                                        <exec executable="yarn" dir="${basedir}/src/ui" failonerror="true">
+                                            <arg value="install" />
+                                        </exec>
+                                                        
+                                        <exec executable="yarn" dir="${basedir}/src/ui" failonerror="true">
+                                            <arg value="build" />
+                                        </exec>
+        
+                                        <copy todir="${basedir}/src/main/resources/public">
+                                            <fileset dir="${basedir}/src/ui/build" includes="**/*" />
+                                        </copy>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    
 				</plugins>
 			</build>
 		</profile>
@@ -208,30 +215,37 @@
 						<artifactId>maven-war-plugin</artifactId>
 					</plugin>
 
-                    <plugin>    
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <source>1.8</source>
-                            <target>1.8</target>
-                        </configuration>
-                    </plugin>
-
 					<plugin>
-						<artifactId>exec-maven-plugin</artifactId>
-						<groupId>org.codehaus.mojo</groupId>
-						<executions>
-							<execution>
-								<id>test1</id>
-								<phase>generate-resources</phase>
-								<goals>
-									<goal>exec</goal>
-								</goals>
-								<configuration>
-									<executable>${basedir}/npm-build.cmd</executable>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <tasks>
+                                        <exec executable="cmd" dir="${basedir}/src/ui" failonerror="true">
+                                            <arg value="/c" />
+                                            <arg value="yarn.cmd" />
+                                            <arg value="install" />
+                                        </exec>
+                                                        
+                                        <exec executable="cmd" dir="${basedir}/src/ui" failonerror="true">
+                                            <arg value="/c" />
+                                            <arg value="yarn.cmd" />
+                                            <arg value="build" />
+                                        </exec>
+        
+                                        <copy todir="${basedir}/src/main/resources/public">
+                                            <fileset dir="${basedir}/src/ui/build" includes="**/*" />
+                                        </copy>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    
 				</plugins>
 			</build>
 		</profile>
@@ -240,34 +254,7 @@
   <build>
     <finalName>${projectName}</finalName>
     <plugins>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <tasks>     
-                                <exec executable="yarn" dir="${basedir}/src/ui" failonerror="true">
-                                    <arg value="install" />
-                                </exec>
-                                                
-                                <exec executable="yarn" dir="${basedir}/src/ui" failonerror="true">
-                                    <arg value="build" />
-                                </exec>
-
-                                <!-- Place any Ant task here. You can add anything you can add between 
-                                    <target> and </target> in a build.xml. -->
-                                <copy todir="${basedir}/src/main/resources/public">
-                                    <fileset dir="${basedir}/src/ui/build" includes="**/*" />
-                                </copy>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            
     </plugins>
     
   </build>
