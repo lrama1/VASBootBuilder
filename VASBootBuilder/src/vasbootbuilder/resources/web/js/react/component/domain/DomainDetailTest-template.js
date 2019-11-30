@@ -49,7 +49,7 @@ describe("${domainClassName}Edit", ()=> {
     it('calls save function on click of Save button', () => {
         clickElement(document.querySelector("button[id='saveButton']"));
         expect(mockSaveHandler).toBeCalledTimes(1);
-        expect(mockSaveHandler).toHaveBeenCalledWith('/$domainObjectName/Sample${domainClassIdAttributeName}', mockSelected${domainClassName})
+        expect(mockSaveHandler).toHaveBeenCalledWith('$domainObjectName/Sample${domainClassIdAttributeName}', mockSelected${domainClassName})
     })
 
 })

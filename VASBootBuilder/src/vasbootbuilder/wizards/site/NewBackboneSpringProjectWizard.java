@@ -839,6 +839,12 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 								"/vasbootbuilder/resources/web/js/react/reducers/domain-reducer-template.js",
 								mapOfValues),
 						monitor);
+				CommonUtils.addFileToProject(reducersContainerFolder, new Path(domainName + ".test.js"),
+                        TemplateMerger.merge(
+                                "/vasbootbuilder/resources/web/js/react/reducers/domain-reducer-test-template.js",
+                                mapOfValues),
+                        monitor);
+				
 				CommonUtils.addFileToProject(reducersContainerFolder, new Path("index.js"),
 						TemplateMerger.merge(
 								"/vasbootbuilder/resources/web/js/react/reducers/index-template.js",
@@ -1304,6 +1310,10 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			CommonUtils.addFileToProject(container, new Path("readme.txt"),
 					TemplateMerger.merge("/vasbootbuilder/resources/other/readme.txt-template", mapOfValues), monitor);
 
+			CommonUtils.addFileToProject(container, new Path("readme.md"),
+                    TemplateMerger.merge("/vasbootbuilder/resources/other/readme-template.md", mapOfValues), monitor);
+
+			
 			/* Add Test Data in an external text file */
 			StringWriter sampleDataStringWriter = new StringWriter();
 			IOUtils.copy(TemplateMerger.merge("/vasbootbuilder/resources/other/sampledata.txt-template", mapOfValues),

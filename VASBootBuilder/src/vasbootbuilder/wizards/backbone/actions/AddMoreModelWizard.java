@@ -269,6 +269,12 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 						"/vasbootbuilder/resources/web/js/react/reducers/domain-reducer-template.js",
 						mapOfValues),
 				new NullProgressMonitor());
+		CommonUtils.addFileToProject(reducersContainerFolder, new Path(domainName + ".test.js"),
+                TemplateMerger.merge(
+                        "/vasbootbuilder/resources/web/js/react/reducers/domain-reducer-test-template.js",
+                        mapOfValues),
+                new NullProgressMonitor());
+		
 		addReducerToIndexReducer(projectContainer, domainClassName);
 		
 		addNewRoutesToReact(projectContainer, domainClassName);

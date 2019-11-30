@@ -40,5 +40,18 @@
 		"not dead",
 		"not ie <= 11",
 		"not op_mini all"
-	]
+	],
+    "jest": {
+        "collectCoverageFrom": [
+            "src/actions/*.js",
+            "src/components/*.js",
+            "src/containers/*.js",
+            "src/reducers/*.js"
+        ],
+        "coverageThreshold": {
+            "global": {
+                "lines": 50
+            }
+        }
+    }
 }
