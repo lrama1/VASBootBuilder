@@ -6,6 +6,8 @@ import {
     ${domainConstantName}_FETCH_SUCCESS,
     ${domainConstantName}_SAVE_SUCCESS,
     ${domainConstantName}S_FETCH_SUCCESS,
+    ${domainConstantName}_SAVE_ERROR,
+    ${domainConstantName}S_FETCH_ERROR,
     fetchAll${domainClassName}s,
     fetch${domainClassName},
     save${domainClassName}
@@ -14,11 +16,17 @@ import {
 jest.mock('../utils/authority')
 
 describe('${domainObjectName} (action)', () => {
+    
+    const mockDispatch = jest.fn();
+    const mockGetState = jest.fn();
+
+    jest.spyOn(window, 'alert').mockImplementation(() => {});
+    
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
 
     it('invokes success when list of ${domainObjectName}s are returned', async () => {
-        const mockDispatch = jest.fn();
-        const mockGetState = jest.fn();
-
         /* obtain reference to thunk*/
         const thunk = fetchAll${domainClassName}s('/mockurl', 1);
 
@@ -30,10 +38,19 @@ describe('${domainObjectName} (action)', () => {
         expect(mockDispatch).toBeCalledWith({type: ${domainConstantName}S_FETCH_SUCCESS, ${domainObjectName}s: [], totalRecords: 0, lastPage: 1, first: 1})
     })
 
-    it('invokes success when a single ${domainObjectName} is returned', async () => {
-        const mockDispatch = jest.fn();
-        const mockGetState = jest.fn();
+    it('invokes error when an error occured in the service', async () => {
+        /* obtain reference to thunk*/
+        const thunk = fetchAll${domainClassName}s('/mockurl', 1);
 
+        /**/
+        const response = Promise.reject()
+        getRequest.mockImplementation(() => response);
+
+        const result = await thunk(mockDispatch, mockGetState);
+        expect(mockDispatch).toBeCalledWith({type: ${domainConstantName}S_FETCH_ERROR, error: true})
+    })
+    
+    it('invokes success when a single ${domainObjectName} is returned', async () => {
         /* obtain reference to thunk*/
         const thunk = fetch${domainClassName}('/mockurl');
 
@@ -54,11 +71,19 @@ describe('${domainObjectName} (action)', () => {
         const result = await thunk(mockDispatch, mockGetState);
         expect(mockDispatch).toBeCalledWith({type: ${domainConstantName}_FETCH_SUCCESS, ${domainObjectName}: mockObjectToReturn})
     })
+    
+    it('invokes error when a single ${domainObjectName} fetch returned error', async () => {
+        /* obtain reference to thunk*/
+        const thunk = fetch${domainClassName}('/mockurl');
+        
+        const response = Promise.reject()
+        getRequest.mockImplementation(() => response);
+
+        const result = await thunk(mockDispatch, mockGetState);
+        expect(mockDispatch).toBeCalledWith({type: ${domainConstantName}_FETCH_ERROR, error: true})
+    })
 
     it('invokes success when a record is saved', async () => {
-        const mockDispatch = jest.fn();
-        const mockGetState = jest.fn();
-
         /* obtain reference to thunk*/
         const thunk = save${domainClassName}('/mockurl', {});
 
@@ -77,6 +102,17 @@ describe('${domainObjectName} (action)', () => {
 
         const result = await thunk(mockDispatch, mockGetState);
         expect(mockDispatch).toBeCalledWith({type: ${domainConstantName}_SAVE_SUCCESS, ${domainObjectName}: mockObjectToReturn})
+    })
+    
+    it('invokes error when save errors out', async () => {
+        /* obtain reference to thunk*/
+        const thunk = save${domainClassName}('/mockurl', {});
+
+        const response = Promise.reject('Error saving')
+        putRequest.mockImplementation(() => response);
+
+        const result = await thunk(mockDispatch, mockGetState);
+        expect(mockDispatch).toBeCalledWith("\"Error saving\"")
     })
 
 })
