@@ -1,5 +1,5 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
-import {${domainObjectName}s, ${domainObjectName}} from "./${domainObjectName}";
+import {${domainObjectName}s, ${domainObjectName}} from "./${domainObjectName.toLowerCase()}";
 
 describe('reducers/${domainObjectName}', ()=> {
 

@@ -348,7 +348,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		}
 
 		String newImport = "import { " + domainObjectName + "s, " + domainObjectName + " } " +
-				"from './" + domainObjectName + "';";
+				"from './" + domainObjectName.toLowerCase() + "';";
 		buffer.insert(indexToInsertNewImport, "\n" + newImport);
 		
 		String combineReducersExport = "";
@@ -390,7 +390,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
         
         
         String importStringToAdd = 
-                "import {fetchAll" + domainClassName + "s} from '../actions/" + domainObjectName + "'; \n" ;
+                "import {fetchAll" + domainClassName + "s} from '../actions/" + domainObjectName.toLowerCase() + "'; \n" ;
         if (importmatcher.find()) {
             String currentRoutes = importmatcher.group();
             fileContents = importmatcher.replaceAll(currentRoutes + "\n" + importStringToAdd);
@@ -432,7 +432,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		Pattern linkPattern = Pattern.compile(linkRegex, Pattern.DOTALL | Pattern.MULTILINE);
 		Matcher linkmatcher = linkPattern.matcher(fileContents);
 		String linkStringToAdd = "<li><Link  className=\"nav-link\" to=\"/" + domainClassName.toLowerCase() + "s\" "
-				+ " onClick={() => props.fetchAll" + domainClassName + "s('/" + domainObjectName + "s?page=1&per_page=10')} >" + domainClassName
+				+ " onClick={() => props.fetchAll" + domainClassName + "s('/" + domainObjectName.toLowerCase() + "s?page=1&per_page=10')} >" + domainClassName
 				+ "</Link></li>";
 		if (linkmatcher.find()) {
 			String currentRoutes = linkmatcher.group();

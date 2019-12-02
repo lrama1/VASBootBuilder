@@ -1,7 +1,7 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 #set($domainConstantName = ${domainClassName.toUpperCase()})
 
-import {${domainConstantName}_FETCH_SUCCESS , ${domainConstantName}_EDIT, ${domainConstantName}_SAVE_SUCCESS, ${domainConstantName}_SAVE_ERROR} from '../actions/${domainObjectName}'
+import {${domainConstantName}_FETCH_SUCCESS , ${domainConstantName}_EDIT, ${domainConstantName}_SAVE_SUCCESS, ${domainConstantName}_SAVE_ERROR} from '../actions/${domainObjectName.toLowerCase()}'
 
 const initial${domainClassName}s = {
      records: [],

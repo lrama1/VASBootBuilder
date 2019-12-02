@@ -8,10 +8,11 @@ import {
     ${domainConstantName}S_FETCH_SUCCESS,
     ${domainConstantName}_SAVE_ERROR,
     ${domainConstantName}S_FETCH_ERROR,
+    ${domainConstantName}_FETCH_ERROR,
     fetchAll${domainClassName}s,
     fetch${domainClassName},
     save${domainClassName}
-} from "./${domainObjectName}";
+} from "./${domainObjectName.toLowerCase()}";
 
 jest.mock('../utils/authority')
 
@@ -112,7 +113,7 @@ describe('${domainObjectName} (action)', () => {
         putRequest.mockImplementation(() => response);
 
         const result = await thunk(mockDispatch, mockGetState);
-        expect(mockDispatch).toBeCalledWith("\"Error saving\"")
+        expect(window.alert).toBeCalledWith("\"Error saving\"")
     })
 
 })

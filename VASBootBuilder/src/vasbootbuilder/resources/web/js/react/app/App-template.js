@@ -27,7 +27,7 @@ function App(props){
                                 <Link className="nav-link" to="/">Home</Link> <span className="sr-only">(current)</span>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/${domainObjectName}s" onClick={() => props.fetchAll${domainClassName}s('${domainObjectName}s?page=1&per_page=10')}>${domainClassName}s</Link>
+                                <Link className="nav-link" to="/${domainObjectName}s" onClick={() => props.fetchAll${domainClassName}s('${domainObjectName.toLowerCase()}s?page=1&per_page=10')}>${domainClassName}s</Link>
                             </li>                            
                         </ul>
                         <form className="form-inline my-2 my-lg-0">

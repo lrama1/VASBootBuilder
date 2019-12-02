@@ -1,8 +1,8 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 
 import React from 'react';
-jest.mock('../actions/$domainObjectName')
-import {fetch${domainClassName}, fetchAll${domainClassName}s} from '../actions/$domainObjectName';
+jest.mock('../actions/${domainObjectName.toLowerCase()}')
+import {fetch${domainClassName}, fetchAll${domainClassName}s} from '../actions/${domainObjectName.toLowerCase()}';
 import {mapStateToProps, mapDispatchToProps} from "./${domainClassName}ListContainer";
 
 describe('${domainClassName}ListContainer', () => {

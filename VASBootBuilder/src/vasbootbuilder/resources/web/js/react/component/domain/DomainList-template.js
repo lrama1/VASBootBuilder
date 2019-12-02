@@ -7,11 +7,11 @@ function ${domainClassName}List({history, fetch${domainClassName}, fetchAll${dom
 
     function pageAction({first,rows, page}){
         console.log(first)
-        fetchAll${domainClassName}s('${domainObjectName}s?per_page=' + rows + '&page=' + (page+1), first )
+        fetchAll${domainClassName}s('${domainObjectName.toLowerCase()}s?per_page=' + rows + '&page=' + (page+1), first )
     }
     
     function buttonClicked(event){
-        fetch${domainClassName}('${domainObjectName}/' + event.target.value)
+        fetch${domainClassName}('${domainObjectName.toLowerCase()}/' + event.target.value)
         //tell route to display the Edit screen
         history.push({pathname: '/${domainObjectName}'});
     }
