@@ -3,17 +3,20 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
-	     "classnames": "^2.2.6",
-		"react": "^16.8.6",
-        "react-dom": "^16.8.6",
-        "react-redux": "^7.0.3",
-		"react-router": "^4.3.1",
-		"react-router-dom": "^4.3.1",
-		"react-scripts": "3.0.1",
+	    "classnames": "^2.2.6",
+		"@testing-library/jest-dom": "^4.2.4",
+        "@testing-library/react": "^9.3.2",
+        "@testing-library/user-event": "^7.1.2",
+        "react": "^16.12.0",
+        "react-dom": "^16.12.0",
+        "react-redux": "^7.1.3",
+        "react-router": "^5.1.2",
+        "react-router-dom": "^5.1.2",
+        "react-scripts": "3.3.0",
 		"primeicons": "^1.0.0",
         "primereact": "^3.1.4",
-		"redux": "^4.0.1",
-		"redux-thunk": "^2.3.0"		
+		"redux": "^4.0.4",
+        "redux-thunk": "^2.3.0"		
 	},
     "devDependencies": {
         "body-parser": "^1.18.3",
@@ -35,12 +38,18 @@
 	},
 	"proxy": "http://localhost:8000/${projectName}",
 	"eslintConfig":{"extends":"react-app"},
-	"browserslist": [
-		">0.2%",
-		"not dead",
-		"not ie <= 11",
-		"not op_mini all"
-	],
+	"browserslist": {
+        "production": [
+          ">0.2%",
+          "not dead",
+          "not op_mini all"
+        ],
+        "development": [
+          "last 1 chrome version",
+          "last 1 firefox version",
+          "last 1 safari version"
+        ]
+      },
     "jest": {
         "collectCoverageFrom": [
             "src/actions/*.js",
