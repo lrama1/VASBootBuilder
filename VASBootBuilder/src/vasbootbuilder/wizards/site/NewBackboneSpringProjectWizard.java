@@ -183,7 +183,9 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 
 			final String domainClassSourceCode = pageThree.getClassSource(mapOfValues);
 			mapOfValues.put("attrs", pageThree.getModelAttributes());
-			mapOfValues.put("oracleNames", pageThree.getOracleDerivedNamesForTableAndAttrs((Boolean) mapOfValues.get("prepForOracle") ));
+			mapOfValues.put("oracleNames", 
+			        pageThree.getOracleDerivedNamesForTableAndAttrs((Boolean) mapOfValues.get("prepForOracle") ||
+			                (Boolean) mapOfValues.get("prepForHSQL")));
 			mapOfValues.put("fieldTypes", pageThree.getFieldTypes());
 			mapOfValues.put("vueComponentTagName", createComponentTag(domainClassName));
 			mapOfValues.put("uiType", pageFive.getUIType());

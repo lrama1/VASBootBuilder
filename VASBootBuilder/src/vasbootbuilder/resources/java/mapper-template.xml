@@ -4,7 +4,7 @@
 #set($tableName = $oracleNames.get($domainClassName))
 	<resultMap type="${domainPackageName}.${domainClassName}" id="${domainVar}">
 		#foreach($key in $attrs.keySet() )
-		#if(${prepForOracle} == true)
+		#if(${prepForOracle} == true || ${prepForHSQL} == true)
 		<result column="$oracleNames.get(${key})" property="${key}"/>
 		#else
 		<result column="${key}" property="${key}"/>

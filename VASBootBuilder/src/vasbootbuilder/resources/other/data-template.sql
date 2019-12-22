@@ -7,10 +7,16 @@
 INSERT INTO ${domainVar}
 (
 #foreach($key in $attrs.keySet() )
-  #if($foreach.index == 0)
-  ${key}
+  #set($columnName = "")
+  #if(${prepForHSQL} == true)
+    #set($columnName = $oracleNames.get(${key}))
   #else
-  ,${key}
+    #set($columnName = $key)
+  #end    
+  #if($foreach.index == 0)
+  $columnName
+  #else
+  ,$columnName
   #end
 #end
 )

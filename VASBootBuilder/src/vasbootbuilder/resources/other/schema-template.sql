@@ -1,10 +1,16 @@
 #set($domainVar = $domainClassName.substring(0,1).toLowerCase() + $domainClassName.substring(1))
 CREATE TABLE ${domainVar} (
   #foreach($key in $attrs.keySet() )
-    #if($key == ${domainClassIdAttributeName})
-      $key VARCHAR(64) PRIMARY KEY
+    #set($columnName = "")
+    #if(${prepForHSQL} == true)
+      #set($columnName = $oracleNames.get(${key}))
     #else
-       ,$key VARCHAR(64)
+      #set($columnName = $key)
+    #end
+    #if($key == ${domainClassIdAttributeName})
+      $columnName VARCHAR(64) PRIMARY KEY
+    #else
+       ,$columnName VARCHAR(64)
     #end
   #end
   );

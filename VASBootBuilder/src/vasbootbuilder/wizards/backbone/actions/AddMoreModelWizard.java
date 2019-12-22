@@ -100,6 +100,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 				    uiType = pageFive.getUIType();
 				}			
 				
+				String prepForOracle = vasBootBuilderProperties.getProperty("prepForOracle");
 				String prepForHSQL = vasBootBuilderProperties.getProperty("prepForHSQL");
 				
 				Map<String, Object> modelAttributes = pageThree.getModelAttributes();
@@ -112,7 +113,10 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 				
 				//add data for HSQL
 				if(StringUtils.equals(prepForHSQL, "true")) {
-					createSampleDataForHSQL(projectContainer, pageThree.getDomainClassName(), modelAttributes);;
+					createSampleDataForHSQL(projectContainer, pageThree.getDomainClassName(), 
+					        prepForOracle,
+					        prepForHSQL,
+					        modelAttributes);;
 				}
 
 				// create SampleDate for Mongo
@@ -858,11 +862,18 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 	}
 
 	private void createSampleDataForHSQL(IContainer projectContainer, String domainClassName,
+	        String prepForOracle,
+	        String prepForHSQL,
 			Map<String, Object> modelAttributes) throws Exception {
 		IFolder hsqlDDLAndDMLFolder = projectContainer.getFolder(new Path("src/main/resources"));	
 		Map<String, Object> mapOfValues = new HashMap<String, Object>();
 		mapOfValues.put("domainClassName", domainClassName);
 		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
+		mapOfValues.put("prepForOracle", prepForOracle);
+		mapOfValues.put("prepForHSQL", prepForHSQL);
+		mapOfValues.put("oracleNames", 
+                pageThree.getOracleDerivedNamesForTableAndAttrs("true".equals(prepForOracle)
+                        || "true".equals(prepForHSQL)));
 		mapOfValues.put("attrs", modelAttributes);
 		
 		StringWriter sampleHSQLDataStringWriter = new StringWriter();
@@ -978,7 +989,9 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		mapOfValues.put("attrs", modelAttributes);
 		mapOfValues.put("useMongo", vasBootBuilderProperties.getProperty("useMongo"));
 		mapOfValues.put("prepForOracle", vasBootBuilderProperties.getProperty("prepForOracle"));
-		mapOfValues.put("oracleNames", pageThree.getOracleDerivedNamesForTableAndAttrs("true".equals(vasBootBuilderProperties.getProperty("prepForOracle"))));
+		mapOfValues.put("oracleNames", 
+		        pageThree.getOracleDerivedNamesForTableAndAttrs("true".equals(vasBootBuilderProperties.getProperty("prepForOracle"))
+		                || "true".equals(vasBootBuilderProperties.getProperty("prepForHSQL"))));
 		mapOfValues.put("prepForHSQL", vasBootBuilderProperties.getProperty("prepForHSQL"));
 		
 		final String daoSourceCode = pageThree.buildSourceCode(mapOfValues, "dao.java-template");
