@@ -223,10 +223,9 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			params.setServiceSourceCode(pageThree.buildSourceCode(mapOfValues, "service.java-template"));
 
 			params.setDaoPackageName(daoPackageName);
-			// params.setDaoSourceCode(pageThree.getDaoSourceCode(basePackageName,
-			// daoPackageName, domainClassName, domainClassIdAttributeName));
-			params.setDaoSourceCode(pageThree.buildSourceCode(mapOfValues, "dao.java-template"));
-			params.setMapperSourceCode(pageThree.buildSourceCode(mapOfValues, "mapper.java-template"));
+			params.setDaoSourceCode(pageThree.buildSourceCode(mapOfValues, "jpa-repository.java-template"));
+			//params.setMapperSourceCode(pageThree.buildSourceCode(mapOfValues, "mapper.java-template"));
+			
 
 			params.setCommonPackageName(commonPackageName);
 			params.setListWrapperSourceCode(
@@ -1229,9 +1228,9 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 
 			/* Add DAO */
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getDaoPackageName(),
-					params.getDomainClassName() + "DAO", params.getDaoSourceCode(), monitor);
+					params.getDomainClassName() + "Repository", params.getDaoSourceCode(), monitor);
 
-			if ((Boolean) mapOfValues.get("prepForOracle") || (Boolean) mapOfValues.get("prepForMySQL") || 
+			/*if ((Boolean) mapOfValues.get("prepForOracle") || (Boolean) mapOfValues.get("prepForMySQL") || 
 					(Boolean) mapOfValues.get("prepForHSQL")  ) {
 				CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getDaoPackageName() + ".mapper",
 						params.getDomainClassName() + "Mapper", params.getMapperSourceCode(), monitor);
@@ -1242,7 +1241,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 								IOUtils.toString(TemplateMerger
 										.merge("/vasbootbuilder/resources/java/mapper-template.xml", mapOfValues)),
 								monitor);
-			}
+			}*/
 
 			/* Add Security */
 			/*

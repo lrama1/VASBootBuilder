@@ -1,0 +1,11 @@
+package ${basePackageName}.dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import ${basePackageName}.web.domain.$domainClassName;
+
+@Repository
+public interface ${domainClassName}Repository extends JpaRepository<$domainClassName, String> {
+
+}

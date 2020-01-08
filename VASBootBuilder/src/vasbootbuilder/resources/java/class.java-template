@@ -1,3 +1,4 @@
+#set( $domainObjectName = $domainClassName.substring(0,1).toLowerCase() + $domainClassName.substring(1) )
 package $domainPackageName;
 import org.hibernate.validator.constraints.NotBlank;
 #if(${useMongo} == true)
@@ -5,6 +6,11 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "${className.toLowerCase()}s")
+#else
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity(name = "${domainObjectName}")
 #end
 public class $className 	
 {	
@@ -15,7 +21,7 @@ public class $className
 			#end
 			private Long $key;
 		#else
-			#if(${useMongo} == true && ${domainClassIdAttributeName} == ${key})
+			#if((${useMongo} == true || ${prepForHSQL} == true) && ${domainClassIdAttributeName} == ${key})
 			@Id
 			#end
 			@NotBlank(message = "${key} is mandatory")

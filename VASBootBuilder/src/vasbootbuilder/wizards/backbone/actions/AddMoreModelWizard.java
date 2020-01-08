@@ -841,6 +841,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		mapOfValues.put("basePackageName", basePackageName);
 		mapOfValues.put("secured", xssSelected || csrfSelected);
 		mapOfValues.put("useMongo", vasBootBuilderProperties.getProperty("useMongo"));
+		mapOfValues.put("prepForHSQL", vasBootBuilderProperties.getProperty("prepForHSQL"));
 		CommonUtils.createPackageAndClass(javaFolder, domainPackageName, className,
 				pageThree.getClassSource(mapOfValues), new NullProgressMonitor());
 	}
@@ -977,7 +978,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 
 	private void createDaoClass(IContainer projectContainer, String basePackageName,
 			Map<String, Object> modelAttributes) throws Exception {
-		final String daoClassName = pageThree.getDomainClassName() + "DAO";
+		final String daoClassName = pageThree.getDomainClassName() + "Repository";
 		String daoPackageName = basePackageName + ".dao";
 		Map<String, Object> mapOfValues = new HashMap<String, Object>();
 		mapOfValues.put("domainClassName", pageThree.getDomainClassName());
@@ -994,14 +995,14 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		                || "true".equals(vasBootBuilderProperties.getProperty("prepForHSQL"))));
 		mapOfValues.put("prepForHSQL", vasBootBuilderProperties.getProperty("prepForHSQL"));
 		
-		final String daoSourceCode = pageThree.buildSourceCode(mapOfValues, "dao.java-template");
+		final String daoSourceCode = pageThree.buildSourceCode(mapOfValues, "jpa-repository.java-template");
 
 		IFolder javaFolder = projectContainer.getFolder(new Path("src/main/java"));
 		CommonUtils.createPackageAndClass(javaFolder, daoPackageName, daoClassName, daoSourceCode,
 				new NullProgressMonitor());
 
 		// create mapper files
-		if ("true".equals(vasBootBuilderProperties.getProperty("prepForOracle")) || 
+		/*if ("true".equals(vasBootBuilderProperties.getProperty("prepForOracle")) || 
 				"true".equals(vasBootBuilderProperties.getProperty("prepForHSQL"))) {
 			final String mapperSourceCode = pageThree.buildSourceCode(mapOfValues, "mapper.java-template");
 			CommonUtils.createPackageAndClass(javaFolder, daoPackageName + ".mapper",
@@ -1014,7 +1015,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 							TemplateMerger.merge("/vasbootbuilder/resources/java/mapper-template.xml", mapOfValues)),
 					new NullProgressMonitor());
 
-		}
+		}*/
 	}
 
 	private void createBackboneModel(IContainer projectContainer, String projectName) throws Exception {

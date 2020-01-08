@@ -2,35 +2,48 @@ package ${basePackageName}.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 //import the domain
 import ${basePackageName}.web.domain.$domainClassName;
 import ${basePackageName}.common.ListWrapper;
-import ${basePackageName}.dao.${domainClassName}DAO;
+import ${basePackageName}.dao.${domainClassName}Repository;
+import ${basePackageName}.common.SortedIndicator;
 
 @Service
 public class ${domainClassName}Service {
-	#set( $daoObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)} + "DAO" )
+	#set( $repoObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)} + "Repository" )
 	#set( $domainObjectName = $domainClassName.substring(0,1).toLowerCase() + $domainClassName.substring(1) )
 
 	@Autowired
-	${domainClassName}DAO $daoObjectName;
+	${domainClassName}Repository $repoObjectName;
 	
 
 	public ListWrapper<${domainClassName}> get${domainClassName}s(int pageNumber, int pageSize, String sortByAttribute, String sortDirection){
-		return ${domainClassName.substring(0,1).toLowerCase()}${domainClassName.substring(1)}DAO.get${domainClassName}s(pageNumber, pageSize, sortByAttribute, sortDirection);
+		//return ${domainClassName.substring(0,1).toLowerCase()}${domainClassName.substring(1)}DAO.get${domainClassName}s(pageNumber, pageSize, sortByAttribute, sortDirection);
+		
+		PageRequest request = new PageRequest(pageNumber - 1, pageSize);
+        Page<${domainClassName}> ${domainObjectName}Page =  ${domainObjectName}Repository.findAll(request);
+        ListWrapper<${domainClassName}> results = new ListWrapper<>();
+        results.setRows(${domainObjectName}Page.getContent());
+        results.setTotalRecords(new Long(${domainObjectName}Page.getTotalElements()).intValue());
+        results.setCurrentPage(pageNumber - 1);
+        results.setSortedIndicator(new SortedIndicator(sortByAttribute, sortDirection));
+        return results;
+		
 	}
 	
 	public ${domainClassName} get${domainClassName}(String id){
-		return ${domainClassName.substring(0,1).toLowerCase()}${domainClassName.substring(1)}DAO.get${domainClassName}(id);
+		return ${domainObjectName}Repository.findOne(id);
 	}	
 	
 	
 	public void saveNew$domainClassName($domainClassName $domainObjectName){
-		${daoObjectName}.saveNew${domainClassName}(${domainObjectName});
+		${domainObjectName}Repository.saveAndFlush(${domainObjectName});
 	}	
 	
 	public void save$domainClassName($domainClassName $domainObjectName){
-		${daoObjectName}.save${domainClassName}(${domainObjectName});
+		${domainObjectName}Repository.saveAndFlush(${domainObjectName});
 	}
 }

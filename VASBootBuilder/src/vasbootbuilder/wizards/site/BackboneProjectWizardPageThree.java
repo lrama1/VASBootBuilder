@@ -424,6 +424,9 @@ public class BackboneProjectWizardPageThree extends WizardPage {
 		}
 		valuesToPlug.put("attrs", this.getModelAttributes());
 		valuesToPlug.put("fieldTypes", this.getFieldTypes());
+		if(templateName.equals("jpa-repository-template.java")) {
+            System.out.println();
+        }
 		InputStream is = 
 				TemplateMerger.merge("/vasbootbuilder/resources/java/" + templateName, valuesToPlug);
 
@@ -438,6 +441,7 @@ public class BackboneProjectWizardPageThree extends WizardPage {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		
 		return stringWriter.toString();
 	}
 		
