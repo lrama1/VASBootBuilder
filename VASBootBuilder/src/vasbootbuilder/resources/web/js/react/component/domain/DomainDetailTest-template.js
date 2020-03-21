@@ -25,20 +25,8 @@ describe("${domainClassName}Edit", ()=> {
     ReactDom.render(componentToTest, rootDiv);
     document.body.appendChild(rootDiv);
     
-    it('Renders fields correctly', () =>{
-        const props = {
-            selected${domainClassName} : {
-                #foreach($key in $attrs.keySet() )
-                #if($foreach.count == 1)
-                ${key}: 'Sample${key}'
-                #else
-                ,${key}: 'Sample${key}'    
-                #end
-                #end                
-            }
-        }
-        const tree = renderer.create(<${domainClassName}Edit {...props}/>).toJSON();
-        expect(tree).toMatchSnapshot();
+    it('Renders fields correctly', () =>{        
+        expect(rootDiv).toMatchSnapshot();
     });
         
     it('dispatches input changes', ()=> {

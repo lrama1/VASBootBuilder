@@ -44,9 +44,8 @@ describe("${domainClassName}List", () => {
         ReactDom.render(componentToTest, rootDiv);
         document.body.appendChild(rootDiv);
         
-        it('renders correctly', () => {
-            const tree = renderer.create(componentToTest).toJSON();
-            expect(tree).toMatchSnapshot();
+        it('renders correctly', () => {            
+            expect(rootDiv).toMatchSnapshot();
         })
         
         it('displays the correct number of rows', () => {
