@@ -255,6 +255,9 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		CommonUtils.addFileToProject(containersFolder, new Path(domainClassName + "EditContainer.js"), TemplateMerger
 				.merge("/vasbootbuilder/resources/web/js/react/component/domain/DomainDetailContainer-template.js", mapOfValues),
 				new NullProgressMonitor());
+		CommonUtils.addFileToProject(containersFolder, new Path(domainClassName + "EditContainer.test.js"), TemplateMerger
+                .merge("/vasbootbuilder/resources/web/js/react/component/domain/DomainDetailContainerTest-template.js", mapOfValues),
+                new NullProgressMonitor());
 		//mapOfValues.put("ComponentName", domainClassName + "Detail");
 		
 		// actions

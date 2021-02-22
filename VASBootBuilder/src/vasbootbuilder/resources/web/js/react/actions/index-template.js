@@ -75,14 +75,13 @@ export function save${domainClassName}(url, ${domainObjectName}){
 /*---------------------------------------------------------*/
 
 export const ${domainConstantName}S_FETCH_SUCCESS = '${domainConstantName}S_FETCH_SUCCESS';
-export function ${domainObjectName}sFetchSuccess(${domainObjectName}s, totalRecords, lastPage, first){
+export function ${domainObjectName}sFetchSuccess(${domainObjectName}s, totalRecords, lastPage){
     console.log('DISPATCHING SUCCESS', ${domainObjectName}s );
     return {
         type: ${domainConstantName}S_FETCH_SUCCESS,
         ${domainObjectName}s: ${domainObjectName}s,
         totalRecords,
-        lastPage,
-        first
+        lastPage
     }
 }
 
@@ -94,14 +93,27 @@ export function ${domainObjectName}sFetchError(error){
     }
 }
 
-export function fetchAll${domainClassName}s(url, first){
+const ${domainConstantName}S_URI = '${domainObjectName}s'
+export function fetchAll${domainClassName}s(){
     console.log('Fetch Invoked');
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        const {first, rowsPerPage, pageNumber} = getState().${domainObjectName}s
         try {
-            const data = await getRequest(url);
-            dispatch(${domainObjectName}sFetchSuccess(data.rows, data.totalRecords, data.lastPage, first))
+            const data = await getRequest(${domainConstantName}S_URI + '?page=' + (pageNumber + 1) + '&per_page=' + rowsPerPage);
+            dispatch(${domainObjectName}sFetchSuccess(data.rows, data.totalRecords, data.lastPage))
         }catch (e) {
-            dispatch(${domainObjectName}sFetchError(true))
+            dispatch(${domainObjectName}sFetchError(e))
         }
     }
 }
+
+export const ${domainConstantName}S_CHANGE_PAGE = '${domainConstantName}S_CHANGE_PAGE'
+    export function ${domainObjectName}sChangePage(first, rowsPerPage, pageNumber){
+      return {
+          type: ${domainConstantName}S_CHANGE_PAGE,
+          first,
+          rowsPerPage,
+          pageNumber
+
+      }
+    }

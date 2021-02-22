@@ -17,14 +17,12 @@ describe('reducers/${domainObjectName}', ()=> {
             ${domainObjectName}s: [
 
             ],
-            totalRecords: 2,
-            first: 1
+            totalRecords: 2
         }
 
         const expectedResults = {
             records: [],
-            totalRecords: 2,
-            first: 1
+            totalRecords: 2
         }
 
         const result = ${domainObjectName}s(null, dummyAction);

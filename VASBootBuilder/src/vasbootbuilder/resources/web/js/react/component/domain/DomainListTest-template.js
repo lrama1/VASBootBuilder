@@ -16,6 +16,7 @@ describe("${domainClassName}List", () => {
 
     const mockFetch${domainClassName} = jest.fn();
     const mockFetchAll${domainClassName}s = jest.fn();
+    const mockOnChangePage = jest.fn();
     const mock${domainClassName}s =
         [
         #foreach($i in $range)
@@ -38,7 +39,8 @@ describe("${domainClassName}List", () => {
         ]
 
         const componentToTest = <${domainClassName}List history={props.history} fetch${domainClassName}={mockFetch${domainClassName}}
-            fetchAll${domainClassName}s={mockFetchAll${domainClassName}s} ${domainObjectName}s={mock${domainClassName}s} first={0} totalRecords={11} />
+            fetchAll${domainClassName}s={mockFetchAll${domainClassName}s} ${domainObjectName}s={mock${domainClassName}s} first={0} totalRecords={11} 
+            on${domainClassName}sChangePage={mockOnChangePage}/>
 
         const rootDiv = document.createElement('div') ;
         ReactDom.render(componentToTest, rootDiv);
@@ -59,8 +61,8 @@ describe("${domainClassName}List", () => {
         })
         
         it('invokes next page', () => {
-            const selector = "div.p-paginator.p-component.p-unselectable-text.p-paginator-bottom > span > button:nth-child(2)";
+            const selector = "button.p-paginator-next.p-paginator-element.p-link";
             clickElement(document.querySelector(selector));
-            expect(mockFetchAll${domainClassName}s).toBeCalledTimes(1);
+            expect(mockOnChangePage).toBeCalledTimes(1);
         })
 })

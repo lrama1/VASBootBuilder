@@ -14,7 +14,7 @@ export const mapDispatchToProps = (dispatch) => {
     return {
         onEdit${domainClassName}(event){
             const {name, value} = event.target;
-            dispatch(edit${domainClassName}([name], value))
+            dispatch(edit${domainClassName}(name, value))
         },
         onSave${domainClassName}(url, ${domainObjectName}){
             dispatch(save${domainClassName}(url, ${domainObjectName}))

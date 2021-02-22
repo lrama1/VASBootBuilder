@@ -1,8 +1,9 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
+#set($domainConstantName = ${domainClassName.toUpperCase()})
 
 import React from 'react';
 jest.mock('../actions/${domainObjectName.toLowerCase()}')
-import {fetch${domainClassName}, fetchAll${domainClassName}s} from '../actions/${domainObjectName.toLowerCase()}';
+import {fetch${domainClassName}, ${domainConstantName}S_CHANGE_PAGE, ${domainObjectName}sChangePage} from '../actions/${domainObjectName.toLowerCase()}';
 import {mapStateToProps, mapDispatchToProps} from "./${domainClassName}ListContainer";
 
 describe('${domainClassName}ListContainer', () => {
@@ -33,13 +34,17 @@ describe('${domainClassName}ListContainer', () => {
         expect(mockDispatch).toBeCalledWith({param:'SomeValue'})
     })
     
-    it('dispatches fetchAll${domainClassName}s', () => {
-        fetchAll${domainClassName}s.mockImplementation(()=> {
-            return {param: 'SomeValue'}
-        });
-        
-        mapDispatchToProps(mockDispatch).fetchAll${domainClassName}s('mockurl', 1)
-        expect(mockDispatch).toBeCalledWith({param:'SomeValue'})
+    it('invokes changePage action', ()=> {
+        ${domainObjectName}sChangePage.mockImplementation(() => {
+            return{
+                type: ${domainConstantName}S_CHANGE_PAGE,
+                first: 0,
+                rowsPerPage: 10,
+                pageNumber: 1
+            }
+        })
+
+        mapDispatchToProps(mockDispatch).on${domainClassName}sChangePage({first:0, rows: 10, page:1})
+        expect(mockDispatch).toBeCalledWith({type: ${domainConstantName}S_CHANGE_PAGE,  first: 0, pageNumber: 1, rowsPerPage: 10})
     })
-    
 });

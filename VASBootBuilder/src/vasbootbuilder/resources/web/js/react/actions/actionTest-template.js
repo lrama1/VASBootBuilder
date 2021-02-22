@@ -19,7 +19,11 @@ jest.mock('../utils/authority')
 describe('${domainObjectName} (action)', () => {
     
     const mockDispatch = jest.fn();
-    const mockGetState = jest.fn();
+    const mockGetState= () => {
+        return {
+            ${domainObjectName}s: []
+        }
+    }
 
     jest.spyOn(window, 'alert').mockImplementation(() => {});
     
@@ -32,11 +36,11 @@ describe('${domainObjectName} (action)', () => {
         const thunk = fetchAll${domainClassName}s('/mockurl', 1);
 
         /**/
-        const response = Promise.resolve({rows:[], totalRecords: 0, lastPage: 1})
+        const response = Promise.resolve({rows:[], totalRecords: 0})
         getRequest.mockImplementation(() => response);
 
         const result = await thunk(mockDispatch, mockGetState);
-        expect(mockDispatch).toBeCalledWith({type: ${domainConstantName}S_FETCH_SUCCESS, ${domainObjectName}s: [], totalRecords: 0, lastPage: 1, first: 1})
+        expect(mockDispatch).toBeCalledWith({type: ${domainConstantName}S_FETCH_SUCCESS, ${domainObjectName}s: [], totalRecords: 0})
     })
 
     it('invokes error when an error occured in the service', async () => {
@@ -44,11 +48,11 @@ describe('${domainObjectName} (action)', () => {
         const thunk = fetchAll${domainClassName}s('/mockurl', 1);
 
         /**/
-        const response = Promise.reject()
+        const response = Promise.reject('Error Occured')
         getRequest.mockImplementation(() => response);
 
         const result = await thunk(mockDispatch, mockGetState);
-        expect(mockDispatch).toBeCalledWith({type: ${domainConstantName}S_FETCH_ERROR, error: true})
+        expect(mockDispatch).toBeCalledWith({type: ${domainConstantName}S_FETCH_ERROR, error: 'Error Occured'})
     })
     
     it('invokes success when a single ${domainObjectName} is returned', async () => {

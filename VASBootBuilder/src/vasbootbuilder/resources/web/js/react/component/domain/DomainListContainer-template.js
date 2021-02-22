@@ -2,7 +2,7 @@
 
 import {connect} from 'react-redux';
 import ${domainClassName}List from '../components/${domainClassName}List'
-import {fetch${domainClassName}, fetchAll${domainClassName}s} from '../actions/${domainObjectName.toLowerCase()}';
+import {fetch${domainClassName}, fetchAll${domainClassName}s, ${domainObjectName}sChangePage} from '../actions/${domainObjectName.toLowerCase()}';
 
 
 export const mapStateToProps = (state) => {
@@ -19,8 +19,10 @@ export const mapDispatchToProps = (dispatch) => {
         fetch${domainClassName}(url){
             dispatch(fetch${domainClassName}(url))
         },
-        fetchAll${domainClassName}s(url, first){
-            dispatch(fetchAll${domainClassName}s(url, first))
+        on${domainClassName}sChangePage({first, rows, page}){
+            console.log('change page')
+            dispatch(${domainObjectName}sChangePage(first, rows, page))
+            dispatch(fetchAll${domainClassName}s())
         }
     }
 }

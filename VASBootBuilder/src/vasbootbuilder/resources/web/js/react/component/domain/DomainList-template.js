@@ -3,12 +3,13 @@ import React from 'react'
 import {DataTable} from 'primereact/components/datatable/DataTable'
 import {Column} from 'primereact/components/column/Column'
 
-function ${domainClassName}List({history, fetch${domainClassName}, fetchAll${domainClassName}s, ${domainObjectName}s, first, totalRecords}){
+function ${domainClassName}List({history, fetch${domainClassName}, fetchAll${domainClassName}s, ${domainObjectName}s, first, totalRecords,
+    on${domainClassName}sChangePage}){
 
-    function pageAction({first,rows, page}){
+    /*function pageAction({first,rows, page}){
         console.log(first)
         fetchAll${domainClassName}s('${domainObjectName.toLowerCase()}s?per_page=' + rows + '&page=' + (page+1), first )
-    }
+    }*/
     
     function buttonClicked(event){
         fetch${domainClassName}('${domainObjectName.toLowerCase()}/' + event.target.value)
@@ -28,7 +29,7 @@ function ${domainClassName}List({history, fetch${domainClassName}, fetchAll${dom
     return (
         <div>
         <DataTable first={first} paginator={true} value={${domainObjectName}s} lazy={true} rows={10} totalRecords={totalRecords}
-            onPage={pageAction} selectionMode="single">
+            onPage={on${domainClassName}sChangePage} selectionMode="single">
         #foreach($key in $attrs.keySet() )
         <Column field="$key" header="${key.toUpperCase()}"/>
         #end

@@ -1,7 +1,7 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 import React from 'react';
 import {HashRouter, Route, Link } from 'react-router-dom';
-import 'primereact/resources/themes/nova-light/theme.css';
+import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 
@@ -27,7 +27,7 @@ function App(props){
                                 <Link className="nav-link" to="/">Home</Link> <span className="sr-only">(current)</span>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/${domainObjectName}s" onClick={() => props.fetchAll${domainClassName}s('${domainObjectName.toLowerCase()}s?page=1&per_page=10')}>${domainClassName}s</Link>
+                                <Link className="nav-link" to="/${domainObjectName}s" onClick={() => props.fetchAll${domainClassName}s()}>${domainClassName}s</Link>
                             </li>                            
                         </ul>
                         <form className="form-inline my-2 my-lg-0">
