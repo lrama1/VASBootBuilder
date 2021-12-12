@@ -1,6 +1,8 @@
 //DomainDetail-template.js
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
-import React from 'react'
+import React from 'react';
+import {InputText} from "primereact/inputtext";
+import {Button} from "primereact/button";
 
 function ${domainClassName}Edit({selected${domainClassName}, onEdit${domainClassName}, onSave${domainClassName}}){
 
@@ -11,17 +13,17 @@ function ${domainClassName}Edit({selected${domainClassName}, onEdit${domainClass
     }
 
     return(
-      <div>
+      <div className="p-grid">
           <form>
             #foreach($key in $attrs.keySet() )
-            <div className="form-group">
+            <div className="p-col-4">
 		      <label htmlFor="${key}">${key}</label>
-		      <input className="form-control" id="${key}" name="${key}" value={selected${domainClassName}.${key}}
+		      <InputText id="${key}" name="${key}" value={selected${domainClassName}.${key}}
 		          onChange={onEdit${domainClassName}}/>
 		    </div>
 		    #end
 		    
-            <button id="saveButton" onClick={buttonEventHandler}>Save</button>
+            <Button id="saveButton" onClick={buttonEventHandler}>Save</Button>
           </form>
       </div>
     );

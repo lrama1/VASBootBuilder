@@ -1,7 +1,8 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
-import React from 'react'
-import {DataTable} from 'primereact/components/datatable/DataTable'
-import {Column} from 'primereact/components/column/Column'
+import React from 'react';
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
+import {Button} from "primereact/button";
 
 function ${domainClassName}List({history, fetch${domainClassName}, fetchAll${domainClassName}s, ${domainObjectName}s, first, totalRecords,
     on${domainClassName}sChangePage}){
@@ -19,7 +20,7 @@ function ${domainClassName}List({history, fetch${domainClassName}, fetchAll${dom
 
     function actionTemplate(rowData, column){
         return (
-            <button id={rowData.${domainClassIdAttributeName}} value={rowData.${domainClassIdAttributeName}} onClick={buttonClicked}>Edit</button>
+            <Button id={rowData.${domainClassIdAttributeName}} value={rowData.${domainClassIdAttributeName}} onClick={buttonClicked}>Edit</Button>
         )
     }
        
