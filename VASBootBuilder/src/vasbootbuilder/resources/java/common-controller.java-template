@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceResourceBundle;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -24,8 +23,7 @@ import ${basePackageName}.util.ExposedResourceBundleMessageSource;
 
 @RestController
 public class MainController {
-	private Logger logger = Logger.getLogger(this.getClass());
-
+	
 	@Autowired
 	protected ExposedResourceBundleMessageSource messageSource;
 
@@ -49,7 +47,6 @@ public class MainController {
 	public @ResponseBody String getMessages(Locale locale){
 		StringWriter stringWriter = new  StringWriter();
 		
-		logger.info("Getting localized messages from the server." + locale);
 		stringWriter.append("define(function() {");
 		stringWriter.append("var localizedMessages = {");
 		
@@ -87,7 +84,6 @@ public class MainController {
 		);
 		
 		stringWriter.append("});");
-		logger.info(stringWriter.toString());
 		
 		return stringWriter.toString();
 	}

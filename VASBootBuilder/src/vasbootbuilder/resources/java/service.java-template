@@ -23,7 +23,7 @@ public class ${domainClassName}Service {
 	public ListWrapper<${domainClassName}> get${domainClassName}s(int pageNumber, int pageSize, String sortByAttribute, String sortDirection){
 		//return ${domainClassName.substring(0,1).toLowerCase()}${domainClassName.substring(1)}DAO.get${domainClassName}s(pageNumber, pageSize, sortByAttribute, sortDirection);
 		
-		PageRequest request = new PageRequest(pageNumber - 1, pageSize);
+		PageRequest request = PageRequest.of(pageNumber - 1, pageSize);
         Page<${domainClassName}> ${domainObjectName}Page =  ${domainObjectName}Repository.findAll(request);
         ListWrapper<${domainClassName}> results = new ListWrapper<>();
         results.setRows(${domainObjectName}Page.getContent());
@@ -35,7 +35,7 @@ public class ${domainClassName}Service {
 	}
 	
 	public ${domainClassName} get${domainClassName}(String id){
-		return ${domainObjectName}Repository.findOne(id);
+		return ${domainObjectName}Repository.findById(id).get();
 	}	
 	
 	
