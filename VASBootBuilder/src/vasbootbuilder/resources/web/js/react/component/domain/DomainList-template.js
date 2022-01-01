@@ -5,7 +5,7 @@ import {Column} from 'primereact/column';
 import {Button} from "primereact/button";
 
 function ${domainClassName}List({history, fetch${domainClassName}, fetchAll${domainClassName}s, ${domainObjectName}s, first, totalRecords,
-    on${domainClassName}sChangePage}){
+    on${domainClassName}sChangePage, sortSettings, onSort}){
 
     /*function pageAction({first,rows, page}){
         console.log(first)
@@ -30,9 +30,10 @@ function ${domainClassName}List({history, fetch${domainClassName}, fetchAll${dom
     return (
         <div>
         <DataTable first={first} paginator={true} value={${domainObjectName}s} lazy={true} rows={10} totalRecords={totalRecords}
-            onPage={on${domainClassName}sChangePage} selectionMode="single">
+            onPage={on${domainClassName}sChangePage} selectionMode="single"
+            sortField={sortSettings.sortField} sortOrder={sortSettings.sortOrder} onSort={onSort}>
         #foreach($key in $attrs.keySet() )
-        <Column field="$key" header="${key.toUpperCase()}"/>
+        <Column field="$key" header="${key.toUpperCase()}" sortable/>
         #end
         <Column body={actionTemplate}/>
         </DataTable>

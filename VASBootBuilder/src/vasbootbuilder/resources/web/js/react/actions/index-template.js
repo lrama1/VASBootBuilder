@@ -97,9 +97,10 @@ const ${domainConstantName}S_URI = '${domainObjectName}s'
 export function fetchAll${domainClassName}s(){
     console.log('Fetch Invoked');
     return async (dispatch, getState) => {
-        const {first, rowsPerPage, pageNumber} = getState().${domainObjectName}s
+        const {first, rowsPerPage, pageNumber, sortSettings} = getState().${domainObjectName}s
         try {
-            const data = await getRequest(${domainConstantName}S_URI + '?page=' + (pageNumber + 1) + '&per_page=' + rowsPerPage);
+            const data = await getRequest(${domainConstantName}S_URI + '?page=' + (pageNumber + 1) + '&per_page=' + rowsPerPage +
+                    '&sort_by=' + sortSettings.sortField + '&order=' + sortSettings.sortOrder);
             dispatch(${domainObjectName}sFetchSuccess(data.rows, data.totalRecords, data.lastPage))
         }catch (e) {
             dispatch(${domainObjectName}sFetchError(e))
@@ -108,12 +109,21 @@ export function fetchAll${domainClassName}s(){
 }
 
 export const ${domainConstantName}S_CHANGE_PAGE = '${domainConstantName}S_CHANGE_PAGE'
-    export function ${domainObjectName}sChangePage(first, rowsPerPage, pageNumber){
-      return {
-          type: ${domainConstantName}S_CHANGE_PAGE,
-          first,
-          rowsPerPage,
-          pageNumber
-
-      }
+	export function ${domainObjectName}sChangePage(first, rowsPerPage, pageNumber){
+	  return {
+	      type: ${domainConstantName}S_CHANGE_PAGE,
+	      first,
+	      rowsPerPage,
+	      pageNumber
+	
+	  }
+	}
+    
+export const ${domainConstantName}S_SORT = '${domainConstantName}S_SORT'
+export function ${domainObjectName}sSort(sortField, sortOrder){
+    return{
+        type: ${domainConstantName}S_SORT,
+        sortField,
+        sortOrder
     }
+}    

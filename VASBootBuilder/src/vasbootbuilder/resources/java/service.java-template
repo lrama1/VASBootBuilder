@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 
 //import the domain
 import ${basePackageName}.web.domain.$domainClassName;
@@ -24,6 +26,10 @@ public class ${domainClassName}Service {
 		//return ${domainClassName.substring(0,1).toLowerCase()}${domainClassName.substring(1)}DAO.get${domainClassName}s(pageNumber, pageSize, sortByAttribute, sortDirection);
 		
 		PageRequest request = PageRequest.of(pageNumber - 1, pageSize);
+		if(!"".equals(sortByAttribute)) {
+			Sort sortSetting = Sort.by("1".equals(sortDirection)?Direction.ASC: Direction.DESC, sortByAttribute);
+			request = PageRequest.of(pageNumber - 1, pageSize, sortSetting);
+		}
         Page<${domainClassName}> ${domainObjectName}Page =  ${domainObjectName}Repository.findAll(request);
         ListWrapper<${domainClassName}> results = new ListWrapper<>();
         results.setRows(${domainObjectName}Page.getContent());

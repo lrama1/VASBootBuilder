@@ -17,6 +17,7 @@ describe("${domainClassName}List", () => {
     const mockFetch${domainClassName} = jest.fn();
     const mockFetchAll${domainClassName}s = jest.fn();
     const mockOnChangePage = jest.fn();
+    const mockOnSort = jest.fn();
     const mock${domainClassName}s =
         [
         #foreach($i in $range)
@@ -40,7 +41,7 @@ describe("${domainClassName}List", () => {
 
         const componentToTest = <${domainClassName}List history={props.history} fetch${domainClassName}={mockFetch${domainClassName}}
             fetchAll${domainClassName}s={mockFetchAll${domainClassName}s} ${domainObjectName}s={mock${domainClassName}s} first={0} totalRecords={11} 
-            on${domainClassName}sChangePage={mockOnChangePage}/>
+            on${domainClassName}sChangePage={mockOnChangePage} onSort={mockOnSort} sortSettings={{}}/>
 
         const rootDiv = document.createElement('div') ;
         ReactDom.render(componentToTest, rootDiv);

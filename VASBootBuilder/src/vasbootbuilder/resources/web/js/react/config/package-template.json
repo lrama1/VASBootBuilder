@@ -25,9 +25,7 @@
         "concurrently": "^4.1.0",
         "cors": "^2.8.5",
         "json-query": "^2.2.2",
-        "react-test-renderer": "^16.8.6",
-        "enzyme": "^3.8.0",
-        "enzyme-adapter-react-16": "^1.8.0"
+        "react-test-renderer": "^16.8.6"
     },
 	"scripts": {
 		"start": "react-scripts start",

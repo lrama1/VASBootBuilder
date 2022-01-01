@@ -21,7 +21,10 @@ describe('${domainObjectName} (action)', () => {
     const mockDispatch = jest.fn();
     const mockGetState= () => {
         return {
-            ${domainObjectName}s: []
+            ${domainObjectName}s: {
+            	records: [],
+                sortSettings: {}
+            }
         }
     }
 
