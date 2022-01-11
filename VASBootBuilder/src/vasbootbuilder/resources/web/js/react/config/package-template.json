@@ -4,12 +4,12 @@
 	"private": true,
 	"dependencies": {
 	    "classnames": "^2.2.6",
-		"@testing-library/jest-dom": "^4.2.4",
-        "@testing-library/react": "^9.3.2",
-        "@testing-library/user-event": "^7.1.2",
-        "react": "^16.13.0",
-        "react-dom": "^16.13.0",
-        "react-scripts": "3.4.0",    
+		"@testing-library/jest-dom": "^5.11.4",
+        "@testing-library/react": "^11.1.0",
+        "@testing-library/user-event": "^12.1.10",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-scripts": "4.0.3",   
         "react-redux": "^7.1.3",
         "react-router": "^5.1.2",
         "react-router-dom": "^5.1.2",
@@ -24,8 +24,7 @@
         "body-parser": "^1.18.3",
         "concurrently": "^4.1.0",
         "cors": "^2.8.5",
-        "json-query": "^2.2.2",
-        "react-test-renderer": "^16.8.6"
+        "json-query": "^2.2.2"
     },
 	"scripts": {
 		"start": "react-scripts start",

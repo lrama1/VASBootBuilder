@@ -4,10 +4,8 @@
 #set($range = [$start..$end])
 
 import React from 'react';
-import ReactDom from 'react-dom';
-import renderer from 'react-test-renderer';
-import {clickElement} from '../utils/TestUtils';
 import ${domainClassName}List from "../components/${domainClassName}List";
+import {render, screen, fireEvent} from '@testing-library/react'
 
 describe("${domainClassName}List", () => {
     const props = {
@@ -42,28 +40,27 @@ describe("${domainClassName}List", () => {
         const componentToTest = <${domainClassName}List history={props.history} fetch${domainClassName}={mockFetch${domainClassName}}
             fetchAll${domainClassName}s={mockFetchAll${domainClassName}s} ${domainObjectName}s={mock${domainClassName}s} first={0} totalRecords={11} 
             on${domainClassName}sChangePage={mockOnChangePage} onSort={mockOnSort} sortSettings={{}}/>
-
-        const rootDiv = document.createElement('div') ;
-        ReactDom.render(componentToTest, rootDiv);
-        document.body.appendChild(rootDiv);
         
         it('renders correctly', () => {            
-            expect(rootDiv).toMatchSnapshot();
+            expect(componentToTest).toMatchSnapshot();
         })
         
         it('displays the correct number of rows', () => {
-            const numberOfRowsRendered = document.querySelectorAll('div.p-datatable-wrapper > table > tbody > tr').length;
-            expect(numberOfRowsRendered).toBe(10)
+        	const {container} = render(componentToTest);
+            const numberOfRowsRendered = container.querySelectorAll('div.p-datatable-wrapper > table > tbody > tr').length;
+            expect(numberOfRowsRendered).toBe(10);
         })
 
         it('invokes row action', () =>{
-            clickElement(document.querySelector("button[id='Sample-${domainClassIdAttributeName}0']"))
-            expect(mockFetch${domainClassName}).toBeCalledTimes(1)
+            const {container} = render(componentToTest);
+            fireEvent.click(container.querySelector("button[id='Sample-${domainClassIdAttributeName}0']"));
+            expect(mockFetch${domainClassName}).toBeCalledTimes(1);
         })
         
         it('invokes next page', () => {
+        	const {container} = render(componentToTest);
             const selector = "button.p-paginator-next.p-paginator-element.p-link";
-            clickElement(document.querySelector(selector));
+        	fireEvent.click(container.querySelector(selector));
             expect(mockOnChangePage).toBeCalledTimes(1);
         })
 })

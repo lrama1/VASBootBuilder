@@ -1,9 +1,7 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 import React from 'react';
-import renderer from 'react-test-renderer';
 import ${domainClassName}Edit from './${domainClassName}Edit';
-import ReactDom from 'react-dom';
-import {changeInputValue, clickElement} from '../utils/TestUtils'
+import {render, fireEvent} from '@testing-library/react'
 
 describe("${domainClassName}Edit", ()=> {
     const mockChangeHandler = jest.fn();
@@ -20,22 +18,21 @@ describe("${domainClassName}Edit", ()=> {
     }
 
     const componentToTest = <${domainClassName}Edit selected${domainClassName}={mockSelected${domainClassName}} onEdit${domainClassName}={mockChangeHandler}
-                        onSave${domainClassName}={mockSaveHandler}/>
-    const rootDiv = document.createElement('div')
-    ReactDom.render(componentToTest, rootDiv);
-    document.body.appendChild(rootDiv);
+                        onSave${domainClassName}={mockSaveHandler}/>    
     
     it('Renders fields correctly', () =>{        
-        expect(rootDiv).toMatchSnapshot();
+        expect(componentToTest).toMatchSnapshot();
     });
         
     it('dispatches input changes', ()=> {
-        changeInputValue(document.querySelector("input[name='${domainClassIdAttributeName}'"), "TEST");
+        const {container} = render(componentToTest)
+        fireEvent.change(container.querySelector("input[name='${domainClassIdAttributeName}'"), {target: {value: 'TEST'}})
         expect(mockChangeHandler).toBeCalledTimes(1);
     })
     
     it('calls save function on click of Save button', () => {
-        clickElement(document.querySelector("button[id='saveButton']"));
+        const {container} = render(componentToTest)
+        fireEvent.click(container.querySelector("button[id='saveButton']"))
         expect(mockSaveHandler).toBeCalledTimes(1);
         expect(mockSaveHandler).toHaveBeenCalledWith('${domainObjectName.toLowerCase()}/Sample${domainClassIdAttributeName}', mockSelected${domainClassName})
     })
