@@ -196,9 +196,10 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			// final String domainControllerSourceCode =
 			// pageThree.getControllerSource(basePackageName, controllerPackageName,
 			// domainClassName, domainClassIdAttributeName);
-			final String controllerTestSourceCode = pageThree.getControllerTestSource(basePackageName,
-					controllerPackageName, domainClassName);
+			//final String controllerTestSourceCode = pageThree.getControllerTestSource(basePackageName,
+			//		controllerPackageName, domainClassName);
 			
+			final String controllerTestSourceCode = pageThree.buildSourceCode(mapOfValues, "controllerTest.java-template");
 
 			final SourceCodeGeneratorParameters params = new SourceCodeGeneratorParameters();
 			params.setBasePackageName(basePackageName);

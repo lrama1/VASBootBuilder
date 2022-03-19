@@ -1,18 +1,92 @@
-package $controllerPackageName;
+package ${basePackageName}.controller;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
+#set( $domainObjectName = $domainClassName.substring(0,1).toLowerCase() + $domainClassName.substring(1) )
+#set( $domainClassIdAttributeNameCapitalized = $domainClassIdAttributeName.substring(0,1).toUpperCase() + $domainClassIdAttributeName.substring(1) )
+
+import java.security.Principal;
+import java.util.Collection;
 
 //import the domain
 import ${basePackageName}.web.domain.$domainClassName;
 
+import ${basePackageName}.service.${domainClassName}Service;
 
+@RunWith(PowerMockRunner.class)
 public class ${domainClassName}ControllerTest {
+
+    @Mock
+    ${domainClassName}Service mock${domainClassName}Service;
+    
+    @InjectMocks
+    ${domainClassName}Controller classToTest;
 
 	@Test
 	public void testUpdate() {
-		assertTrue(1 == 1);		
-	}	
+		${domainClassName} ${domainObjectName} = new ${domainClassName}();
+		${domainObjectName}.set${domainClassIdAttributeNameCapitalized}("1111");
+		when(mock${domainClassName}Service.get${domainClassName}("1111")).thenReturn(${domainObjectName});
+		${domainClassName} ${domainObjectName}ToReturn = classToTest.get${domainClassName}("1111", getMockPrincipal());
+		
+		assertEquals("1111", ${domainObjectName}ToReturn.get${domainClassIdAttributeNameCapitalized}());
+	}
 	
+	private Principal getMockPrincipal() {
+		Principal principal = new Authentication() {
+			
+			@Override
+			public String getName() {				
+				return "axlrama";
+			}
+			
+			@Override
+			public void setAuthenticated(boolean arg0) throws IllegalArgumentException {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public boolean isAuthenticated() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
+			@Override
+			public Object getPrincipal() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public Object getDetails() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public Object getCredentials() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public Collection<? extends GrantedAuthority> getAuthorities() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
+		return principal;
+	}
 }

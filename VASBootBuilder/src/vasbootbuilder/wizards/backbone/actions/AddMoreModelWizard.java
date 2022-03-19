@@ -38,6 +38,7 @@ import vasbootbuilder.wizards.site.BackboneProjectWizardPageThree;
 import vasbootbuilder.wizards.site.utils.CommonUtils;
 import vasbootbuilder.wizards.site.utils.TemplateMerger;
 
+
 public class AddMoreModelWizard extends Wizard implements INewWizard {
 
 	private BackboneProjectWizardPageThree pageThree;
@@ -126,6 +127,9 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 
 				// createController
 				createControllerClass(projectContainer, basePackageName);
+				
+				// createControllerTest
+				createControllerTestClass(projectContainer, basePackageName);
 
 				// createService
 				createServiceClass(projectContainer, basePackageName);
@@ -210,7 +214,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		String domainClassName = pageThree.getDomainClassName();
 		Map<String, Object> mapOfValues = new HashMap<String, Object>();
 		mapOfValues.put("domainClassName", domainClassName);
-		mapOfValues.put("projectName”", projectName);
+		mapOfValues.put("projectNameâ€�", projectName);
 		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
 		mapOfValues.put("attrs", pageThree.getModelAttributes());
 		mapOfValues.put("fieldTypes", pageThree.getFieldTypes());
@@ -961,6 +965,23 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 
 		final String controllerSourceCode = pageThree.buildSourceCode(mapOfValues, "controller.java-template");
 		IFolder javaFolder = projectContainer.getFolder(new Path("src/main/java"));
+		CommonUtils.createPackageAndClass(javaFolder, controllerPackageName, controllerClassName, controllerSourceCode,
+				new NullProgressMonitor());
+
+	}
+	
+	private void createControllerTestClass(IContainer projectContainer, String basePackageName) throws Exception {
+		/* Add a Controller */
+
+		final String controllerClassName = pageThree.getDomainClassName() + "ControllerTest";
+		String controllerPackageName = basePackageName + ".controller";
+		Map<String, Object> mapOfValues = new HashMap<String, Object>();
+		mapOfValues.put("domainClassName", pageThree.getDomainClassName());
+		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
+		mapOfValues.put("basePackageName", basePackageName);
+
+		final String controllerSourceCode = pageThree.buildSourceCode(mapOfValues, "controllerTest.java-template");
+		IFolder javaFolder = projectContainer.getFolder(new Path("src/test/java"));
 		CommonUtils.createPackageAndClass(javaFolder, controllerPackageName, controllerClassName, controllerSourceCode,
 				new NullProgressMonitor());
 
