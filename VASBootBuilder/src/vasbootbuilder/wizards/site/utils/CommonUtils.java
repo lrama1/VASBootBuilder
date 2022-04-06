@@ -168,4 +168,12 @@ public class CommonUtils {
 		return stringWriter.toString();
 	}
 
+	public static String pluralize(String singularString) {
+		if(singularString.endsWith("s")) {
+			return singularString + "es";
+		}else {
+			return singularString + "s";
+		}
+	}
+	
 }

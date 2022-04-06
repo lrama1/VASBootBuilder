@@ -53,6 +53,13 @@
                id="Oleng3.newAction">
          </action>
          <action
+               label="Add New SubModel.."
+               class="vasbootbuilder.wizards.backbone.actions.AddNewSubModelAction"
+               menubarPath="Oleng3.menu1/group2"
+               enablesFor="1"
+               id="Oleng3.newSubModelAction">
+         </action>
+         <action
                label="Add New Presenter.."
                class="vasbootbuilder.wizards.backbone.actions.AddNewPresenterAction"
                menubarPath="Oleng3.menu1/group2"
