@@ -1,17 +1,18 @@
 package ${basePackageName}.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.security.Principal;
+import java.util.Collection;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 
 #set( $domainObjectName = $domainClassName.substring(0,1).toLowerCase() + $domainClassName.substring(1) )
 #set( $domainClassIdAttributeNameCapitalized = $domainClassIdAttributeName.substring(0,1).toUpperCase() + $domainClassIdAttributeName.substring(1) )
@@ -24,7 +25,7 @@ import ${basePackageName}.web.domain.$domainClassName;
 
 import ${basePackageName}.service.${domainClassName}Service;
 
-@RunWith(PowerMockRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ${domainClassName}ControllerTest {
 
     @Mock

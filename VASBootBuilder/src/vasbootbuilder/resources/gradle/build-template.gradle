@@ -1,13 +1,22 @@
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'war'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+import org.apache.tools.ant.taskdefs.condition.Os
+
+plugins {
+	id 'org.springframework.boot' version '2.7.2'
+	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+	id 'war'
+	id 'groovy'
+	id 'com.github.node-gradle.node' version '3.4.0'
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        url = uri('https://repo.maven.apache.org/maven2/')
+    }
+}
 
 group = 'mysamples'
 version = '0.0.1-SNAPSHOT'
-
 description = "${projectName}"
 
 sourceCompatibility = 1.8
@@ -16,47 +25,79 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-/*This section is specifically just for the build script*/
-buildscript{
-  ext{
-    springBootVersion = '1.5.15.RELEASE'
-  }
-  
-  dependencies{
-    classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
-  }
-  
-  repositories {
-        
-     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-     maven { url "http://repo.maven.apache.org/maven2" }
-  }
-}
-
-/*This section pertains to the actual project*/
-repositories {
-        
-     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-     maven { url "http://repo.maven.apache.org/maven2" }
-}
 
 dependencies {
-    compile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version:'1.3.0'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version:"$springBootVersion"
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version:"$springBootVersion"
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version:"$springBootVersion"
-    compile(group: 'org.springframework.session', name: 'spring-session', version:'1.3.1.RELEASE') {
-exclude(module: 'commons-logging')
-    }
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:"$springBootVersion"
-    compile group: 'javax.servlet', name: 'jstl', version:'1.2'
-    compile group: 'net.sf.ehcache', name: 'ehcache-core', version:'2.6.10'
-    runtime group: 'org.hsqldb', name: 'hsqldb', version:'2.3.5'
-    runtime group: 'org.springframework.boot', name: 'spring-boot-devtools', version:"$springBootVersion"
-    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:"$springBootVersion") {
-exclude(module: 'commons-logging')
-    }
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    //implementation 'org.hibernate.common:hibernate-commons-annotations:5.1.0.Final'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.session:spring-session-core'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'javax.servlet:jstl:1.2'
+    implementation 'org.quartz-scheduler:quartz:2.2.3'
+    implementation 'net.sf.ehcache:ehcache-core:2.6.10'
+    runtimeOnly 'org.hsqldb:hsqldb:2.5.2'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.0'
+    testImplementation 'org.powermock:powermock-api-mockito2:2.0.0'
     
-    providedCompile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version:"$springBootVersion"
-    providedCompile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version:'8.5.15'
+	implementation 'org.codehaus.groovy:groovy'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+task installNodeModules(type: Exec){
+  if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+    workingDir "${project.projectDir}\\src\\ui"
+    commandLine 'cmd', '/c', 'yarn', 'install'    
+  
+  }else{
+    print "Something else"
+  }
+  doFirst{
+    println "***************** Installing Modules**************************"
+  }
+}
+
+task buildUI(type: Exec){
+  dependsOn 'installNodeModules'
+  if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+    workingDir "${project.projectDir}\\src\\ui"    
+    commandLine 'cmd', '/c', 'yarn', 'build'
+  
+  }else{
+    print "Something else"
+  }
+  doFirst{
+    println "***************** Building the UI**************************"
+  }
+}
+
+task deletePreviousUI(type: Delete){
+  if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+    delete fileTree("${project.projectDir}\\src\\main\\resources\\public")
+  }else{
+    print "Something else"
+  }  
+  doFirst{
+    println "*****************Deleting previous files*****************"
+  }
+}
+
+task copyTask(type: Copy) {
+  dependsOn 'buildUI', 'deletePreviousUI'
+  from "${project.projectDir}/src/ui/build"
+  into "${project.projectDir}/src/main/resources/public"
+  doFirst{
+    println "*****************Copying files**************************"
+  }
+}
+
+war{
+  processResources{
+    dependsOn 'copyTask'
+  }
 }
