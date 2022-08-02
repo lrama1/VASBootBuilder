@@ -52,10 +52,10 @@ dependencies {
 task installNodeModules(type: Exec){
   if (Os.isFamily(Os.FAMILY_WINDOWS)) {
     workingDir "${project.projectDir}\\src\\ui"
-    commandLine 'cmd', '/c', 'yarn', 'install'    
-  
+    commandLine 'cmd', '/c', 'yarn', 'install'
   }else{
-    print "Something else"
+    workingDir "${project.projectDir}/src/ui"
+    commandLine 'yarn', 'install'
   }
   doFirst{
     println "***************** Installing Modules**************************"
@@ -69,7 +69,8 @@ task buildUI(type: Exec){
     commandLine 'cmd', '/c', 'yarn', 'build'
   
   }else{
-    print "Something else"
+    workingDir "${project.projectDir}/src/ui"    
+    commandLine 'yarn', 'build'
   }
   doFirst{
     println "***************** Building the UI**************************"
@@ -80,7 +81,7 @@ task deletePreviousUI(type: Delete){
   if (Os.isFamily(Os.FAMILY_WINDOWS)) {
     delete fileTree("${project.projectDir}\\src\\main\\resources\\public")
   }else{
-    print "Something else"
+    delete fileTree("${project.projectDir}/src/main/resources/public")
   }  
   doFirst{
     println "*****************Deleting previous files*****************"
