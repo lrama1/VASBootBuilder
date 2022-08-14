@@ -47,6 +47,7 @@ dependencies {
 	implementation 'org.codehaus.groovy:groovy'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	runtimeOnly 'org.apache.tomcat.embed:tomcat-embed-jasper'
 }
 
 task installNodeModules(type: Exec){
