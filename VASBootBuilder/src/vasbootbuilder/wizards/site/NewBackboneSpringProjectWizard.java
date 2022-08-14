@@ -213,7 +213,9 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			params.setSpringBootStarterSourceCode(
 					pageThree.buildSourceCode(mapOfValues, "spring-boot-starter.java-template"));
 			params.setMainControllerSourceCode(
-					pageThree.buildSourceCode(mapOfValues, "common-controller.java-template"));
+					pageThree.buildSourceCode(mapOfValues, "common-controller.java-template"));	
+			params.setMiscControllerSourceCode(pageThree.buildSourceCode(mapOfValues, "misc-controller.java-template"));
+			
 			params.setBaseControllerSourceCode(
                     pageThree.buildSourceCode(mapOfValues, "basecontroller.java-template"));
 			params.setDomainControllerSourceCode(pageThree.buildSourceCode(mapOfValues, "controller.java-template"));
@@ -1135,10 +1137,15 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 						folders.get("src/main/resources/public/resources/js"), new Path("main.js"), TemplateMerger
 								.merge("/vasbootbuilder/resources/web/js/backbone/main/main-template.js", mapOfValues),
 						monitor);
+				
 			}
 
 			addVariousSettings(folders.get(".settings"), proj, params.getBasePackageName(),
 					params.getControllerPackageName(), monitor);
+			
+			CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF"), new Path("health.jsp"),
+					TemplateMerger.merge("/vasbootbuilder/resources/java/health.jsp", mapOfValues),
+					monitor);
 
 			/* Add web-xml file */
 			/*
@@ -1221,6 +1228,10 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
                     "BaseController", params.getBaseControllerSourceCode(), monitor);
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getControllerPackageName(),
 					params.getControllerClassName(), params.getDomainControllerSourceCode(), monitor);
+			
+			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getControllerPackageName(),
+					"MiscController", params.getMiscControllerSourceCode(), monitor);
+		
 
 			/* Add Service */
 			CommonUtils.createPackageAndClass(folders.get("src/main/java"), params.getServicePackageName(),
@@ -1829,6 +1840,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 		private String controllerPackageName;
 		private String mainControllerSourceCode;
 		private String baseControllerSourceCode;
+		private String miscControllerSourceCode;
 		private String mainConfigSourceCode;
 		private String springBootStarterClassName;
 		private String springBootStarterSourceCode;
@@ -2242,6 +2254,14 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 
 		public void setSpringSecurityAuhenticationProvider(String springSecurityAuhenticationProvider) {
 			this.springSecurityAuhenticationProvider = springSecurityAuhenticationProvider;
+		}
+
+		public String getMiscControllerSourceCode() {
+			return miscControllerSourceCode;
+		}
+
+		public void setMiscControllerSourceCode(String miscControllerSourceCode) {
+			this.miscControllerSourceCode = miscControllerSourceCode;
 		}
 
 	}
