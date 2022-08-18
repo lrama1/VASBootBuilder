@@ -21,10 +21,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 			"logout", "*logout*", "**logout**",
 			"/login", "**/login**", "login", "*login*", "**login**", "/login*"};
 
-	@Value("${csrfEnabled:true}")
+	@Value("#[[${csrfEnabled:true}]]#")
 	private boolean csrfEnabled;
 
-	@Value("${spring.profiles.active}")
+	@Value("#[[${spring.profiles.active:local}]]#")
 	private String environment;
 	
 	@Override
