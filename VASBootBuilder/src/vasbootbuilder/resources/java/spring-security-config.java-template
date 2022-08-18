@@ -10,38 +10,54 @@ import org.springframework.security.web.authentication.preauth.RequestHeaderAuth
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String[] IGNORE_URLS = { "/logout", "**/logout**", "**/health**","/health" };
-    
-    @Value("#[[${csrfEnabled:true}]]#")
-    private boolean csrfEnabled;
-    
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-       if(csrfEnabled) {
-            http.csrf().csrfTokenRepository(csrfTokenRepo()).ignoringAntMatchers(IGNORE_URLS).and()
-                    .addFilterAfter(siteminderFilter(), RequestHeaderAuthenticationFilter.class)
-                    .addFilterAfter(new ClearSessionOnSMHeaderChange(), SecurityContextPersistenceFilter.class)
-                    .authorizeRequests()
-                    .antMatchers(IGNORE_URLS).permitAll()
-                    .antMatchers("/**").hasRole("USER").and().httpBasic().and().logout()
-                    .invalidateHttpSession(true).deleteCookies("JSESSIONID")
-                    .logoutSuccessHandler(new CustomLogoutSuccessHandler());
-        }else {
-            http.csrf().disable()
-            .addFilterAfter(siteminderFilter(), RequestHeaderAuthenticationFilter.class)
-            .addFilterAfter(new ClearSessionOnSMHeaderChange(), SecurityContextPersistenceFilter.class)
-            .authorizeRequests()
-            .antMatchers(IGNORE_URLS).permitAll()
-            .antMatchers("/**").hasRole("USER").and().httpBasic().and().logout()
-            .invalidateHttpSession(true).deleteCookies("JSESSIONID")
-            .logoutSuccessHandler(new CustomLogoutSuccessHandler());
-        }
-    }
+    private static final String[] IGNORE_URLS = { "/logout", "**/logout**", "**/health**", "/health",
+			"logout", "*logout*", "**logout**",
+			"/login", "**/login**", "login", "*login*", "**login**", "/login*"};
+
+	@Value("${csrfEnabled:true}")
+	private boolean csrfEnabled;
+
+	@Value("${spring.profiles.active}")
+	private String environment;
+	
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		if ("cloud".equalsIgnoreCase(environment)) {
+			http	
+			    .requiresChannel()
+			      .antMatchers("/login*").requiresSecure()
+			    .and() 
+			    .csrf().csrfTokenRepository(csrfTokenRepo()).ignoringAntMatchers(IGNORE_URLS).and()
+					.addFilterAfter(siteminderFilter(), RequestHeaderAuthenticationFilter.class)
+					.addFilterAfter(new ClearSessionOnSMHeaderChange(), SecurityContextPersistenceFilter.class)
+					.authorizeRequests()
+					.antMatchers(IGNORE_URLS).permitAll()
+					.antMatchers("/**").hasRole("USER").and().formLogin().and().logout()
+					.invalidateHttpSession(true).deleteCookies("JSESSIONID")
+					.logoutSuccessHandler(new CustomLogoutSuccessHandler())
+					
+					
+					;
+		} else {
+			http
+				//.requiresChannel().anyRequest().requiresSecure()
+				//.and()
+				  .csrf().disable().addFilterAfter(siteminderFilter(), RequestHeaderAuthenticationFilter.class)
+					.addFilterAfter(new ClearSessionOnSMHeaderChange(), SecurityContextPersistenceFilter.class)
+					.authorizeRequests()
+					.antMatchers(IGNORE_URLS).permitAll()
+					.antMatchers("/**").hasRole("USER").and().httpBasic().and().logout()
+					.invalidateHttpSession(true).deleteCookies("JSESSIONID")
+					.logoutSuccessHandler(new CustomLogoutSuccessHandler());
+		}
+	}
     
     private CsrfTokenRepository csrfTokenRepo() {
         HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();

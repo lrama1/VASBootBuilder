@@ -21,10 +21,10 @@ export async function postRequest(url, payload){
             return Promise.reject(data)
         }
     }else if(contentType.indexOf('html') > -1){
-        const stringToCheck = 'Login';
+        const stringToCheck = 'form-signin';
         const data = await response.text();
         if(data.indexOf(stringToCheck) > -1){
-            const home = window.location.protocol + "//" + window.location.hostname + "/${projectName}";
+            window.location.href = window.location.protocol + "//" + window.location.hostname;
         }        
     }
 }
@@ -50,10 +50,10 @@ export async function putRequest(url, payload){
             return Promise.reject(data)
         }
     }else if(contentType.indexOf('html') > -1){
-        const stringToCheck = 'Login';
+        const stringToCheck = 'form-signin';
         const data = await response.text();
         if(data.indexOf(stringToCheck) > -1){
-            const home = window.location.protocol + "//" + window.location.hostname + "/${projectName}";
+            window.location.href = window.location.protocol + "//" + window.location.hostname;
         }        
     }
 }
@@ -76,10 +76,10 @@ export async function getRequest(url){
             return Promise.reject(data)
         }
     }else if(contentType.indexOf('html') > -1){
-        const stringToCheck = 'Login';
+        const stringToCheck = 'form-signin';
         const data = await response.text();
         if(data.indexOf(stringToCheck) > -1){
-            const home = window.location.protocol + "//" + window.location.hostname + "/${projectName}";
+            window.location.href = window.location.protocol + "//" + window.location.hostname;
         }        
     }
 }
