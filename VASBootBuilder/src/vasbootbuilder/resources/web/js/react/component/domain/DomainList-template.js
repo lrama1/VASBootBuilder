@@ -5,7 +5,7 @@ import {Column} from 'primereact/column';
 import {Button} from "primereact/button";
 
 function ${domainClassName}List({history, fetch${domainClassName}, fetchAll${domainClassName}s, ${domainObjectName}s, first, totalRecords,
-    on${domainClassName}sChangePage, sortSettings, onSort}){
+    on${domainClassName}sChangePage, sortSettings, onSort, createNew${domainClassName}}){
 
     /*function pageAction({first,rows, page}){
         console.log(first)
@@ -23,20 +23,39 @@ function ${domainClassName}List({history, fetch${domainClassName}, fetchAll${dom
             <Button id={rowData.${domainClassIdAttributeName}} value={rowData.${domainClassIdAttributeName}} onClick={buttonClicked}>Edit</Button>
         )
     }
+    
+    function dateBody(rowData, {field}) {
+        const date = new Date(Date.parse(rowData[field]))
+        return (<>
+            {date.toDateString()}
+        </>)
+    }
+    
+    function addNewRecord(){
+      createNew${domainClassName}();	
+      history.push({pathname: '/${domainObjectName}'});
+    }
        
     /*
     render a table component
      */
     return (
         <div>
-        <DataTable first={first} paginator={true} value={${domainObjectName}s} lazy={true} rows={10} totalRecords={totalRecords}
-            onPage={on${domainClassName}sChangePage} selectionMode="single"
-            sortField={sortSettings.sortField} sortOrder={sortSettings.sortOrder} onSort={onSort}>
-        #foreach($key in $attrs.keySet() )
-        <Column field="$key" header="${key.toUpperCase()}" sortable/>
-        #end
-        <Column body={actionTemplate}/>
-        </DataTable>
+	        <div>
+	          <Button onClick={addNewRecord}>Add New</Button>    
+	        </div>
+	        <DataTable first={first} paginator={true} value={${domainObjectName}s} lazy={true} rows={10} totalRecords={totalRecords}
+	            onPage={on${domainClassName}sChangePage} selectionMode="single"
+	            sortField={sortSettings.sortField} sortOrder={sortSettings.sortOrder} onSort={onSort}>
+	        #foreach($key in $attrs.keySet() )
+	        #if($attrs.get(${key}) == 'java.util.Date')
+	        <Column field="$key" header="${key.toUpperCase()}" sortable body={dateBody}/>
+	        #else
+	        <Column field="$key" header="${key.toUpperCase()}" sortable/>	
+	        #end	
+	        #end
+	        <Column body={actionTemplate}/>
+	        </DataTable>
         </div>
     )
 };

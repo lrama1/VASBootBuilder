@@ -3,6 +3,8 @@
 import React from 'react';
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
+import { Calendar } from 'primereact/calendar';
+
 
 function ${domainClassName}Edit({selected${domainClassName}, onEdit${domainClassName}, onSave${domainClassName}}){
 
@@ -18,9 +20,14 @@ function ${domainClassName}Edit({selected${domainClassName}, onEdit${domainClass
             #foreach($key in $attrs.keySet() )
             <div className="p-col-4">
 		      <label htmlFor="${key}">${key}</label>
+		      #if($attrs.get(${key}) == 'java.util.Date')
+		      <Calendar dateFormat="mm-dd-yy"  id="${key}" name="${key}" value={selected${domainClassName}.${key}}
+	          onChange={onEdit${domainClassName}}></Calendar>	  
+		      #else	  
 		      <InputText id="${key}" name="${key}" value={selected${domainClassName}.${key}}
 		          onChange={onEdit${domainClassName}}/>
-		    </div>
+              #end
+		      </div>
 		    #end
 		    
             <Button id="saveButton" onClick={buttonEventHandler}>Save</Button>

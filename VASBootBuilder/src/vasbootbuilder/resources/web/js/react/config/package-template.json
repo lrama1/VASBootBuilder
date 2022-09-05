@@ -16,7 +16,8 @@
 		"primeicons": "^4.0.0",
         "primereact": "^6.0.2",
         "primeflex": "2.0.0",
-         "react-transition-group": "^2.5.1",
+        "lodash": "^4.17.21",
+        "react-transition-group": "^2.5.1",
 		"redux": "^4.0.4",
         "redux-thunk": "^2.3.0"		
 	},

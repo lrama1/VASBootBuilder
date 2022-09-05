@@ -5,7 +5,7 @@ Refactor opportunities
 1.  create separate files for each logical group of action creators
 2.  combine the separate action creator files here an export them
  */
-import {getRequest, putRequest} from "../utils/authority";
+import {getRequest, putRequest, postRequest} from "../utils/authority";
 
 export const ${domainConstantName}_FETCH_SUCCESS = '${domainConstantName}_FETCH_SUCCESS';
 export function ${domainObjectName}FetchSuccess(${domainObjectName}){
@@ -64,11 +64,20 @@ export function save${domainClassName}Error(error){
 export function save${domainClassName}(url, ${domainObjectName}){
     return async dispatch => {
         try {
-            const data = await putRequest(url, ${domainObjectName})
+            //const data = await putRequest(url, ${domainObjectName})
+        	const data = ${domainObjectName}.${domainClassIdAttributeName} === ''? await postRequest(url, ${domainObjectName}):
+        		await putRequest(url, ${domainObjectName})
             dispatch(save${domainClassName}Success(data))
         }catch (e){
             alert(JSON.stringify(e))
         }
+    }
+}
+
+export const ${domainConstantName}_CREATE_NEW = '${domainConstantName}_CREATE_NEW'
+export function createNew${domainClassName}(){
+    return {
+        type: ${domainConstantName}_CREATE_NEW
     }
 }
 

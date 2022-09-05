@@ -1,6 +1,7 @@
 #set( $domainObjectName = $domainClassName.substring(0,1).toLowerCase() + $domainClassName.substring(1) )
 package $domainPackageName;
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 #if(${useMongo} == true)
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,19 +20,23 @@ public class $className
 			#if(${useMongo} == true && ${domainClassIdAttributeName} == ${key})
 			@Id
 			#end
-			private Long $key;
-		#else
+			private Date $key;
+		#elseif($attrs.get($key) == 'String')
 			#if((${useMongo} == true || ${prepForHSQL} == true) && ${domainClassIdAttributeName} == ${key})
 			@Id
 			#end
-			@NotBlank(message = "${key} is mandatory")
 			private $attrs.get($key) $key;
+		#elseif($attrs.get($key) == 'Integer')
+			#if((${useMongo} == true || ${prepForHSQL} == true) && ${domainClassIdAttributeName} == ${key})
+			@Id
+			#end
+			private $attrs.get($key) $key;	
 		#end	
 	#end
 
 	#foreach($key in $attrs.keySet() )
 		#if($attrs.get($key) == 'java.util.Date')
-			public Long get$key.substring(0,1).toUpperCase()$key.substring(1)(){
+			public Date get$key.substring(0,1).toUpperCase()$key.substring(1)(){
 				return $key;
 			}
 		#else
@@ -43,7 +48,7 @@ public class $className
 	
 	#foreach($key in $attrs.keySet() )
 		#if($attrs.get($key) == 'java.util.Date')
-			public void set${key.substring(0,1).toUpperCase()}$key.substring(1)(Long $key ){
+			public void set${key.substring(0,1).toUpperCase()}$key.substring(1)(Date $key ){
 				this.$key = $key;
 			}
 		#else
@@ -52,27 +57,6 @@ public class $className
 			}
 		#end
 	#end
-	
-	public void populateWithSample(){
-		int appender = getNextNumber();
-		#foreach($key in $attrs.keySet() )
-			#if($attrs.get($key) == 'String')
-				$key = "Sample Value $key " + appender;
-			#elseif($attrs.get($key) == 'java.util.Date')
-				$key = System.currentTimeMillis();	
-			#elseif($attrs.get($key) == 'Integer')
-				$key = 0;
-			#else
-				$key = "";	
-			#end			
-		#end
-	}
-	
-	static int sampleCounter = 0;
-	private static int getNextNumber(){
-		sampleCounter++;
-		return sampleCounter;
-	}
 	
 	public String toString(){
 		return

@@ -2,7 +2,7 @@
 
 import {connect} from 'react-redux';
 import ${domainClassName}List from '../components/${domainClassName}List'
-import {fetch${domainClassName}, fetchAll${domainClassName}s, ${domainObjectName}sChangePage, ${domainObjectName}sSort} from '../actions/${domainObjectName.toLowerCase()}';
+import {fetch${domainClassName}, fetchAll${domainClassName}s, ${domainObjectName}sChangePage, ${domainObjectName}sSort, createNew${domainClassName}} from '../actions/${domainObjectName.toLowerCase()}';
 
 
 export const mapStateToProps = (state) => {
@@ -28,6 +28,9 @@ export const mapDispatchToProps = (dispatch) => {
         onSort({sortField, sortOrder}){
             dispatch(${domainObjectName}sSort(sortField, sortOrder))
             dispatch(fetchAll${domainClassName}s())
+        },
+        createNew${domainClassName}(){
+        	dispatch(createNew${domainClassName}())
         }
     }
 }
