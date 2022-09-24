@@ -4,6 +4,7 @@
 import React from 'react'
 
 import { InputText } from 'primereact/inputtext';
+import { Calendar } from 'primereact/calendar';
 
 function ${domainClassName}Edit({${domainObjectName}, onEdit${domainClassName}, onAdd${domainClassName}, onRemove${domainClassName}, index}){
 	return(
@@ -11,7 +12,13 @@ function ${domainClassName}Edit({${domainObjectName}, onEdit${domainClassName}, 
 	    #foreach($key in $attrs.keySet() )
 	      <div>
 	        <label htmlFor="${key}">${key}</label>
-	        <InputText id="${key}" name="${key}" value={${domainObjectName}.${key}} onChange={(e) => onEdit${domainClassName}(e, index)} />
+	        #if($attrs.get(${key}) == 'java.util.Date')
+		      <Calendar dateFormat="mm-dd-yy"  id="${key}" name="${key}" value={${domainObjectName}.${key}}
+	        onChange={(e) => onEdit${domainClassName}(e, index)}></Calendar>	  
+		    #else	  
+		      <InputText id="${key}" name="${key}" value={${domainObjectName}.${key}}
+	           onChange={(e) => onEdit${domainClassName}(e, index)}/>
+            #end	        
 	      </div>
 	    #end
 	  </div>

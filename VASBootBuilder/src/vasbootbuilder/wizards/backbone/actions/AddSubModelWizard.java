@@ -24,6 +24,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -164,7 +165,7 @@ public class AddSubModelWizard extends Wizard implements INewWizard {
 				//Java Stuff
 				createJavaSubDomainClass(projectContainer, basePackageName, pageThree.getDomainClassName());
 				
-				addSubDomainToParent(basePackageName, projectContainer, domainClassName, pageThree.getParentDomainName());
+				addSubDomainToParent(basePackageName, projectContainer, domainClassName, pageThree.getParentDomainName(), pageThree.getModelAttributes());
 
 				project.refreshLocal(IProject.DEPTH_INFINITE, new NullProgressMonitor());
 
@@ -505,7 +506,7 @@ public class AddSubModelWizard extends Wizard implements INewWizard {
 		
 	}
 	private void addSubDomainToParent(String basePackageName, IContainer projectContainer, String domainClassName,
-			String parentDomainClass) throws Exception {
+			String parentDomainClass, Map<String, Object> modelAttributes) throws Exception {
 		String domainObjectName = domainClassName.substring(0, 1).toLowerCase() + domainClassName.substring(1);		
 		String parentDomainObjectName = parentDomainClass.substring(0, 1).toLowerCase() + parentDomainClass.substring(1);
 		
@@ -515,16 +516,27 @@ public class AddSubModelWizard extends Wizard implements INewWizard {
 		IFile parentModuleFile = javaFolder.getFile(parentDomainClass + ".java");
 		
 		String subModelDefToAdd = ""
-				+ " //@OneToMany(mappedBy = \"" + parentDomainObjectName + "\")"
+				+ " @OneToMany(mappedBy = \"" + parentDomainObjectName + "\", cascade = CascadeType.ALL, orphanRemoval = true)"
+				+ "\n@JsonManagedReference"
 				+ "   \nprivate Set<" + domainClassName + "> " + CommonUtils.pluralize(domainObjectName) + ";"; 
-		modifyJavaDomain(domainClassName, domainObjectName, parentDomainObjectName, parentModuleFile, subModelDefToAdd);
+		modifyJavaDomain(domainClassName, domainObjectName, parentDomainObjectName, parentModuleFile, 
+				subModelDefToAdd + "\n" + getPluralSetterGetter(domainClassName));
 		
+		String parentDomainIdName = obtainParentDomainName(parentModuleFile);
 		String parentRefToAdd = ""
-				+ " //@ManyToOne\r\n"
-				+ " //@JoinColumn(name = \"\", nullable = false)\r\n" 
+				+ " @ManyToOne\r\n"
+				+ " @JoinColumn(name = \"" + parentDomainIdName + "\", nullable = false)\r\n"
+				+ " @JsonBackReference\r\n"
 				+ " private " + parentDomainClass + " " + parentDomainObjectName + ";";
 		IFile childModuleFile = javaFolder.getFile(domainClassName + ".java");
 		modifyJavaDomain(domainClassName, domainObjectName, domainClassName, childModuleFile, parentRefToAdd);
+		
+		//add DDL to schema
+		String prepForOracle = vasBootBuilderProperties.getProperty("prepForOracle");
+		String prepForHSQL = vasBootBuilderProperties.getProperty("prepForHSQL");
+		modelAttributes.put(parentDomainIdName, "String");
+		createSampleDataForHSQL(projectContainer, domainClassName, prepForOracle, prepForHSQL, modelAttributes);
+		
 	}
 	
 	private void modifyJavaDomain(String domainClassName, String domainObjectName, String parentDomainObjectName,
@@ -554,6 +566,33 @@ public class AddSubModelWizard extends Wizard implements INewWizard {
 		parentModuleFile.refreshLocal(IFile.DEPTH_ZERO, new NullProgressMonitor());
 	}
 
+	
+	private String obtainParentDomainName(IFile parentModuleFile) throws CoreException, IOException{
+		File file = parentModuleFile.getRawLocation().toFile();
+		String fileContents = FileUtils.readFileToString(file);
+		
+		String idFinderRegex = "@Id[.\\s\\w\\n]*;";
+		Pattern idFinderPattern = Pattern.compile(idFinderRegex, Pattern.MULTILINE);
+		Matcher idMatcher = idFinderPattern.matcher(fileContents);
+		
+		if(idMatcher.find()) {
+			String idDeclaration = idMatcher.group();
+			String idAttrName = idDeclaration.substring(idDeclaration.lastIndexOf(' '),
+					idDeclaration.lastIndexOf(';'));
+			return idAttrName.trim();
+		}
+		return "";
+	}
+	
+
+	private String getPluralSetterGetter(String domainClassName) throws Exception{
+		Map<String, Object> mapOfValues = new HashMap<String, Object>();
+		mapOfValues.put("domainClassName", domainClassName);
+		StringWriter setterGetterSnippet = new StringWriter();
+		IOUtils.copy(TemplateMerger.merge("/vasbootbuilder/resources/java/setter-getter-plural.java-template", mapOfValues), 
+				setterGetterSnippet);
+		return setterGetterSnippet.toString();
+	}
 	
 	private void createReactTemplates(IContainer projectContainer, String projectName) throws Exception {
 		String domainClassName = pageThree.getDomainClassName();
