@@ -40,12 +40,12 @@ function ${domainClassName}List({history, fetch${domainClassName}, fetchAll${dom
     render a table component
      */
     return (
-        <div>
+        <div className="layout-dashboard">
 	        <div>
 	          <Button onClick={addNewRecord}>Add New</Button>    
 	        </div>
-	        <DataTable first={first} paginator={true} value={${domainObjectName}s} lazy={true} rows={10} totalRecords={totalRecords}
-	            onPage={on${domainClassName}sChangePage} selectionMode="single"
+	        <DataTable className="p-datatable-products" first={first} paginator={true} value={${domainObjectName}s} lazy={true} rows={10} totalRecords={totalRecords}
+	            onPage={on${domainClassName}sChangePage} selectionMode="single" responsiveLayout="stack" breakpoint="960px"
 	            sortField={sortSettings.sortField} sortOrder={sortSettings.sortOrder} onSort={onSort}>
 	        #foreach($key in $attrs.keySet() )
 	        #if($attrs.get(${key}) == 'java.util.Date')

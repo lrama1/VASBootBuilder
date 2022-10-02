@@ -809,9 +809,40 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("index.css"), TemplateMerger
 						.merge("/vasbootbuilder/resources/web/js/react/app/index-template.css", mapOfValues), monitor);
 				
-				CommonUtils.addFileToProject(folders.get("src/ui/src/components"), new Path("App.js"),
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("App.js"),
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/App-template.js", mapOfValues),
 						monitor);
+				
+				//App.js related files
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppBreadcrumb.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppBreadcrumb-template.js", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppCodeHighlight.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppCodeHighlight-template.js", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppDemo.scss"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppDemo.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("App.scss"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/App.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppFooter.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppFooter-template.js", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppInlineProfile.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppInlineProfile-template.js", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppMenu.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppMenu-template.js", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppTopbar.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppTopbar-template.js", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppWrapper.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppWrapper-template.js", mapOfValues),
+						monitor);
+				
+				
 				CommonUtils.addFileToProject(folders.get("src/ui/src/containers"), new Path("AppContainer.js"),
                         TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppContainer-template.js", mapOfValues),
                         monitor);
@@ -835,6 +866,14 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 				CommonUtils.addFileToProject(actionsContainerFolder, new Path(domainName + ".test.js"),
                         TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/actions/actionTest-template.js", mapOfValues),
                         monitor);
+				
+				//assets
+				CommonUtils.addFileToProject(folders.get("src/ui/src/assets/flags"), new Path("flags_responsive.png"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/assets/flags/flags_responsive.png", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/assets/flags"), new Path("flags.css"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/assets/flags/flags.css", mapOfValues),
+						monitor);
 				
 				// reducers
 				IFolder reducersContainerFolder = folders.get("src/ui/src/reducers");
@@ -934,7 +973,184 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 				CommonUtils.addFileToProject(folders.get("src/ui/public"), new Path("manifest.json"), TemplateMerger
 						.merge("/vasbootbuilder/resources/web/js/react/publik/manifest-template.json", mapOfValues),
 						monitor);
+				
+				//public/assets/layout/css
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/css"), new Path("layout-blue.css"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/layout/css/layout-blue.css", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/css"), new Path("layout-blue.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/layout/css/layout-blue.scss", mapOfValues),
+						monitor);
 
+				//public/assets/layout/fonts
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-500.eot"), 
+							this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-500.eot"),
+						monitor);				
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-500.svg"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-500.svg"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-500.ttf"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-500.ttf"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-500.woff"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-500.woff"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-500.woff2"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-500.woff2"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-700.eot"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-700.eot"),
+						monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-700.svg"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-700.svg"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-700.ttf"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-700.ttf"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-700.woff"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-700.woff"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-700.woff2"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-700.woff2"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-regular.eot"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-regular.eot"),
+						monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-regular.svg"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-regular.svg"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-regular.ttf"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-regular.ttf"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-regular.woff"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-regular.woff"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-regular.woff2"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-regular.woff2"),
+						monitor);
+				
+				//public/assets/layout/images
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("avatar-john.png"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/avatar-john.png"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("avatar-julia.png"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/avatar-julia.png"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("avatar-kevin.png"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/avatar-kevin.png"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("avatar.png"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/avatar.png"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("logo-black.png"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/logo-black.png"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("logo-white.png"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/logo-white.png"),
+						monitor);
+				
+				//public/assets/sass
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass"), new Path("_fonts.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/_fonts.scss", mapOfValues),
+						monitor);
+				//public assets/sass/layout
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_config.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_config.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_dashboard.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_dashboard.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_exception.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_exception.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_footer.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_footer.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_help.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_help.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_invoice.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_invoice.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_landing.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_landing.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_layout.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_layout.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_loader.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_loader.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_login.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_login.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_main.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_main.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_menu.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_menu.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_mixins.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_mixins.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_topbar.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_topbar.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_typography.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_typography.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_utils.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_utils.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_variables.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_variables.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_widgets.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_widgets.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_wizard.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_wizard.scss", mapOfValues),
+						monitor);
+				
+				//public assets/sass/overrides
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/overrides"), new Path("_layout_styles.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/overrides/_layout_styles.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/overrides"), new Path("_layout_variables.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/overrides/_layout_variables.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/overrides"), new Path("_theme_styles.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/overrides/_theme_styles.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/overrides"), new Path("_theme_variables.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/overrides/_theme_variables.scss", mapOfValues),
+						monitor);
+				
+				//public assets/sass/theme
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/theme"), new Path("_theme.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/theme/_theme.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/theme"), new Path("_variables.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/theme/_variables.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/theme"), new Path("_vendor_extensions.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/theme/_vendor_extensions.scss", mapOfValues),
+						monitor);
+				
+				//public assets/theme
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/theme"), new Path("theme-blue.css"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/theme/theme-blue.css", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/theme"), new Path("theme-blue.css.map"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/theme/theme-blue.css.map", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/theme"), new Path("theme-blue.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/theme/theme-blue.scss", mapOfValues),
+						monitor);
+				
+				
 			} else if (params.getUiType().equalsIgnoreCase("VueJS")) { // VueJS
 				CommonUtils.addFileToProject(folders.get("src/ui/config"), new Path("index.js"),
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/vue/index-template.js", mapOfValues),
@@ -1481,6 +1697,54 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			IFolder srcFolder231 = srcFolder23.getFolder(new Path("public"));
 			srcFolder231.create(false, true, new NullProgressMonitor()); 
 			folders.put("src/ui/public", srcFolder231); 
+			
+			//All public-related folders=============
+			IFolder srcFolder2311 = srcFolder231.getFolder(new Path("assets"));
+			srcFolder2311.create(false, true, new NullProgressMonitor()); 
+			folders.put("src/ui/public/assets", srcFolder2311); 
+			
+			IFolder srcFolder23111 = srcFolder2311.getFolder(new Path("layout"));
+			srcFolder23111.create(false, true, new NullProgressMonitor()); 
+			folders.put("src/ui/public/assets/layout", srcFolder23111); 
+			
+			//layout subfolders
+			IFolder srcFolder231111 = srcFolder23111.getFolder(new Path("css"));
+			srcFolder231111.create(false, true, new NullProgressMonitor()); 
+			folders.put("src/ui/public/assets/layout/css", srcFolder231111); 
+			
+			IFolder srcFolder231112 = srcFolder23111.getFolder(new Path("fonts"));
+			srcFolder231112.create(false, true, new NullProgressMonitor()); 
+			folders.put("src/ui/public/assets/layout/fonts", srcFolder231112); 
+			
+			IFolder srcFolder231113 = srcFolder23111.getFolder(new Path("images"));
+			srcFolder231113.create(false, true, new NullProgressMonitor()); 
+			folders.put("src/ui/public/assets/layout/images", srcFolder231113); 			
+			//end of layout subfolders
+			
+			IFolder srcFolder23112 = srcFolder2311.getFolder(new Path("sass"));
+			srcFolder23112.create(false, true, new NullProgressMonitor()); 
+			folders.put("src/ui/public/assets/sass", srcFolder23112); 
+			//sass subfolders
+			IFolder srcFolder231121 = srcFolder23111.getFolder(new Path("layout"));
+			srcFolder231121.create(false, true, new NullProgressMonitor()); 
+			folders.put("src/ui/public/assets/sass/layout", srcFolder231121); 
+			
+			IFolder srcFolder231122 = srcFolder23111.getFolder(new Path("overrides"));
+			srcFolder231122.create(false, true, new NullProgressMonitor()); 
+			folders.put("src/ui/public/assets/sass/overrides", srcFolder231122); 
+			
+			IFolder srcFolder231123 = srcFolder23111.getFolder(new Path("theme"));
+			srcFolder231123.create(false, true, new NullProgressMonitor()); 
+			folders.put("src/ui/public/assets/sass/theme", srcFolder231123); 
+			
+			//end of sass subfolders
+			
+			IFolder srcFolder23113 = srcFolder2311.getFolder(new Path("theme"));
+			srcFolder23113.create(false, true, new NullProgressMonitor()); 
+			folders.put("src/ui/public/assets/theme", srcFolder23113); 
+			
+			
+			//===========END of All public-related folders==========
 
 			IFolder srcFolder234 = srcFolder23.getFolder(new Path("src"));
 			srcFolder234.create(false, true, new NullProgressMonitor()); 
@@ -1510,6 +1774,16 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
             IFolder srcFolder2345 = srcFolder234.getFolder(new Path("utils"));
             srcFolder2345.create(false, true, new NullProgressMonitor());
             folders.put("src/ui/src/utils", srcFolder2345);
+            
+            //src/ui/src/assets
+			IFolder srcFolder2346 = srcFolder234.getFolder(new Path("assets"));
+			srcFolder2346.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/src/assets", srcFolder2346); 
+			
+			//src/ui/src/assets/flags
+			IFolder srcFolder23461 = srcFolder2346.getFolder(new Path("flags"));
+			srcFolder23461.create(false, true, new NullProgressMonitor());
+			folders.put("src/ui/src/assets/flags", srcFolder23461);
 			
 		} else if (uiType.equalsIgnoreCase("Angular4")) {
 			// src/ui

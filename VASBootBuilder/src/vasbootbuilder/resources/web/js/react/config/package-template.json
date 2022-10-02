@@ -19,7 +19,9 @@
         "lodash": "^4.17.21",
         "react-transition-group": "^2.5.1",
 		"redux": "^4.0.4",
-        "redux-thunk": "^2.3.0"		
+        "redux-thunk": "^2.3.0",
+        "sass": "^1.32.8",
+        "prismjs": "1.9.0"		
 	},
     "devDependencies": {
         "body-parser": "^1.18.3",

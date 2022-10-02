@@ -808,7 +808,7 @@ public class AddSubModelWizard extends Wizard implements INewWizard {
 	
 	private void addNewRoutesToReact(IContainer projectContainer, String domainClassName) throws Exception {
 		String domainObjectName = domainClassName.substring(0,1).toLowerCase() + domainClassName.substring(1);
-		IFolder jsFolder = projectContainer.getFolder(new Path("src/ui/src/components"));
+		IFolder jsFolder = projectContainer.getFolder(new Path("src/ui/src"));
 		IFile appModuleFile = jsFolder.getFile("App.js");
 		File file = appModuleFile.getRawLocation().toFile();
 

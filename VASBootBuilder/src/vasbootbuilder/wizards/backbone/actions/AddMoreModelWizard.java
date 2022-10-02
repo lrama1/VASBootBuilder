@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -424,7 +425,111 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 	
 	private void addNewRoutesToReact(IContainer projectContainer, String domainClassName) throws Exception {
 		String domainObjectName = domainClassName.substring(0,1).toLowerCase() + domainClassName.substring(1);
-		IFolder jsFolder = projectContainer.getFolder(new Path("src/ui/src/components"));
+		IFolder jsFolder = projectContainer.getFolder(new Path("src/ui/src"));
+		IFile appModuleFile = jsFolder.getFile("App.js");
+		File file = appModuleFile.getRawLocation().toFile();
+		String fileContents = FileUtils.readFileToString(file);
+		
+		String withMenuAdded = addMenu(fileContents, domainClassName, domainObjectName);
+		String withRoute = addRoute(withMenuAdded, domainClassName, domainObjectName);
+		String withImports = addImportsToApp(withRoute, domainClassName, domainObjectName);
+		
+		InputStream modifiedFileContent = new ByteArrayInputStream(CommonUtils.prettifyJS(withImports).getBytes());
+		appModuleFile.setContents(modifiedFileContent, IFile.FORCE, new NullProgressMonitor());
+		appModuleFile.refreshLocal(IFile.DEPTH_ZERO, new NullProgressMonitor());
+		
+	}
+	
+	private String addMenu(String fileContents, String domainClassName, String domainObjectName) {
+		String newFileContents = "";
+		String stringToAdd = 
+			"\n,{ label: '" + domainClassName + "s', icon: 'pi pi-fw pi-id-card', to: '/" 
+					+ domainObjectName + "s', command: () => props.fetchAll" + domainClassName+ "s()}";
+		
+		String menuRegex = "const\\s*menu\\s*=.*?\\];";
+		Pattern menuPattern = Pattern.compile(menuRegex, Pattern.DOTALL);
+		Matcher menuMatcher = menuPattern.matcher(fileContents);
+		
+		int indexToInsert = -1;
+		int lengthOfMatched = -1;
+		if(menuMatcher.find()) {
+			indexToInsert = menuMatcher.start();			
+			lengthOfMatched = menuMatcher.group().length();
+			String menuDeclaration = menuMatcher.group();
+			System.out.println(menuDeclaration);
+			
+			String itemsRegex = "items\\s*:.*?\\]";
+			Pattern itemsPattern = Pattern.compile(itemsRegex, Pattern.DOTALL);
+			Matcher itemsMatcher = itemsPattern.matcher(menuDeclaration);
+			if(itemsMatcher.find()) {
+				String items =itemsMatcher.group();
+				int itemsIndex = itemsMatcher.start();
+				String newItems = items.substring(0, items.lastIndexOf(']')) + stringToAdd + items.substring(items.lastIndexOf(']'));
+                
+				menuDeclaration = menuDeclaration.substring(0, itemsIndex) +
+						newItems + menuDeclaration.substring(itemsIndex + itemsMatcher.group().length());
+				
+				newFileContents = fileContents.substring(0, indexToInsert) +
+						menuDeclaration + fileContents.substring(indexToInsert + lengthOfMatched);
+			}			
+		}
+		return newFileContents;		
+	}
+	
+	private String addRoute(String fileContents, String domainClassName, String domainObjectName) {
+		String newFileContents = "";
+		String stringToAdd = 
+				",\n{ path: '/" + domainObjectName+ "s', component: "+ domainClassName + "ListContainer, meta: { breadcrumb: [{ parent: 'UI Kit', label: '"+ domainClassName +"' }] } }" +
+					",\n{ path: '/" + domainObjectName +"', component: " + domainClassName + "EditContainer, meta: { breadcrumb: [{ parent: 'UI Kit', label: '" + domainClassName + "' }] } }"
+						;
+		
+		String routerRegex = "const\\s*routers\\s*=.*?\\];";
+		Pattern routerPattern = Pattern.compile(routerRegex, Pattern.DOTALL);
+		Matcher routerMatcher = routerPattern.matcher(fileContents);
+		
+		int indexToInsert = -1;
+		int lengthOfMatched = -1;		
+		if(routerMatcher.find()) {
+			indexToInsert = routerMatcher.start();			
+			lengthOfMatched = routerMatcher.group().length();
+			String routerDeclaration = routerMatcher.group();
+			System.out.println(routerDeclaration);
+			String newRouterDeclaration =
+					routerDeclaration.substring(0, routerDeclaration.lastIndexOf(']') ) + stringToAdd +
+						routerDeclaration.substring(routerDeclaration.lastIndexOf(']'));	
+							;
+
+			newFileContents = fileContents.substring(0, indexToInsert) + newRouterDeclaration + 
+					    fileContents.substring(indexToInsert + lengthOfMatched);
+			
+		}
+		return newFileContents;
+	}
+	
+	private String addImportsToApp(String fileContents, String domainClassName, String domainObjectName) {
+		String importRegex = "import.*?[\"\'];";
+		String newFileContents = "";
+		String importStringToAdd = "\nimport " + domainClassName + "ListContainer from './containers/" + domainClassName + "ListContainer';" 
+				+ "\nimport " + domainClassName + "EditContainer from './containers/" + domainClassName + "EditContainer';";
+		
+		Pattern importPattern = Pattern.compile(importRegex, Pattern.DOTALL);
+		Matcher importmatcher = importPattern.matcher(fileContents);
+		String currentImportStatement = "";
+		int indexOfMatched = -1;
+		int offset = -1;
+		while(importmatcher.find()) {
+			currentImportStatement = importmatcher.group();		
+			indexOfMatched = importmatcher.start();
+			offset = currentImportStatement.length();
+		}
+		newFileContents = fileContents.substring(0, indexOfMatched + offset) + importStringToAdd +
+				fileContents.substring(indexOfMatched + offset);
+		return newFileContents;		
+	}
+	
+	/*private void addNewRoutesToReact(IContainer projectContainer, String domainClassName) throws Exception {
+		String domainObjectName = domainClassName.substring(0,1).toLowerCase() + domainClassName.substring(1);
+		IFolder jsFolder = projectContainer.getFolder(new Path("src/ui/src"));
 		IFile appModuleFile = jsFolder.getFile("App.js");
 		File file = appModuleFile.getRawLocation().toFile();
 
@@ -468,7 +573,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		InputStream modifiedFileContent = new ByteArrayInputStream(CommonUtils.prettifyJS(fileContents).getBytes());
 		appModuleFile.setContents(modifiedFileContent, IFile.FORCE, new NullProgressMonitor());
 		appModuleFile.refreshLocal(IFile.DEPTH_ZERO, new NullProgressMonitor());
-	}
+	}*/
 	
 	private String addDispatcher(String originalFileContent, String domainClassName) {
 		String updatedDispatchConst = "";
