@@ -2,7 +2,7 @@
 #set($domainConstantName = ${domainClassName.toUpperCase()})
 
 import {${domainConstantName}_FETCH_SUCCESS , ${domainConstantName}_EDIT, ${domainConstantName}_SAVE_SUCCESS, ${domainConstantName}_SAVE_ERROR, ${domainConstantName}_CREATE_NEW,
-    ${domainConstantName}S_FETCH_SUCCESS, ${domainConstantName}S_CHANGE_PAGE, ${domainConstantName}S_SORT} from '../actions/${domainObjectName.toLowerCase()}';
+    ${domainConstantName}S_FETCH_SUCCESS, ${domainConstantName}S_CHANGE_PAGE, ${domainConstantName}S_SORT} from '../actions/${domainObjectName}';
 import _ from "lodash";    
 
 const initial${domainClassName}s = {

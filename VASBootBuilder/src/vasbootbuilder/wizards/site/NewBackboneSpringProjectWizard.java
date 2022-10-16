@@ -368,7 +368,9 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 
 			// call create folders here
 			createFolderStructures(container, monitor, params.getUiType());
-			String domainName = params.getDomainClassName().toLowerCase();
+			//String domainName = params.getDomainClassName().toLowerCase();
+			String domainName = params.getDomainClassName().substring(0, 1).toLowerCase() +
+					params.getDomainClassName().substring(1);
 
 			// add 3rd party JS libs
 			if (params.getUiType().equalsIgnoreCase("BackboneJS")) {

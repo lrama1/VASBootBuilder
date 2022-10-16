@@ -5,6 +5,7 @@ import React from 'react'
 
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
+import {Button} from 'primereact/button';
 
 function ${domainClassName}Edit({${domainObjectName}, onEdit${domainClassName}, onAdd${domainClassName}, onRemove${domainClassName}, index}){
 	return(
@@ -21,6 +22,9 @@ function ${domainClassName}Edit({${domainObjectName}, onEdit${domainClassName}, 
             #end	        
 	      </div>
 	    #end
+	    <div>
+		<Button onClick={()=>onRemove${domainClassName}(index)}>Remove</Button>
+	    </div>
 	  </div>
 	)
 }

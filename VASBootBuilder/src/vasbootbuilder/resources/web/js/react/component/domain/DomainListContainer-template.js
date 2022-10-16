@@ -2,7 +2,7 @@
 
 import {connect} from 'react-redux';
 import ${domainClassName}List from '../components/${domainClassName}List'
-import {fetch${domainClassName}, fetchAll${domainClassName}s, ${domainObjectName}sChangePage, ${domainObjectName}sSort, createNew${domainClassName}} from '../actions/${domainObjectName.toLowerCase()}';
+import {fetch${domainClassName}, fetchAll${domainClassName}s, ${domainObjectName}sChangePage, ${domainObjectName}sSort, createNew${domainClassName}} from '../actions/${domainObjectName}';
 
 
 export const mapStateToProps = (state) => {

@@ -9,7 +9,7 @@ import { Calendar } from 'primereact/calendar';
 function ${domainClassName}Edit({selected${domainClassName}, onEdit${domainClassName}, onSave${domainClassName}}){
 
     function buttonEventHandler(event){
-        onSave${domainClassName}('${domainObjectName.toLowerCase()}/' + selected${domainClassName}.${domainClassIdAttributeName},
+        onSave${domainClassName}('${domainObjectName}/' + selected${domainClassName}.${domainClassIdAttributeName},
         		selected${domainClassName});
         event.preventDefault();
     }

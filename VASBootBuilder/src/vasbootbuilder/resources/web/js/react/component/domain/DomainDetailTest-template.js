@@ -34,7 +34,7 @@ describe("${domainClassName}Edit", ()=> {
         const {container} = render(componentToTest)
         fireEvent.click(container.querySelector("button[id='saveButton']"))
         expect(mockSaveHandler).toBeCalledTimes(1);
-        expect(mockSaveHandler).toHaveBeenCalledWith('${domainObjectName.toLowerCase()}/Sample${domainClassIdAttributeName}', mockSelected${domainClassName})
+        expect(mockSaveHandler).toHaveBeenCalledWith('${domainObjectName}/Sample${domainClassIdAttributeName}', mockSelected${domainClassName})
     })
 
 })

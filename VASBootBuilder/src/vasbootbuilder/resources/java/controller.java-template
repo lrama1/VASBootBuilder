@@ -36,7 +36,7 @@ public class ${domainClassName}Controller extends BaseController {
     private MessageSource messageSource;	
 		
 	//@PreAuthorize("@sampleUserDetailsService.isAuthorizedToAccessData(#id)")	
-	@RequestMapping(value = "/$domainClassName.toLowerCase()/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/$domainObjectName/{id}", method = RequestMethod.GET)
 	public $domainClassName get$domainClassName(@PathVariable("id") String id, Principal principal){
 		Authentication authenticationToken = (Authentication)principal;		
 		${domainClassName} ${domainObjectName} =
@@ -48,19 +48,19 @@ public class ${domainClassName}Controller extends BaseController {
 	}
 	
 
-	@RequestMapping(value = "/${domainClassName.toLowerCase()}", headers = {"accept=application/json"}, method = RequestMethod.POST)
+	@RequestMapping(value = "/${domainObjectName}", headers = {"accept=application/json"}, method = RequestMethod.POST)
 	public ${domainClassName} saveNew${domainClassName}(@Valid @RequestBody ${domainClassName} ${domainObjectName}){		
 		${serviceObjectName}.saveNew${domainClassName}(${domainObjectName});
 		return ${domainClassName.substring(0,1).toLowerCase()}${domainClassName.substring(1)};
 	}
 	
-	@RequestMapping(value = "/${domainClassName.toLowerCase()}/{id}", headers = {"accept=application/json"}, method = RequestMethod.PUT)
+	@RequestMapping(value = "/${domainObjectName}/{id}", headers = {"accept=application/json"}, method = RequestMethod.PUT)
 	public ${domainClassName}  update${domainClassName}(@Valid @RequestBody ${domainClassName} ${domainObjectName}){
 		${serviceObjectName}.save${domainClassName}(${domainObjectName});
 		return ${domainObjectName};
 	}
 	
-	@RequestMapping("/${domainClassName.toLowerCase()}s")
+	@RequestMapping("/${domainObjectName}s")
 	public ListWrapper<${domainClassName}> getAll${domainClassName}s(
 			@RequestParam("page") int pageNumber,
 			@RequestParam("per_page") int pageSize,

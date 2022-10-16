@@ -1,6 +1,6 @@
 #set($domainObjectName = ${domainClassName.substring(0,1).toLowerCase()} + ${domainClassName.substring(1)})
 import {connect} from 'react-redux';
-import {edit${domainClassName}, save${domainClassName}} from '../actions/${domainObjectName.toLowerCase()}';
+import {edit${domainClassName}, save${domainClassName}} from '../actions/${domainObjectName}';
 import ${domainClassName}Edit from '../components/${domainClassName}Edit';
 
 export const mapStateToProps = (state) => {

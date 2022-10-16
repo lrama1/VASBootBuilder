@@ -1,4 +1,4 @@
-import {fetchAll${domainClassName}s} from '../actions/${domainObjectName.toLowerCase()}'
+import {fetchAll${domainClassName}s} from '../actions/${domainObjectName.substring(0,1).toLowerCase()}${domainObjectName.substring(1)}'
 
 import {connect} from "react-redux";
 import App from '../App'
