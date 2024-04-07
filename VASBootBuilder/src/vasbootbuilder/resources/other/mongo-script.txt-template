@@ -10,9 +10,9 @@ use ${mongoDBName}
 	#set($index = 0)
    	#foreach($key in $attrs.keySet() )    		
    		#if($index == 0)
-   			#set($line = $line + ${key} + " : " + "'Sample-" + ${key} + ${i} + "'")
+   			#set($line = $line + """" + ${key} + """ : " + """Sample-" + ${key} + ${i} + """")
    		#else##
-   			#set($line = $line + ", " + ${key} + " : " + "'Sample-" + ${key} + ${i} + "'")
+   			#set($line = $line + ", """ + ${key} + """ : " + """Sample-" + ${key} + ${i} + """")
    		#end##   		 		
 	   	#set($index = $index + 1)
    	#end##

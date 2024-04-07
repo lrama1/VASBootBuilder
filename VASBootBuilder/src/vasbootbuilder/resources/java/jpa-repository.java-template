@@ -1,11 +1,17 @@
 package ${basePackageName}.dao;
-
+#if(${useMongo} == true)
+import org.springframework.data.mongodb.repository.MongoRepository;
+#else
 import org.springframework.data.jpa.repository.JpaRepository;
+#end
 import org.springframework.stereotype.Repository;
 
 import ${basePackageName}.web.domain.$domainClassName;
 
 @Repository
+#if(${useMongo} == true)
+public interface ${domainClassName}Repository extends MongoRepository<$domainClassName, String> {
+#else
 public interface ${domainClassName}Repository extends JpaRepository<$domainClassName, String> {
-
+#end
 }
