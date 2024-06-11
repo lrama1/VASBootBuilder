@@ -1,22 +1,22 @@
 #set( $domainObjectName = $domainClassName.substring(0,1).toLowerCase() + $domainClassName.substring(1) )
 package $domainPackageName;
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import java.util.Set;
 import java.util.Date;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import javax.persistence.CascadeType;
+import jakarta.persistence.CascadeType;
 #if(${useMongo} == true)
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "${className.toLowerCase()}s")
 #else
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity(name = "${domainObjectName}")
 #end

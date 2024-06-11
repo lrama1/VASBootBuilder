@@ -14,10 +14,9 @@
   <parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.2</version>
+		<version>3.3.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
-  </parent>
-
+	</parent>
 <!--
   <repositories>
     <repository>
@@ -137,9 +136,9 @@
 	
 	<!-- JSTL for JSP -->
 	<dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>jstl</artifactId>
-	</dependency>
+			<groupId>jakarta.servlet.jsp.jstl</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+		</dependency>
 
 	<!-- Need this to compile JSP -->
 	<dependency>
