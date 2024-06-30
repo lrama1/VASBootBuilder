@@ -1,17 +1,11 @@
 package vasbootbuilder.wizards.backbone.actions;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -24,7 +18,6 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -138,43 +131,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 				// createDao
 				createDaoClass(projectContainer, basePackageName, modelAttributes);
 
-				if (uiType.equalsIgnoreCase("BackboneJS")) {
-					/************** BACKBONE SPECIFIC ****************************/
-					// create backbone model
-					createBackboneModel(projectContainer, projectName);
-
-					// create backbone collection
-					createBackboneCollection(projectContainer, projectName);
-
-					// create backbone edit view
-					createBackboneEditView(projectContainer, projectName);
-
-					// create backbone collection view
-					createCollectionView(projectContainer, projectName);
-
-					// create Presenter
-					// createPresenter(projectContainer, projectName);
-
-					// create Backbone Template files
-					createEditAndListTemplateFiles(projectContainer, pageThree.getDomainClassName(), modelAttributes);
-
-					//
-					addNewRoutesToRouter(projectContainer, projectName);
-					addNewTabsToHomePage(projectContainer, pageThree.getDomainClassName());
-					/************** END OF BACKBONE SPECIFIC ****************************/
-				} else if (uiType.equalsIgnoreCase("AngularJS")) {
-					/************** ANGULAR SPECIFIC ****************************/
-					createAngularControllers(projectContainer, projectName);
-					createAngularService(projectContainer, projectName);
-					createAngularTemplates(projectContainer, projectName);
-					appendNewScriptsToAngular(projectContainer,
-							createNewScriptsTag(projectName, pageThree.getDomainClassName()));
-					appendNewRouteExpressionToAngular(projectContainer,
-							createWhenExpressions(projectName, pageThree.getDomainClassName()));
-					addNewTabsToAngularHomePage(projectContainer, pageThree.getDomainClassName());
-
-					/************** END OF ANGULAR SPECIFIC ****************************/
-				} else if (uiType.equalsIgnoreCase("Angular4")) {
+				if (uiType.equalsIgnoreCase("Angular4")) {
 					createAngular4Templates(projectContainer, projectName);
 					addNewTabsToAngular4AppComponentPage(projectContainer, pageThree.getDomainClassName());
 				} else if (uiType.equalsIgnoreCase("React")) {
@@ -914,28 +871,6 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		routerFile.refreshLocal(IFile.DEPTH_ZERO, new NullProgressMonitor());
 	}
 
-	private String createWhenExpressions(String projectName, String domainClassName) {
-		String basePath = domainClassName.toLowerCase();
-		String whenExpressions = ".when('/" + basePath + "s', {controller :  '" + domainClassName
-				+ "ListController', templateUrl : '/" + projectName + "/resources/js/angular_templates/"
-				+ domainClassName + "List.html'})\n" + ".when('/" + basePath + "/:id', {controller :  '"
-				+ domainClassName + "EditController', templateUrl : '/" + projectName
-				+ "/resources/js/angular_templates/" + domainClassName + "Edit.html'})\n";
-
-		return whenExpressions;
-	}
-
-	private String createNewScriptsTag(String projectName, String domainClassName) {
-		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append("<script src=\"/" + projectName + "/resources/js/angular_controllers/" + domainClassName
-				+ "ListController.js\"></script>");
-		stringBuffer.append("\n<script src=\"/" + projectName + "/resources/js/angular_controllers/" + domainClassName
-				+ "EditController.js\"></script>");
-		stringBuffer.append("\n<script src=\"/" + projectName + "/resources/js/angular_services/" + domainClassName
-				+ "Service.js\"></script>");
-		return stringBuffer.toString();
-	}
-
 	private void createJavaDomainClass(IContainer projectContainer, String basePackageName, String className)
 			throws Exception {
 		IFolder javaFolder = projectContainer.getFolder(new Path("src/main/java"));
@@ -1018,45 +953,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 				CommonUtils.cleanSampleData(sampleMongoDataStringWriter.toString()), new NullProgressMonitor());
 	}
 
-	private void createEditAndListTemplateFiles(IContainer projectContainer, String domainClassName,
-			Map<String, Object> modelAttributes) throws Exception {
-		IFolder templatesFolder = projectContainer
-				.getFolder(new Path("src/main/resources/public/resources/js/templates"));
-		if (!templatesFolder.exists()) {
-			// try another location
-			templatesFolder = projectContainer.getFolder(new Path("src/main/resources/public/resources/templates"));
-		}
-		Map<String, Object> mapOfValues = new HashMap<String, Object>();
-		mapOfValues.put("domainClassName", domainClassName);
-		mapOfValues.put("attrs", modelAttributes);
-		mapOfValues.put("templateType", pageFive.isJSPTemplate() ? "JSP" : "HTML");
-		mapOfValues.put("fieldTypes", pageThree.getFieldTypes());
-		Path editPath;
-		Path listPath;
-		// Path presenterTemplatePath;
-		if (pageFive.isJSPTemplate()) {
-			editPath = new Path(domainClassName + "EditTemplate.jsp");
-			listPath = new Path(domainClassName + "ListTemplate.jsp");
-			// presenterTemplatePath = new Path(domainClassName + "PresenterTemplate.jsp");
-		} else {
-			editPath = new Path(domainClassName + "EditTemplate.htm");
-			listPath = new Path(domainClassName + "ListTemplate.htm");
-			// presenterTemplatePath = new Path(domainClassName + "PresenterTemplate.htm");
-		}
-
-		CommonUtils.addFileToProject(templatesFolder, editPath, TemplateMerger
-				.merge("/vasbootbuilder/resources/web/js/backbone/templates/EditTemplate.jsp-template", mapOfValues),
-				new NullProgressMonitor());
-
-		CommonUtils.addFileToProject(templatesFolder, listPath, TemplateMerger
-				.merge("/vasbootbuilder/resources/web/js/backbone/templates/ListTemplate.jsp-template", mapOfValues),
-				new NullProgressMonitor());
-
-		// CommonUtils.addFileToProject(templatesFolder, presenterTemplatePath,
-		// TemplateMerger.merge("/vasbootbuilder/resources/web/js/backbone/templates/PresenterTemplate.jsp-template",
-		// mapOfValues), new NullProgressMonitor());
-
-	}
+	
 
 	private void createControllerClass(IContainer projectContainer, String basePackageName) throws Exception {
 		/* Add a Controller */
@@ -1147,199 +1044,6 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		}*/
 	}
 
-	private void createBackboneModel(IContainer projectContainer, String projectName) throws Exception {
-		IFolder modelsFolder = projectContainer.getFolder(new Path("src/main/resources/public/resources/js/models"));
-		String domainClassName = pageThree.getDomainClassName();
-		Map<String, Object> mapOfValues = new HashMap<String, Object>();
-		mapOfValues.put("domainClassName", domainClassName);
-		mapOfValues.put("projectName", projectName);
-		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
-		mapOfValues.put("attrs", pageThree.getModelAttributes());
-
-		CommonUtils.addFileToProject(modelsFolder, new Path(domainClassName + "Model.js"),
-				TemplateMerger.merge("/vasbootbuilder/resources/web/js/backbone/models/model-template.js", mapOfValues),
-				new NullProgressMonitor());
-	}
-
-	private void createBackboneCollection(IContainer projectContainer, String projectName) throws Exception {
-		IFolder collectionsFolder = projectContainer
-				.getFolder(new Path("src/main/resources/public/resources/js/collections"));
-		String domainClassName = pageThree.getDomainClassName();
-		Map<String, Object> mapOfValues = new HashMap<String, Object>();
-		mapOfValues.put("domainClassName", domainClassName);
-		mapOfValues.put("projectName", projectName);
-		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
-		mapOfValues.put("attrs", pageThree.getModelAttributes());
-		CommonUtils.addFileToProject(collectionsFolder, new Path(domainClassName + "Collection.js"), TemplateMerger
-				.merge("/vasbootbuilder/resources/web/js/backbone/collections/collection-template.js", mapOfValues),
-				new NullProgressMonitor());
-	}
-
-	// LOOK HERE
-	private void createBackboneEditView(IContainer projectContainer, String projectName) throws Exception {
-		IFolder viewsFolder = projectContainer.getFolder(new Path("src/main/resources/public/resources/js/views"));
-		String domainClassName = pageThree.getDomainClassName();
-		Map<String, Object> mapOfValues = new HashMap<String, Object>();
-		mapOfValues.put("domainClassName", domainClassName);
-		mapOfValues.put("projectName", projectName);
-		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
-		mapOfValues.put("attrs", pageThree.getModelAttributes());
-		mapOfValues.put("templateType", pageFive.isJSPTemplate() ? "JSP" : "HTML");
-		mapOfValues.put("fieldTypes", pageThree.getFieldTypes());
-		CommonUtils.addFileToProject(viewsFolder, new Path(domainClassName + "EditView.js"),
-				TemplateMerger.merge("/vasbootbuilder/resources/web/js/backbone/views/view-template.js", mapOfValues),
-				new NullProgressMonitor());
-	}
-
-	private void createCollectionView(IContainer projectContainer, String projectName) throws Exception {
-		IFolder viewsFolder = projectContainer.getFolder(new Path("src/main/resources/public/resources/js/views"));
-		String domainClassName = pageThree.getDomainClassName();
-		Map<String, Object> mapOfValues = new HashMap<String, Object>();
-		mapOfValues.put("domainClassName", domainClassName);
-		mapOfValues.put("projectName", projectName);
-		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
-		mapOfValues.put("attrs", pageThree.getModelAttributes());
-		mapOfValues.put("templateType", pageFive.isJSPTemplate() ? "JSP" : "HTML");
-		CommonUtils.addFileToProject(viewsFolder, new Path(domainClassName + "CollectionView.js"), TemplateMerger
-				.merge("/vasbootbuilder/resources/web/js/backbone/views/collection-view-template.js", mapOfValues),
-				new NullProgressMonitor());
-	}
-
-	private void createPresenter(IContainer projectContainer, String projectName) throws Exception {
-		IFolder presenterFolder = projectContainer
-				.getFolder(new Path("src/main/resources/public/resources/js/presenters"));
-		String domainClassName = pageThree.getDomainClassName();
-		Map<String, Object> mapOfValues = new HashMap<String, Object>();
-		mapOfValues.put("domainClassName", domainClassName);
-		mapOfValues.put("projectName", projectName);
-		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
-		mapOfValues.put("attrs", pageThree.getModelAttributes());
-		mapOfValues.put("templateType", pageFive.isJSPTemplate() ? "JSP" : "HTML");
-
-		CommonUtils.addFileToProject(
-				presenterFolder, new Path(domainClassName + "Presenter.js"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/backbone/views/presenter-template.js", mapOfValues),
-				new NullProgressMonitor());
-
-	}
-
-	private void addNewTabsToHomePage(IContainer projectContainer, String className) throws Exception {
-		IFolder indexFolder = projectContainer.getFolder(new Path("src/main/webapp/WEB-INF"));
-		IFile indexJSPFile = indexFolder.getFile("index.jsp");
-		File file = indexJSPFile.getRawLocation().toFile();
-		String regex = "<!-- MARKER FOR INSERTING -->";
-		String modifiedFile = FileUtils.readFileToString(file);
-		modifiedFile = modifier(modifiedFile, regex,
-				"<li><a href=\"#" + className.toLowerCase() + "s" + "\" >" + className + "s" + "</a></li>\n", "");
-
-		InputStream modifiedFileContent = new ByteArrayInputStream(modifiedFile.getBytes());
-		// indexJSPFile.delete(true, new NullProgressMonitor());
-		// indexJSPFile.create(modifiedFileContent, IResource.FORCE, new
-		// NullProgressMonitor());
-		indexJSPFile.setContents(modifiedFileContent, IFile.FORCE, new NullProgressMonitor());
-		indexJSPFile.refreshLocal(IFile.DEPTH_ZERO, new NullProgressMonitor());
-	}
-
-	private void addNewTabsToAngularHomePage(IContainer projectContainer, String className) throws Exception {
-		IFolder indexFolder = projectContainer.getFolder(new Path("src/main/webapp/WEB-INF"));
-		IFile indexJSPFile = indexFolder.getFile("index.jsp");
-		File file = indexJSPFile.getRawLocation().toFile();
-
-		String modifiedFile = FileUtils.readFileToString(file);
-		// modifiedFile = modifier(modifiedFile, regex,
-		// "<li><a href=\"#" + className.toLowerCase() + "s" + "\" >" + className + "s"
-		// + "</a></li>\n", "");
-		String whenRegex = "\\<ul(.*?)class(.*?)\\>";
-		Pattern whenPattern = Pattern.compile(whenRegex, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-
-		Matcher matcher = whenPattern.matcher(modifiedFile);
-		int positionToInsert = -1;
-		if (matcher.find()) {
-			System.out.println("===========>" + matcher.group());
-			positionToInsert = matcher.end();
-		}
-
-		// whenWriter.append("\n" + newModelTag);
-		// htmlString = matcher.replaceAll("INSERTSCRIPTSHERE");
-		StringBuffer buffer = new StringBuffer(modifiedFile);
-		if (positionToInsert > -1) {
-			buffer = new StringBuffer(modifiedFile);
-			buffer.insert(positionToInsert, "<li ng-class=\"{ active: isActive('/" + className.toLowerCase()
-					+ "s')}\"><a href=\"#" + className.toLowerCase() + "s\">" + className + "</a></li>");
-		}
-
-		modifiedFile = buffer.toString();
-
-		InputStream modifiedFileContent = new ByteArrayInputStream(modifiedFile.getBytes());
-		// indexJSPFile.delete(true, new NullProgressMonitor());
-		// indexJSPFile.create(modifiedFileContent, IResource.FORCE, new
-		// NullProgressMonitor());
-		indexJSPFile.setContents(modifiedFileContent, IFile.FORCE, new NullProgressMonitor());
-		indexJSPFile.refreshLocal(IFile.DEPTH_ZERO, new NullProgressMonitor());
-	}
-
-	private void addNewRoutesToRouter(IContainer projectContainer, String projectName) throws Exception {
-		IFolder jsFolder = projectContainer.getFolder(new Path("src/main/resources/public/resources/js"));
-		IFile routerFile = jsFolder.getFile("router.js");
-		// int lineToInsertTo = getLineToInsertNewRoutesTo(routerFile);
-		String domainClassName = pageThree.getDomainClassName();
-		Map<String, Object> mapOfValues = new HashMap<String, Object>();
-		mapOfValues.put("domainClassName", domainClassName);
-		mapOfValues.put("projectName", projectName);
-		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
-		mapOfValues.put("attrs", pageThree.getModelAttributes());
-
-		File file = routerFile.getRawLocation().toFile();
-		String backboneModelName = domainClassName + "Model";
-		String backboneModelViewName = domainClassName + "EditView";
-		String backboneCollectionName = domainClassName + "Collection";
-		String backboneCollectionViewName = domainClassName + "CollectionView";
-		String defineStringToInsert = ",'models/" + backboneModelName + "'" + ",'views/" + backboneModelViewName + "'"
-				+ ",'collections/" + backboneCollectionName + "'" + ",'views/" + backboneCollectionViewName + "'\n";
-
-		// insert params into the 'define'
-		/*
-		 * String defineModifierRegex = "define\\s*\\(\\[[\\d\\w\\s\\'\\,\\/]*\\]";
-		 * String modifiedFile = modifier(file, defineModifierRegex,
-		 * defineStringToInsert, "]");
-		 * 
-		 * //insert corresponding params into the function String
-		 * functionParamStringToInsert = ", " + backboneModelName + ", " +
-		 * backboneModelViewName + ", " + backboneCollectionName + ", " +
-		 * backboneCollectionViewName;
-		 * 
-		 * String functionModifierRegex = "function\\s*\\([\\d\\w\\s\\$\\,]*\\)";
-		 * modifiedFile = modifier(modifiedFile, functionModifierRegex,
-		 * functionParamStringToInsert, ")");
-		 */
-
-		String modifiedFile = FileUtils.readFileToString(file);
-		String routeDefinitionStringToInsert = "\n," + "\"" + domainClassName.toLowerCase() + "/:id\" : " + "\"get"
-				+ domainClassName + "\",\n" + "\"" + domainClassName.toLowerCase() + "s\" : " + "\"get"
-				+ domainClassName + "List\",\n" + "\"" + domainClassName.toLowerCase() + "Presenter\" : " + "\"show"
-				+ domainClassName + "Presenter\"\n";
-		String routeDefinitionRegex = "routes\\s*:\\s*\\{[\\*\\d\\w\\s\\\"\\'\\/:,]*\\}";
-		modifiedFile = modifier(modifiedFile, routeDefinitionRegex, routeDefinitionStringToInsert, "}");
-
-		InputStream inputStream = TemplateMerger
-				.merge("/vasbootbuilder/resources/web/js/backbone/routers/router-template-fragment-03.js", mapOfValues);
-
-		StringWriter mergeOutput = new StringWriter();
-		IOUtils.copy(inputStream, mergeOutput);
-
-		// String routeActionStringToInsert = "";
-		String routeActionRegex = "[\\s\\d\\w\\'\\/]*[\\n]\\s*Backbone.history.start\\(\\);";
-		modifiedFile = modifier(modifiedFile, routeActionRegex, "\n" + mergeOutput.toString(), "");
-
-		InputStream modifiedFileContent = new ByteArrayInputStream(modifiedFile.getBytes());
-		// routerFile.delete(true, new NullProgressMonitor());
-		// routerFile.create(modifiedFileContent, IResource.FORCE, new
-		// NullProgressMonitor());
-		routerFile.setContents(modifiedFileContent, IFile.FORCE, new NullProgressMonitor());
-		routerFile.refreshLocal(IFile.DEPTH_ZERO, new NullProgressMonitor());
-
-	}
-
 	public String modifier(String fileContents, String expression, String stringToInsert, String stringToBefore) {
 		String newFileContents = "";
 
@@ -1369,61 +1073,7 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		return modifier(contents, expression, stringToInsert, stringToBefore);
 	}
 
-	private void createAngularControllers(IContainer projectContainer, String projectName) throws Exception {
-		IFolder angularControllerFolder = projectContainer
-				.getFolder(new Path("src/main/resources/public/resources/js/angular_controllers"));
-		String domainClassName = pageThree.getDomainClassName();
-		Map<String, Object> mapOfValues = new HashMap<String, Object>();
-		mapOfValues.put("domainClassName", domainClassName);
-		mapOfValues.put("projectName", projectName);
-		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
-		mapOfValues.put("attrs", pageThree.getModelAttributes());
-
-		CommonUtils.addFileToProject(angularControllerFolder, new Path(domainClassName + "ListController.js"),
-				TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular/angular_list_controller-template.js",
-						mapOfValues),
-				new NullProgressMonitor());
-		CommonUtils.addFileToProject(angularControllerFolder, new Path(domainClassName + "EditController.js"),
-				TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular/angular_edit_controller-template.js",
-						mapOfValues),
-				new NullProgressMonitor());
-	}
-
-	private void createAngularService(IContainer projectContainer, String projectName) throws Exception {
-		IFolder angularServiceFolder = projectContainer
-				.getFolder(new Path("src/main/resources/public/resources/js/angular_services"));
-		String domainClassName = pageThree.getDomainClassName();
-		Map<String, Object> mapOfValues = new HashMap<String, Object>();
-		mapOfValues.put("domainClassName", domainClassName);
-		mapOfValues.put("projectName", projectName);
-		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
-		mapOfValues.put("attrs", pageThree.getModelAttributes());
-
-		CommonUtils.addFileToProject(
-				angularServiceFolder, new Path(domainClassName + "Service.js"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/angular/angular_service-template.js", mapOfValues),
-				new NullProgressMonitor());
-	}
-
-	private void createAngularTemplates(IContainer projectContainer, String projectName) throws Exception {
-		IFolder angularTemplatesFolder = projectContainer
-				.getFolder(new Path("src/main/resources/public/resources/js/angular_templates"));
-		String domainClassName = pageThree.getDomainClassName();
-		Map<String, Object> mapOfValues = new HashMap<String, Object>();
-		mapOfValues.put("domainClassName", domainClassName);
-		mapOfValues.put("projectName", projectName);
-		mapOfValues.put("domainClassIdAttributeName", pageThree.getDomainClassAttributeName());
-		mapOfValues.put("attrs", pageThree.getModelAttributes());
-
-		CommonUtils.addFileToProject(
-				angularTemplatesFolder, new Path(domainClassName + "List.html"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/angular/angular_list_html-template.html", mapOfValues),
-				new NullProgressMonitor());
-		CommonUtils.addFileToProject(
-				angularTemplatesFolder, new Path(domainClassName + "Edit.html"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/angular/angular_edit_html-template.html", mapOfValues),
-				new NullProgressMonitor());
-	}
+	
 
 	public void appendNewRouteExpressionToAngular(IContainer projectContainer, String newWhenExpression)
 			throws Exception {
@@ -1483,69 +1133,6 @@ public class AddMoreModelWizard extends Wizard implements INewWizard {
 		routerFile.refreshLocal(IFile.DEPTH_ZERO, new NullProgressMonitor());
 
 	}
-
-	private void appendNewScriptsToAngular(IContainer projectContainer, String newScriptTag) throws Exception {
-		String whenRegex = "\\<script(.*?)\\>(.*?)\\<\\/script\\>";
-		Pattern whenPattern = Pattern.compile(whenRegex, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-		// String value = routePattern.matcher(routerString).
-		// System.out.println(value);
-		IFolder jsFolder = projectContainer.getFolder(new Path("src/main/webapp/WEB-INF"));
-		IFile index2File = jsFolder.getFile("index.jsp");
-		File file = index2File.getRawLocation().toFile();
-
-		String htmlString = FileUtils.readFileToString(file);
-
-		Matcher matcher = whenPattern.matcher(htmlString);
-		StringWriter whenWriter = new StringWriter();
-		// 1. gather all 'when' expressions
-		while (matcher.find()) {
-			System.out.println("===========>" + matcher.group());
-			whenWriter.append("\n" + matcher.group());
-		}
-		whenWriter.append("\n" + newScriptTag);
-		htmlString = matcher.replaceAll("INSERTSCRIPTSHERE");
-
-		System.out.println("=================================================================================");
-		int insertionPoint = htmlString.indexOf("INSERTSCRIPTSHERE");
-		StringBuffer stringBuffer = new StringBuffer(htmlString);
-		stringBuffer.insert(insertionPoint, whenWriter.toString());
-		String finalString = stringBuffer.toString().replaceAll("INSERTSCRIPTSHERE", "");
-		InputStream modifiedFileContent = new ByteArrayInputStream(finalString.getBytes());
-
-		// index2File.delete(true, new NullProgressMonitor());
-		// index2File.create(modifiedFileContent, IResource.FORCE, new
-		// NullProgressMonitor());
-
-		index2File.setContents(modifiedFileContent, IFile.FORCE, new NullProgressMonitor());
-		index2File.refreshLocal(IFile.DEPTH_ZERO, new NullProgressMonitor());
-	}
-
-	private String[] getLineToInsertNewRoutesTo(IFile routerFile) throws Exception {
-		List<String> lines = new ArrayList<String>();
-		InputStream inputStream = routerFile.getContents();
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-		String line = "";
-		int lineNumber = 0;
-		int blankLineNumber = 0;
-		boolean blankLineFound = false;
-		while ((line = bufferedReader.readLine()) != null) {
-			lines.add(line + "\n");
-			if (line.trim().equals("") && !blankLineFound)
-				blankLineNumber = lineNumber;
-			if (line.indexOf("Backbone.history.start()") > -1) {
-				blankLineFound = true;
-			}
-			lineNumber++;
-		}
-
-		lines.add(blankLineNumber, "//HEY FOUND IT\n");
-		lines.add(blankLineNumber, "\n");
-		bufferedReader.close();
-		// System.out.println("The last blank line before start is: " +
-		// blankLineNumber);
-		String[] linesToReturn = new String[lines.size()];
-		lines.toArray(linesToReturn);
-		return linesToReturn;
-	}
+	
 
 }

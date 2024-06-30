@@ -55,11 +55,9 @@ public class BackboneProjectWizardPageFive extends WizardPage {
 		new Label(container, SWT.NONE);
 		
 		cmbUIType = new Combo(container, SWT.READ_ONLY);
+		cmbUIType.add("React");
 		cmbUIType.add("VueJS");
-		cmbUIType.add("Angular4");	
-		cmbUIType.add("BackboneJS");
-		cmbUIType.add("AngularJS");	
-		cmbUIType.add("React");	
+		cmbUIType.add("Angular4");			
 		cmbUIType.add("None");	
 		cmbUIType.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		//cmbUIType.select(0);		

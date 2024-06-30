@@ -10,7 +10,7 @@ app.use(bodyParser.json())
 
 const ${domainClassName.toLowerCase()}s = require('./${domainClassName}s.json')
 
-app.get('/${projectName}/${domainClassName.toLowerCase()}s', (req, res) =>{
+app.post('/${projectName}/${domainClassName.toLowerCase()}s', (req, res) =>{
     return res.json(${domainClassName.toLowerCase()}s)
 })
 

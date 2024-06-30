@@ -15,12 +15,14 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import './App.scss';
-import Home from './components/Home';
-import ${domainClassName}ListContainer from "./containers/${domainClassName}ListContainer";
-import ${domainClassName}EditContainer from "./containers/${domainClassName}EditContainer";
+import Home from './features/home/Home';
+import ${domainClassName}List from "./features/${domainObjectName}/${domainClassName}List";
+import ${domainClassName}Edit from "./features/${domainObjectName}/${domainClassName}Edit";
+import { useDispatch } from "react-redux";
+import { fetch${domainClassName}s } from "./features/${domainObjectName}/${domainObjectName}sSlice";
 
 const App = (props) => {
-
+    const dispatch = useDispatch();
     const [menuActive, setMenuActive] = useState(false);
     //const [menuMode, setMenuMode] = useState('static');
     const menuMode = 'static'
@@ -59,7 +61,7 @@ const App = (props) => {
             label: 'Home Page', icon: 'pi pi-fw pi-home',
             items: [
                 { label: 'Home', icon: 'pi pi-fw pi-home', to: '/' }
-                , { label: '${domainClassName}s', icon: 'pi pi-fw pi-id-card', to: '/${domainObjectName}s', command: () => props.fetchAll${domainClassName}s()}
+                , { label: '${domainClassName}s', icon: 'pi pi-fw pi-id-card', to: '/${domainObjectName}s', command: () => dispatch(fetch${domainClassName}s())}
             ]
         }
 
@@ -67,8 +69,8 @@ const App = (props) => {
 
     const routers = [
         { path: '/', component: Home, exact: true, meta: { breadcrumb: [{ parent: 'Home', label: 'Home' }] } }
-        ,{ path: '/${domainObjectName}s', component: ${domainClassName}ListContainer, meta: { breadcrumb: [{ parent: 'UI Kit', label: '${domainClassName}s' }] } }
-        ,{ path: '/${domainObjectName}', component: ${domainClassName}EditContainer, meta: { breadcrumb: [{ parent: 'UI Kit', label: '${domainClassName}' }] } }
+        ,{ path: '/${domainObjectName}s', component: ${domainClassName}List, meta: { breadcrumb: [{ parent: 'UI Kit', label: '${domainClassName}s' }] } }
+        ,{ path: '/${domainObjectName}', component: ${domainClassName}Edit, meta: { breadcrumb: [{ parent: 'UI Kit', label: '${domainClassName}' }] } }
 
     ];
 

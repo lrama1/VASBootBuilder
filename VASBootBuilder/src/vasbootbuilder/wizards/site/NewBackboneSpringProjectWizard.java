@@ -373,213 +373,425 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 					params.getDomainClassName().substring(1);
 
 			// add 3rd party JS libs
-			if (params.getUiType().equalsIgnoreCase("BackboneJS")) {
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources"), new Path("r.js"),
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/r.js"), monitor);
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"),
-						new Path("require.js"),
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/require.js"),
+			if (params.getUiType().equalsIgnoreCase("React")) {
+			    String domainClassName = params.getDomainClassName();
+			    
+				CommonUtils.addFileToProject(container, new Path("npm-build.sh"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/other/npm-build.sh", mapOfValues),
 						monitor);
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"),
-						new Path("backbone.js"),
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/backbone.js"),
+				CommonUtils.addFileToProject(container, new Path("npm-build.cmd"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/other/npm-build.cmd", mapOfValues),
 						monitor);
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"),
-						new Path("underscore.js"),
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/underscore-min.js"),
+				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("package.json"), TemplateMerger.merge(
+						"/vasbootbuilder/resources/web/js/react/config/package-template.json", mapOfValues), monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/ui"), new Path(".env.local"), TemplateMerger.merge(
+                        "/vasbootbuilder/resources/web/js/react/config/env.local", mapOfValues), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui"), new Path(".env.production"), TemplateMerger.merge(
+                        "/vasbootbuilder/resources/web/js/react/config/env.production", mapOfValues), monitor);
+				
+				//mocks
+				CommonUtils.addFileToProject(folders.get("src/ui/mocks"), new Path("server.js"), TemplateMerger.merge(
+                        "/vasbootbuilder/resources/web/js/react/other/server-template.js", mapOfValues), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/mocks"), new Path(domainClassName +"s.json"), TemplateMerger.merge(
+                        "/vasbootbuilder/resources/web/js/react/other/mockdata-template.json", mapOfValues), monitor);
+				
+				
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("index.js"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/app/index-template.js", mapOfValues), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("index.css"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/app/index-template.css", mapOfValues), monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("App.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/App-template.js", mapOfValues),
 						monitor);
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"),
-						new Path("backgrid.js"),
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/backgrid.js"),
+				
+				//App.js related files
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppBreadcrumb.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppBreadcrumb-template.js", mapOfValues),
 						monitor);
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/css/libs"),
-						new Path("backgrid.css"),
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/backgrid.css"),
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppCodeHighlight.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppCodeHighlight-template.js", mapOfValues),
 						monitor);
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/css/libs"),
-						new Path("backgrid-paginator.css"), this.getClass().getResourceAsStream(
-								"/vasbootbuilder/resources/web/js/libs/backgrid-paginator.css"),
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppDemo.scss"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppDemo.scss", mapOfValues),
 						monitor);
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"),
-						new Path("backgrid-paginator.js"), this.getClass().getResourceAsStream(
-								"/vasbootbuilder/resources/web/js/libs/backgrid-paginator.js"),
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("App.scss"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/App.scss", mapOfValues),
 						monitor);
-
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/css/libs"),
-						new Path("backgrid-select-all.css"), this.getClass().getResourceAsStream(
-								"/vasbootbuilder/resources/web/js/libs/backgrid-select-all.css"),
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppFooter.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppFooter-template.js", mapOfValues),
 						monitor);
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"),
-						new Path("backgrid-select-all.js"), this.getClass().getResourceAsStream(
-								"/vasbootbuilder/resources/web/js/libs/backgrid-select-all.js"),
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppInlineProfile.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppInlineProfile-template.js", mapOfValues),
 						monitor);
-
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"),
-						new Path("backbone-pageable.js"), this.getClass().getResourceAsStream(
-								"/vasbootbuilder/resources/web/js/libs/backbone-pageable.js"),
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppMenu.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppMenu-template.js", mapOfValues),
 						monitor);
-				//
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"),
-						new Path("bootstrap-datepicker.js"), this.getClass().getResourceAsStream(
-								"/vasbootbuilder/resources/web/js/libs/bootstrap-datepicker.js"),
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppTopbar.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppTopbar-template.js", mapOfValues),
 						monitor);
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/css/libs"),
-						new Path("datepicker.css"),
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/datepicker.css"),
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppWrapper.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppWrapper-template.js", mapOfValues),
 						monitor);
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"),
-						new Path("backbone.global.js"),
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/backbone.global.js"),
+				
+				
+				CommonUtils.addFileToProject(folders.get("src/ui/src/containers"), new Path("AppContainer.js"),
+                        TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppContainer-template.js", mapOfValues),
+                        monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("registerServiceWorker.js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/registerServiceWorker.js" ,mapOfValues),
 						monitor);
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/models"),
-						new Path(params.getDomainClassName() + "Model.js"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/backbone/models/model-template.js",
-								mapOfValues),
-						monitor);
-
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/collections"),
-						new Path(params.getDomainClassName() + "Collection.js"),
-						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/backbone/collections/collection-template.js",
-								mapOfValues),
-						monitor);
-
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/views"),
-						new Path(params.getDomainClassName() + "EditView.js"), TemplateMerger
-								.merge("/vasbootbuilder/resources/web/js/backbone/views/view-template.js", mapOfValues),
-						monitor);
-
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/views"),
-						new Path(params.getDomainClassName() + "CollectionView.js"),
-						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/backbone/views/collection-view-template.js",
-								mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources"),
-						new Path("buildconfig.js"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/backbone/main/buildconfig-template.js",
-								mapOfValues),
-						monitor);
-
-				CommonUtils.addFileToProject(
-						folders.get("src/main/resources/public/resources/js"), new Path("app.js"), TemplateMerger
-								.merge("/vasbootbuilder/resources/web/js/backbone/main/app-template.js", mapOfValues),
-						monitor);
-
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js"),
-						new Path("router.js"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/backbone/routers/router-template.js",
-								mapOfValues),
-						monitor);
-
+				
+				// Home
 				/*
-				 * Add a backbone template file. This is dependent on the Java Model generation.
-				 * Instead of using plain html, we are going to use JSP so we can use Spring's
-				 * Message Bundles for localization.
-				 */
-				Path listTemplatePath;
-				Path editTemplatePath;
-				// Path presenterTemplatePath;
-				if (params.isJSPTemplate()) {
-					listTemplatePath = new Path(params.getDomainClassName() + "ListTemplate.jsp");
-					editTemplatePath = new Path(params.getDomainClassName() + "EditTemplate.jsp");
-					// presenterTemplatePath = new Path(params.getDomainClassName() +
-					// "PresenterTemplate.jsp");
-				} else {
-					listTemplatePath = new Path(params.getDomainClassName() + "ListTemplate.htm");
-					editTemplatePath = new Path(params.getDomainClassName() + "EditTemplate.htm");
-					// presenterTemplatePath = new Path(params.getDomainClassName() +
-					// "PresenterTemplate.htm");
-				}
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/templates"),
-						editTemplatePath,
+				IFolder homeFolder = folders.get("src/ui/src/components");
+				CommonUtils.addFileToProject(homeFolder, new Path("Home.js"), TemplateMerger.merge(
+						"/vasbootbuilder/resources/web/js/react/component/Home-template.js", mapOfValues), monitor);
+				
+
+				// actions
+				IFolder actionsContainerFolder = folders.get("src/ui/src/actions");
+				CommonUtils.addFileToProject(actionsContainerFolder, new Path(domainName + ".js"),
+						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/actions/index-template.js", mapOfValues),
+						monitor);
+					
+				
+				CommonUtils.addFileToProject(actionsContainerFolder, new Path(domainName + ".test.js"),
+                        TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/actions/actionTest-template.js", mapOfValues),
+                        monitor);
+				*/
+				
+				//assets
+				CommonUtils.addFileToProject(folders.get("src/ui/src/assets/flags"), new Path("flags_responsive.png"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/assets/flags/flags_responsive.png", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/assets/flags"), new Path("flags.css"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/assets/flags/flags.css", mapOfValues),
+						monitor);
+				
+				// reducers
+				/*
+				IFolder reducersContainerFolder = folders.get("src/ui/src/reducers");
+				CommonUtils.addFileToProject(reducersContainerFolder, new Path(domainName + ".js"),
 						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/backbone/templates/EditTemplate.jsp-template",
+								"/vasbootbuilder/resources/web/js/react/reducers/domain-reducer-template.js",
 								mapOfValues),
 						monitor);
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/templates"),
-						listTemplatePath,
+				CommonUtils.addFileToProject(reducersContainerFolder, new Path(domainName + ".test.js"),
+                        TemplateMerger.merge(
+                                "/vasbootbuilder/resources/web/js/react/reducers/domain-reducer-test-template.js",
+                                mapOfValues),
+                        monitor);
+				
+				CommonUtils.addFileToProject(reducersContainerFolder, new Path("index.js"),
 						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/backbone/templates/ListTemplate.jsp-template",
+								"/vasbootbuilder/resources/web/js/react/reducers/index-template.js",
 								mapOfValues),
 						monitor);
-				// CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF/resources/js/templates"),
-				// presenterTemplatePath,
-				// TemplateMerger.merge("/vasbootbuilder/resources/web/js/backbone/templates/PresenterTemplate.jsp-template",
-				// mapOfValues), monitor);
-				/* Add a default jsp file. This is dependent on the Java Model generation */
-				CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF"), new Path("index.jsp"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/jsps/index.jsp-template", mapOfValues),
-						monitor);
-
-			} else if (params.getUiType().equalsIgnoreCase("AngularJS")) {
-				// ANGULARJS ONLY COMPONENTS
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"),
-						new Path("dirPagination.js"),
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/dirPagination.js"),
-						monitor);
-
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"),
-						new Path("angular.min.js"),
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/libs/angular.min.js"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/libs"),
-						new Path("angular-route.min.js"), this.getClass().getResourceAsStream(
-								"/vasbootbuilder/resources/web/js/libs/angular-route.min.js"),
-						monitor);
-
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js"),
-						new Path("angular_app.js"), TemplateMerger
-								.merge("/vasbootbuilder/resources/web/js/angular/angular_app-template.js", mapOfValues),
-						monitor);
-
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/angular_controllers"),
-						new Path("HomeController.js"),
+						*/
+				
+				// Domain Folders				
+				// Domain List
+				/*
+				CommonUtils.addFileToProject(folders.get("src/ui/src/components"),
+						new Path(domainClassName + "List.js"),
 						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/angular/angular_home_controller-template.js",
+								"/vasbootbuilder/resources/web/js/react/component/domain/DomainList-template.js",
 								mapOfValues),
 						monitor);
-
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/angular_controllers"),
-						new Path(params.getDomainClassName() + "ListController.js"),
+				CommonUtils.addFileToProject(folders.get("src/ui/src/containers"),
+						new Path(domainClassName + "ListContainer.js"),
 						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/angular/angular_list_controller-template.js",
+								"/vasbootbuilder/resources/web/js/react/component/domain/DomainListContainer-template.js",
 								mapOfValues),
-						monitor);
-
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/angular_templates"),
-						new Path(params.getDomainClassName() + "List.html"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular/angular_list_html-template.html",
-								mapOfValues),
-						monitor);
-
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/angular_controllers"),
-						new Path(params.getDomainClassName() + "EditController.js"),
+						monitor);				
+				mapOfValues.put("componentName", domainClassName + "List");
+				
+				// Domain Details (Editing Form}
+				CommonUtils.addFileToProject(folders.get("src/ui/src/components"),
+						new Path(domainClassName + "Edit.js"),
 						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/angular/angular_edit_controller-template.js",
+								"/vasbootbuilder/resources/web/js/react/component/domain/DomainDetail-template.js",
 								mapOfValues),
 						monitor);
-
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/angular_services"),
-						new Path(params.getDomainClassName() + "Service.js"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular/angular_service-template.js",
+				*/
+				CommonUtils.addFileToProject(folders.get("src/ui/src/utils"),
+                        new Path("authority.js"),
+                        TemplateMerger.merge(
+                                "/vasbootbuilder/resources/web/js/react/component/domain/authority-template.js",
+                                mapOfValues),
+                        monitor);
+				
+				//Test
+                CommonUtils.addFileToProject(folders.get("src/ui/src/utils"),
+                        new Path("TestUtils.js"),
+                        TemplateMerger.merge(
+                                "/vasbootbuilder/resources/web/js/react/component/domain/TestUtils.js",
+                                mapOfValues),
+                        monitor);
+				/*
+				CommonUtils.addFileToProject(folders.get("src/ui/src/components"),
+						new Path(domainClassName + "Edit.test.js"),
+						TemplateMerger.merge(
+								"/vasbootbuilder/resources/web/js/react/component/domain/DomainDetailTest-template.js",
 								mapOfValues),
 						monitor);
-
-				CommonUtils.addFileToProject(folders.get("src/main/resources/public/resources/js/angular_templates"),
-						new Path(params.getDomainClassName() + "Edit.html"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular/angular_edit_html-template.html",
+				CommonUtils.addFileToProject(folders.get("src/ui/src/components"),
+                        new Path(domainClassName + "List.test.js"),
+                        TemplateMerger.merge(
+                                "/vasbootbuilder/resources/web/js/react/component/domain/DomainListTest-template.js",
+                                mapOfValues),
+                        monitor);
+				//
+				CommonUtils.addFileToProject(folders.get("src/ui/src/containers"),
+                        new Path(domainClassName + "ListContainer.test.js"),
+                        TemplateMerger.merge(
+                                "/vasbootbuilder/resources/web/js/react/component/domain/DomainListContainerTest-template.js",
+                                mapOfValues),
+                        monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/ui/src/containers"),
+						new Path(domainClassName + "EditContainer.js"),
+						TemplateMerger.merge(
+								"/vasbootbuilder/resources/web/js/react/component/domain/DomainDetailContainer-template.js",
 								mapOfValues),
 						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/containers"),
+                        new Path(domainClassName + "EditContainer.test.js"),
+                        TemplateMerger.merge(
+                                "/vasbootbuilder/resources/web/js/react/component/domain/DomainDetailContainerTest-template.js",
+                                mapOfValues),
+                        monitor);
+                        */
+				mapOfValues.put("componentName", domainClassName + "Detail");
+				
+				//----------------NEW(redux-toolkit) 'features' -----------------------------
+				IFolder domainFeatureFolder =  folders.get("src/ui/src/features").getFolder(domainName);				
+				domainFeatureFolder.create(false, true, new NullProgressMonitor());
+				folders.put("src/ui/src/features/" + domainName, domainFeatureFolder);
+				
+				CommonUtils.addFileToProject(folders.get("src/ui/src/features/" + domainName),
+                        new Path(domainClassName + "Edit.js"),
+                        TemplateMerger.merge(
+                                "/vasbootbuilder/resources/web/js/react/features/DomainDetail-template.js",
+                                mapOfValues),
+                        monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/features/" + domainName),
+                        new Path(domainClassName + "List.js"),
+                        TemplateMerger.merge(
+                                "/vasbootbuilder/resources/web/js/react/features/DomainList-template.js",
+                                mapOfValues),
+                        monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/features/" + domainName),
+                        new Path(domainName + "Slice.js"),
+                        TemplateMerger.merge(
+                                "/vasbootbuilder/resources/web/js/react/features/DomainDetailSlice-template.js",
+                                mapOfValues),
+                        monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/src/features/" + domainName),
+                        new Path(domainName + "sSlice.js"),
+                        TemplateMerger.merge(
+                                "/vasbootbuilder/resources/web/js/react/features/DomainListSlice-template.js",
+                                mapOfValues),
+                        monitor);
+				
+				IFolder homeFeatureFolder =  folders.get("src/ui/src/features").getFolder("home");				
+				homeFeatureFolder.create(false, true, new NullProgressMonitor());
+				
+				CommonUtils.addFileToProject(homeFeatureFolder,
+                        new Path("Home.js"),
+                        TemplateMerger.merge(
+                                "/vasbootbuilder/resources/web/js/react/features/Home-template.js",
+                                mapOfValues),
+                        monitor);
+				//----------------END(redux-toolkit) 'features' -----------------------------
 
-				CommonUtils.addFileToProject(folders.get("src/main/webapp/WEB-INF"), new Path("index.jsp"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular/angular_index-template.jsp",
-								mapOfValues),
+				// add the root public resources
+				CommonUtils.addFileToProject(folders.get("src/ui/public"), new Path("index.html"), TemplateMerger.merge(
+						"/vasbootbuilder/resources/web/js/react/publik/index-template.html", mapOfValues), monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public"), new Path("manifest.json"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/manifest-template.json", mapOfValues),
+						monitor);
+				
+				//public/assets/layout/css
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/css"), new Path("layout-blue.css"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/layout/css/layout-blue.css", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/css"), new Path("layout-blue.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/layout/css/layout-blue.scss", mapOfValues),
 						monitor);
 
-				CommonUtils.addFileToProject(container, new Path(".tern-project"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/angular/tern-project", mapOfValues),
+				//public/assets/layout/fonts
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-500.eot"), 
+							this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-500.eot"),
+						monitor);				
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-500.svg"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-500.svg"),
 						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-500.ttf"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-500.ttf"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-500.woff"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-500.woff"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-500.woff2"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-500.woff2"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-700.eot"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-700.eot"),
+						monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-700.svg"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-700.svg"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-700.ttf"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-700.ttf"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-700.woff"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-700.woff"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-700.woff2"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-700.woff2"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-regular.eot"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-regular.eot"),
+						monitor);
+				
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-regular.svg"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-regular.svg"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-regular.ttf"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-regular.ttf"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-regular.woff"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-regular.woff"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-regular.woff2"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-regular.woff2"),
+						monitor);
+				
+				//public/assets/layout/images
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("avatar-john.png"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/avatar-john.png"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("avatar-julia.png"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/avatar-julia.png"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("avatar-kevin.png"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/avatar-kevin.png"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("avatar.png"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/avatar.png"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("logo-black.png"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/logo-black.png"),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("logo-white.png"), 
+						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/logo-white.png"),
+						monitor);
+				
+				//public/assets/sass
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass"), new Path("_fonts.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/_fonts.scss", mapOfValues),
+						monitor);
+				//public assets/sass/layout
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_config.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_config.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_dashboard.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_dashboard.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_exception.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_exception.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_footer.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_footer.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_help.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_help.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_invoice.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_invoice.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_landing.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_landing.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_layout.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_layout.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_loader.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_loader.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_login.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_login.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_main.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_main.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_menu.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_menu.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_mixins.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_mixins.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_topbar.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_topbar.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_typography.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_typography.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_utils.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_utils.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_variables.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_variables.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_widgets.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_widgets.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_wizard.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_wizard.scss", mapOfValues),
+						monitor);
+				
+				//public assets/sass/overrides
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/overrides"), new Path("_layout_styles.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/overrides/_layout_styles.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/overrides"), new Path("_layout_variables.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/overrides/_layout_variables.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/overrides"), new Path("_theme_styles.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/overrides/_theme_styles.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/overrides"), new Path("_theme_variables.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/overrides/_theme_variables.scss", mapOfValues),
+						monitor);
+				
+				//public assets/sass/theme
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/theme"), new Path("_theme.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/theme/_theme.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/theme"), new Path("_variables.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/theme/_variables.scss", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/theme"), new Path("_vendor_extensions.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/theme/_vendor_extensions.scss", mapOfValues),
+						monitor);
+				
+				//public assets/theme
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/theme"), new Path("theme-blue.css"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/theme/theme-blue.css", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/theme"), new Path("theme-blue.css.map"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/theme/theme-blue.css.map", mapOfValues),
+						monitor);
+				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/theme"), new Path("theme-blue.scss"), TemplateMerger
+						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/theme/theme-blue.scss", mapOfValues),
+						monitor);
+				
+				
 			} else if (params.getUiType().equalsIgnoreCase("Angular4")) {
 				// ANGULAR4 Components
 				CommonUtils.addFileToProject(container, new Path("npm-build.sh"), TemplateMerger
@@ -782,378 +994,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 								mapOfValues),
 						monitor);
 
-			} else if (params.getUiType().equalsIgnoreCase("React")) {
-			    String domainClassName = params.getDomainClassName();
-			    
-				CommonUtils.addFileToProject(container, new Path("npm-build.sh"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/other/npm-build.sh", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(container, new Path("npm-build.cmd"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/other/npm-build.cmd", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui"), new Path("package.json"), TemplateMerger.merge(
-						"/vasbootbuilder/resources/web/js/react/config/package-template.json", mapOfValues), monitor);
-				
-				CommonUtils.addFileToProject(folders.get("src/ui"), new Path(".env.local"), TemplateMerger.merge(
-                        "/vasbootbuilder/resources/web/js/react/config/env.local", mapOfValues), monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui"), new Path(".env.production"), TemplateMerger.merge(
-                        "/vasbootbuilder/resources/web/js/react/config/env.production", mapOfValues), monitor);
-				
-				//mocks
-				CommonUtils.addFileToProject(folders.get("src/ui/mocks"), new Path("server.js"), TemplateMerger.merge(
-                        "/vasbootbuilder/resources/web/js/react/other/server-template.js", mapOfValues), monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/mocks"), new Path(domainClassName +"s.json"), TemplateMerger.merge(
-                        "/vasbootbuilder/resources/web/js/react/other/mockdata-template.json", mapOfValues), monitor);
-				
-				
-				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("index.js"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/app/index-template.js", mapOfValues), monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("index.css"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/app/index-template.css", mapOfValues), monitor);
-				
-				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("App.js"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/App-template.js", mapOfValues),
-						monitor);
-				
-				//App.js related files
-				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppBreadcrumb.js"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppBreadcrumb-template.js", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppCodeHighlight.js"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppCodeHighlight-template.js", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppDemo.scss"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppDemo.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("App.scss"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/App.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppFooter.js"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppFooter-template.js", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppInlineProfile.js"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppInlineProfile-template.js", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppMenu.js"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppMenu-template.js", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppTopbar.js"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppTopbar-template.js", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("AppWrapper.js"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppWrapper-template.js", mapOfValues),
-						monitor);
-				
-				
-				CommonUtils.addFileToProject(folders.get("src/ui/src/containers"), new Path("AppContainer.js"),
-                        TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/AppContainer-template.js", mapOfValues),
-                        monitor);
-				
-				CommonUtils.addFileToProject(folders.get("src/ui/src"), new Path("registerServiceWorker.js"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/app/registerServiceWorker.js" ,mapOfValues),
-						monitor);
-				
-				// Home
-				IFolder homeFolder = folders.get("src/ui/src/components");
-				CommonUtils.addFileToProject(homeFolder, new Path("Home.js"), TemplateMerger.merge(
-						"/vasbootbuilder/resources/web/js/react/component/Home-template.js", mapOfValues), monitor);
-				
-
-				// actions
-				IFolder actionsContainerFolder = folders.get("src/ui/src/actions");
-				CommonUtils.addFileToProject(actionsContainerFolder, new Path(domainName + ".js"),
-						TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/actions/index-template.js", mapOfValues),
-						monitor);
-				
-				CommonUtils.addFileToProject(actionsContainerFolder, new Path(domainName + ".test.js"),
-                        TemplateMerger.merge("/vasbootbuilder/resources/web/js/react/actions/actionTest-template.js", mapOfValues),
-                        monitor);
-				
-				//assets
-				CommonUtils.addFileToProject(folders.get("src/ui/src/assets/flags"), new Path("flags_responsive.png"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/assets/flags/flags_responsive.png", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/src/assets/flags"), new Path("flags.css"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/assets/flags/flags.css", mapOfValues),
-						monitor);
-				
-				// reducers
-				IFolder reducersContainerFolder = folders.get("src/ui/src/reducers");
-				CommonUtils.addFileToProject(reducersContainerFolder, new Path(domainName + ".js"),
-						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/react/reducers/domain-reducer-template.js",
-								mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(reducersContainerFolder, new Path(domainName + ".test.js"),
-                        TemplateMerger.merge(
-                                "/vasbootbuilder/resources/web/js/react/reducers/domain-reducer-test-template.js",
-                                mapOfValues),
-                        monitor);
-				
-				CommonUtils.addFileToProject(reducersContainerFolder, new Path("index.js"),
-						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/react/reducers/index-template.js",
-								mapOfValues),
-						monitor);
-				
-				// Domain Folders				
-				// Domain List
-				CommonUtils.addFileToProject(folders.get("src/ui/src/components"),
-						new Path(domainClassName + "List.js"),
-						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/react/component/domain/DomainList-template.js",
-								mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/src/containers"),
-						new Path(domainClassName + "ListContainer.js"),
-						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/react/component/domain/DomainListContainer-template.js",
-								mapOfValues),
-						monitor);				
-				mapOfValues.put("componentName", domainClassName + "List");
-				
-				// Domain Details (Editing Form}
-				CommonUtils.addFileToProject(folders.get("src/ui/src/components"),
-						new Path(domainClassName + "Edit.js"),
-						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/react/component/domain/DomainDetail-template.js",
-								mapOfValues),
-						monitor);
-				
-				CommonUtils.addFileToProject(folders.get("src/ui/src/utils"),
-                        new Path("authority.js"),
-                        TemplateMerger.merge(
-                                "/vasbootbuilder/resources/web/js/react/component/domain/authority-template.js",
-                                mapOfValues),
-                        monitor);
-				
-				//Test
-                CommonUtils.addFileToProject(folders.get("src/ui/src/utils"),
-                        new Path("TestUtils.js"),
-                        TemplateMerger.merge(
-                                "/vasbootbuilder/resources/web/js/react/component/domain/TestUtils.js",
-                                mapOfValues),
-                        monitor);
-				
-				CommonUtils.addFileToProject(folders.get("src/ui/src/components"),
-						new Path(domainClassName + "Edit.test.js"),
-						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/react/component/domain/DomainDetailTest-template.js",
-								mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/src/components"),
-                        new Path(domainClassName + "List.test.js"),
-                        TemplateMerger.merge(
-                                "/vasbootbuilder/resources/web/js/react/component/domain/DomainListTest-template.js",
-                                mapOfValues),
-                        monitor);
-				//
-				CommonUtils.addFileToProject(folders.get("src/ui/src/containers"),
-                        new Path(domainClassName + "ListContainer.test.js"),
-                        TemplateMerger.merge(
-                                "/vasbootbuilder/resources/web/js/react/component/domain/DomainListContainerTest-template.js",
-                                mapOfValues),
-                        monitor);
-				
-				CommonUtils.addFileToProject(folders.get("src/ui/src/containers"),
-						new Path(domainClassName + "EditContainer.js"),
-						TemplateMerger.merge(
-								"/vasbootbuilder/resources/web/js/react/component/domain/DomainDetailContainer-template.js",
-								mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/src/containers"),
-                        new Path(domainClassName + "EditContainer.test.js"),
-                        TemplateMerger.merge(
-                                "/vasbootbuilder/resources/web/js/react/component/domain/DomainDetailContainerTest-template.js",
-                                mapOfValues),
-                        monitor);
-				mapOfValues.put("componentName", domainClassName + "Detail");
-
-				// add the root public resources
-				CommonUtils.addFileToProject(folders.get("src/ui/public"), new Path("index.html"), TemplateMerger.merge(
-						"/vasbootbuilder/resources/web/js/react/publik/index-template.html", mapOfValues), monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public"), new Path("manifest.json"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/manifest-template.json", mapOfValues),
-						monitor);
-				
-				//public/assets/layout/css
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/css"), new Path("layout-blue.css"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/layout/css/layout-blue.css", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/css"), new Path("layout-blue.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/layout/css/layout-blue.scss", mapOfValues),
-						monitor);
-
-				//public/assets/layout/fonts
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-500.eot"), 
-							this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-500.eot"),
-						monitor);				
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-500.svg"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-500.svg"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-500.ttf"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-500.ttf"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-500.woff"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-500.woff"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-500.woff2"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-500.woff2"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-700.eot"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-700.eot"),
-						monitor);
-				
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-700.svg"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-700.svg"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-700.ttf"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-700.ttf"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-700.woff"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-700.woff"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-700.woff2"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-700.woff2"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-regular.eot"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-regular.eot"),
-						monitor);
-				
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-regular.svg"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-regular.svg"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-regular.ttf"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-regular.ttf"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-regular.woff"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-regular.woff"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/fonts"), new Path("cabin-v12-latin-regular.woff2"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/fonts/cabin-v12-latin-regular.woff2"),
-						monitor);
-				
-				//public/assets/layout/images
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("avatar-john.png"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/avatar-john.png"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("avatar-julia.png"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/avatar-julia.png"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("avatar-kevin.png"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/avatar-kevin.png"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("avatar.png"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/avatar.png"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("logo-black.png"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/logo-black.png"),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/layout/images"), new Path("logo-white.png"), 
-						this.getClass().getResourceAsStream("/vasbootbuilder/resources/web/js/react/publik/assets/layout/images/logo-white.png"),
-						monitor);
-				
-				//public/assets/sass
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass"), new Path("_fonts.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/_fonts.scss", mapOfValues),
-						monitor);
-				//public assets/sass/layout
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_config.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_config.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_dashboard.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_dashboard.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_exception.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_exception.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_footer.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_footer.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_help.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_help.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_invoice.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_invoice.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_landing.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_landing.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_layout.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_layout.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_loader.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_loader.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_login.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_login.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_main.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_main.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_menu.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_menu.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_mixins.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_mixins.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_topbar.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_topbar.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_typography.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_typography.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_utils.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_utils.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_variables.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_variables.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_widgets.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_widgets.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/layout"), new Path("_wizard.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/layout/_wizard.scss", mapOfValues),
-						monitor);
-				
-				//public assets/sass/overrides
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/overrides"), new Path("_layout_styles.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/overrides/_layout_styles.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/overrides"), new Path("_layout_variables.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/overrides/_layout_variables.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/overrides"), new Path("_theme_styles.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/overrides/_theme_styles.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/overrides"), new Path("_theme_variables.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/overrides/_theme_variables.scss", mapOfValues),
-						monitor);
-				
-				//public assets/sass/theme
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/theme"), new Path("_theme.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/theme/_theme.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/theme"), new Path("_variables.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/theme/_variables.scss", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/sass/theme"), new Path("_vendor_extensions.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/sass/theme/_vendor_extensions.scss", mapOfValues),
-						monitor);
-				
-				//public assets/theme
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/theme"), new Path("theme-blue.css"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/theme/theme-blue.css", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/theme"), new Path("theme-blue.css.map"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/theme/theme-blue.css.map", mapOfValues),
-						monitor);
-				CommonUtils.addFileToProject(folders.get("src/ui/public/assets/theme"), new Path("theme-blue.scss"), TemplateMerger
-						.merge("/vasbootbuilder/resources/web/js/react/publik/assets/theme/theme-blue.scss", mapOfValues),
-						monitor);
-				
-				
-			} else if (params.getUiType().equalsIgnoreCase("VueJS")) { // VueJS
+			}  else if (params.getUiType().equalsIgnoreCase("VueJS")) { // VueJS
 				CommonUtils.addFileToProject(folders.get("src/ui/config"), new Path("index.js"),
 						TemplateMerger.merge("/vasbootbuilder/resources/web/js/vue/index-template.js", mapOfValues),
 						monitor);
@@ -1751,7 +1592,7 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			IFolder srcFolder234 = srcFolder23.getFolder(new Path("src"));
 			srcFolder234.create(false, true, new NullProgressMonitor()); 
 			folders.put("src/ui/src", srcFolder234) ;
-
+/*
 			//src/ui/src/components
 			IFolder srcFolder2341 = srcFolder234.getFolder(new Path("components"));
 			srcFolder2341.create(false, true, new NullProgressMonitor());
@@ -1766,13 +1607,13 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			IFolder srcFolder2343 = srcFolder234.getFolder(new Path("reducers"));
 			srcFolder2343.create(false, true, new NullProgressMonitor());
 			folders.put("src/ui/src/reducers", srcFolder2343); 
-			
+			*/
 			//src/ui/src/containers
 			IFolder srcFolder2344 = srcFolder234.getFolder(new Path("containers"));
 			srcFolder2344.create(false, true, new NullProgressMonitor());
 			folders.put("src/ui/src/containers", srcFolder2344);
 			
-			//src/ui/src/containers
+			//src/ui/src/utils
             IFolder srcFolder2345 = srcFolder234.getFolder(new Path("utils"));
             srcFolder2345.create(false, true, new NullProgressMonitor());
             folders.put("src/ui/src/utils", srcFolder2345);
@@ -1787,6 +1628,11 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 			srcFolder23461.create(false, true, new NullProgressMonitor());
 			folders.put("src/ui/src/assets/flags", srcFolder23461);
 			
+			//src/ui/src/features
+            IFolder srcFolder2347 = srcFolder234.getFolder(new Path("features"));
+            srcFolder2347.create(false, true, new NullProgressMonitor());
+            folders.put("src/ui/src/features", srcFolder2347);
+            
 		} else if (uiType.equalsIgnoreCase("Angular4")) {
 			// src/ui
 			IFolder srcFolder23 = srcFolder.getFolder(new Path("ui"));
