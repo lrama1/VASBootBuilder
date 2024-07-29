@@ -1,7 +1,7 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 
 plugins {
-	id 'org.springframework.boot' version '2.7.2'
+	id 'org.springframework.boot' version '3.3.0'
 	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
 	id 'war'
 	id 'groovy'
@@ -19,8 +19,6 @@ group = 'mysamples'
 version = '0.0.1-SNAPSHOT'
 description = "${projectName}"
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
@@ -35,7 +33,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'javax.servlet:jstl:1.2'
+    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
     implementation 'org.quartz-scheduler:quartz:2.2.3'
     implementation 'net.sf.ehcache:ehcache-core:2.6.10'
     runtimeOnly 'org.hsqldb:hsqldb:2.5.2'
@@ -44,7 +42,7 @@ dependencies {
     testImplementation 'org.powermock:powermock-module-junit4:2.0.0'
     testImplementation 'org.powermock:powermock-api-mockito2:2.0.0'
     
-	implementation 'org.codehaus.groovy:groovy'
+	//implementation 'org.codehaus.groovy:groovy'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	runtimeOnly 'org.apache.tomcat.embed:tomcat-embed-jasper'
