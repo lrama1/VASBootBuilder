@@ -1800,7 +1800,8 @@ public class NewBackboneSpringProjectWizard extends Wizard implements INewWizard
 
 		// .settings
 		IFolder settingsFolder = container.getFolder(new Path(".settings"));
-		settingsFolder.create(false, true, new NullProgressMonitor());
+		if(!settingsFolder.exists())
+		  settingsFolder.create(false, true, new NullProgressMonitor());
 		folders.put(".settings", settingsFolder);
 
 		// src/main/webapp/WEB-INF/spring

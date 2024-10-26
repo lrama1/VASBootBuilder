@@ -136,7 +136,7 @@ public class CommonUtils {
 		org.eclipse.jdt.core.formatter.CodeFormatter sourceFormatter = null; 
 		
 		// Take default Eclipse formatting options
-		Map<Object, Object> options = org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants
+		Map<String, String> options = org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants
 				.getEclipseDefaultSettings();
 
 		// Initialize the compiler settings
